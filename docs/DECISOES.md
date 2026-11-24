@@ -64,3 +64,37 @@ Cada decisão: **contexto → decisão → alternativas → motivo**. Ordem cron
 
 - **Contexto:** `gh` não está instalado (logo, não autenticado). O conector GitHub do ambiente também falhou na autenticação.
 - **Decisão:** conforme a instrução, tudo fica commitado localmente e os comandos exatos ficam em `docs/PENDENCIAS.md`. Não instalei o gh: sem login interativo ele não ficaria autenticado. O card do portfólio é preparado num clone local (pasta temporária) com commit na branch `raio-x-portuario`, pronto para push + PR.
+
+## D12 — Identidade visual do tema
+
+- **Contexto:** o portfólio (`gorc-supply.github.io`, CSS em `index.html`) usa fundo preto, cinzas frios, dourado `#c9a96e` de destaque, rosa, verde e caramelo, fonte Onest.
+- **Decisão:** tema escuro (`powerbi/tema-raio-x.json`) com a mesma paleta; **Suape sempre em dourado `#C9A96E`** (medida `[Cor Destaque Suape]`, formatação condicional por valor de campo em todas as barras/pontos), demais portos em azul frio `#8FB4D9`. Fonte Segoe UI (Onest não existe no Power BI web).
+- **Alternativas:** paleta-padrão do pedido (azul-marinho/petróleo + laranja).
+- **Motivo:** o pedido pedia a identidade do portfólio quando possível; contraste de texto branco/cinza-claro sobre `#0C0D10` acima de 10:1, dourado sobre o fundo ~8:1.
+
+## D13 — Formato e versões do PBIP
+
+- **Decisão:** relatório em PBIR e modelo em TMDL, gerados por código (`etl/gerar_pbip.py`), nas mesmas versões de schema de um PBIP público salvo pelo Desktop (report 1.3.0, page 1.4.0, visualContainer 2.0.0, definition.pbir 4.0, definition.pbism 4.1, compatibilityLevel 1601) e com o tema base oficial `CY24SU10.json` (arquivo de tema que acompanha o Desktop, copiado do repositório público `RuiRomano/pbip-demo`). Todos os 86 JSON validados com `jsonschema` contra `github.com/microsoft/json-schemas` (commit fixado).
+- **Alternativas:** usar as versões mais novas (report 3.x, visualContainer 2.13) — descartado: menos exemplos reais para conferir a estrutura; o Desktop atual abre e atualiza versões anteriores.
+- **Motivo:** menor risco de erro de abertura. O `run_all.py` **não** regenera o PBIP (para não apagar ajustes feitos à mão no Desktop); só o valida.
+
+## D14 — Mapa
+
+- **Decisão:** visual nativo Azure Maps (`azureMap`), com localização = `dInstalacao[LocalMapa]` ("Município - UF, Brasil") e tamanho = `[Toneladas]`. Latitude e Longitude oficiais (da coluna `Coordenadas` da ANTAQ) ficam no modelo com a categoria de dados certa, como alternativa.
+- **Motivo:** a documentação da Microsoft confirma que o Azure Maps funciona em "Publicar na Web"; os papéis `Category` e `Size` seguem um PBIR real. O risco restante é de geocodificação (texto concatenado) — ver PENDENCIAS.
+
+## D15 — Calendário e medidas de tempo
+
+- **Decisão:** `dCalendario` em Power Query (M), 01/01/2021–31/12/2026, marcada como tabela de datas; `MesComDado` vem de `meta.csv`. `[Toneladas AA]` compara só os meses com dado (jan/2026 x jan/2025). Visuais de período usam `AnoMes` ordenado por `AnoMesNum`. Segmentação de Ano começa em **2025** (último ano completo) e é sincronizada entre as páginas, assim como a de Região.
+- **Motivo:** sem isso, 2026 (só janeiro) apareceria com queda de 93% contra 2025.
+
+## D16 — Benchmark do Nordeste
+
+- **Decisão:** a média dos pares é a **média simples das medianas** dos 8 pares (cada porto pesa igual), como pedido ("média dos pares"). A página "Nordeste & Suape" tem filtro de página com Suape + 8 pares. O README avisa que Itaqui (143,9 h em 2025) puxa essa média; a mediana das medianas dos pares seria 11,0 h.
+- **Alternativas:** média ponderada por atracações; mediana conjunta das atracações dos pares.
+- **Motivo:** fiel ao pedido e simples de explicar; a ressalva fica explícita.
+
+## D17 — Medidas auxiliares de formatação e Top N
+
+- **Decisão:** Top 10 (instalações, mercadorias, motivos de paralisação) feito por medida (`IF([Ranking] <= 10, ...)`) em vez de filtro Top N do visual; cores condicionais por medida que devolve hexadecimal (mapa de calor com faixas fixas de 2 h, 6 h, 24 h e 72 h).
+- **Motivo:** filtros e regras de gradiente em JSON PBIR são a parte menos documentada do formato; medida é mais simples de validar e de explicar.

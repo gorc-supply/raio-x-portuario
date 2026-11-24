@@ -1,6 +1,6 @@
 # Valores de referência dos KPIs
 
-> Gerado automaticamente por `etl/04_documentar.py` em 24/11/2026 17:33 a partir dos mesmos CSV de `data/processed/` que o Power BI lê.
+> Gerado automaticamente por `etl/04_documentar.py` em 24/11/2026 17:44 a partir dos mesmos CSV de `data/processed/` que o Power BI lê.
 > Último mês com dado: **01/2026** — o ano de 2026 é **parcial** (e o [Toneladas AA] de 2026 compara só os mesmos meses de 2025).
 
 Use estas tabelas para conferir o Power BI número a número: selecione o ano na segmentação de período (e, para Suape, filtre a instalação) e compare com o cartão/tabela correspondente. As definições das medidas estão em [kpis.md](kpis.md).
@@ -65,7 +65,7 @@ Convenções: toneladas = soma de `VLPesoCargaBruta` com `FlagMCOperacaoCarga = 
 | Itaqui | 2.088.595 | 44,3% | 112,9 | 483 | 0,0% | 86,3% | 63 | 2º |
 | Salvador | 503.584 | -5,2% | 1,7 | 594 | 91,0% | 84,8% | 44 | 4º |
 | Aratu | 465.899 | -12,5% | 14,9 | 260 | 0,0% | 76,2% | 31 | 5º |
-| Recife | 105.878 | -40,5% | 0,4 | 40 | 0,0% | 88,9% | 29 | 8º |
+| Recife | 105.878 | -40,5% | 0,4 | 40 | 0,0% | 89,0% | 29 | 8º |
 | Natal | 63.912 | 93,4% | 0,2 | 51 | 18,5% | 90,1% | 24 | 9º |
 | Cabedelo | 139.626 | 182,0% | 3,7 | 297 | 0,0% | 80,9% | 8 | 7º |
 | Maceió | 191.438 | -26,5% | 6,7 | 289 | 0,0% | 80,1% | 11 | 6º |

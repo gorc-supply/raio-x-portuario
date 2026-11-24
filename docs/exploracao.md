@@ -1,6 +1,6 @@
 # Exploração dos dados
 
-> Gerado por `etl/explorar.py` em 24/11/2026 17:16.
+> Gerado por `etl/explorar.py` em 24/11/2026 17:44.
 
 ## 1. Fonte e layout
 

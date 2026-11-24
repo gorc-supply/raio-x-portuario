@@ -396,11 +396,17 @@ def fatos(con, log: list) -> None:
     # Toneladas e natureza predominante por atracação
     con.sql("""
         CREATE OR REPLACE TABLE carga_atrac AS
-        SELECT id_atracacao, sum(peso) AS toneladas, sum(teu) AS teu,
-               arg_max(natureza, peso_nat) AS natureza_predominante
-        FROM (SELECT id_atracacao, natureza, sum(peso) AS peso_nat, sum(peso) AS peso, sum(teu) AS teu
-              FROM carga_mov GROUP BY 1, 2)
-        GROUP BY 1
+        -- somas em DECIMAL (resultado idêntico entre execuções) e desempate explícito da natureza predominante
+        WITH por_nat AS (
+            SELECT id_atracacao, natureza, sum(peso::DECIMAL(24, 6)) AS peso_nat, sum(teu::DECIMAL(18, 2)) AS teu_nat
+            FROM carga_mov GROUP BY 1, 2
+        ), ordenado AS (
+            SELECT *, row_number() OVER (PARTITION BY id_atracacao ORDER BY peso_nat DESC, natureza) AS ordem
+            FROM por_nat
+        )
+        SELECT id_atracacao, sum(peso_nat)::DOUBLE AS toneladas, sum(teu_nat)::DOUBLE AS teu,
+               max(natureza) FILTER (WHERE ordem = 1) AS natureza_predominante
+        FROM ordenado GROUP BY 1
     """)
 
     # Tempos oficiais da ANTAQ (horas) + limpeza
@@ -469,8 +475,9 @@ def fatos(con, log: list) -> None:
         CREATE OR REPLACE TABLE fCarga AS
         SELECT data_ref AS DataRef, cdtup AS IDInstalacao, cd_mercadoria AS CodMercadoria,
                natureza AS CodNatureza, navegacao AS CodNavegacao, sentido AS CodSentido,
-               round(sum(peso), 3) AS Toneladas, round(sum(teu), 1) AS TEU, count(*) AS NumRegistros
-        FROM carga_mov GROUP BY ALL ORDER BY 1, 2, 3
+               round(sum(peso::DECIMAL(24, 6)), 3)::DOUBLE AS Toneladas, round(sum(teu::DECIMAL(18, 2)), 1)::DOUBLE AS TEU,
+               count(*) AS NumRegistros
+        FROM carga_mov GROUP BY ALL ORDER BY 1, 2, 3, 4, 5, 6
     """)
 
     # Paralisações: horas por evento, limpas
@@ -496,7 +503,7 @@ def fatos(con, log: list) -> None:
     con.sql("""
         CREATE OR REPLACE TABLE fParalisacao AS
         SELECT data_ref AS DataRef, cdtup AS IDInstalacao, motivo AS MotivoParalisacao,
-               round(sum(horas), 3) AS HorasParalisadas, count(*) AS NumOcorrencias
+               round(sum(horas::DECIMAL(24, 6)), 3)::DOUBLE AS HorasParalisadas, count(*) AS NumOcorrencias
         FROM paral GROUP BY ALL ORDER BY 1, 2, 3
     """)
 
