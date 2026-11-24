@@ -20,6 +20,7 @@ ETAPAS = [
     ("Exportação CSV", "03_export.py"),
     ("Exploração (docs/exploracao.md)", "explorar.py"),
     ("Documentação numérica (valores de referência, qualidade, conciliação)", "04_documentar.py"),
+    ("Dicionário de KPIs (docs/kpis.md)", "kpis_doc.py"),
     ("Validação do relatório Power BI (schemas PBIR + referências)", "validar_pbip.py"),
 ]
 

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Placeholder da capa do Raio-X Portuário">
+  <rect width="1280" height="720" fill="#000000"/>
+  <rect x="40" y="40" width="1200" height="640" rx="16" fill="#0C0D10" stroke="#1D2127" stroke-width="2"/>
+  <text x="640" y="320" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" fill="#FFFFFF" text-anchor="middle">Raio-X Portuário</text>
+  <text x="640" y="380" font-family="Segoe UI, Arial, sans-serif" font-size="26" fill="#C9A96E" text-anchor="middle">PLACEHOLDER — substituir por GIF/print do painel (docs/img/capa.gif)</text>
+  <text x="640" y="430" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#8A8F98" text-anchor="middle">Ver docs/PENDENCIAS.md</text>
+</svg>

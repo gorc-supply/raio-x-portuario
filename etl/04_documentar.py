@@ -59,6 +59,62 @@ def tabela_kpis(con, anos, inst=None, id_rank=None) -> str:
     return "\n".join(linhas)
 
 
+def numeros_citados(con, ano: int) -> list[tuple[str, str, str, str]]:
+    """(id, valor formatado, medida, filtro) de cada número citado no README, roteiro e post."""
+    b, s, s0 = K.kpis(con, ano), K.kpis(con, ano, "'BRSUA'"), K.kpis(con, C.ANO_INICIAL, "'BRSUA'")
+    s_ant = K.kpis(con, ano - 1, "'BRSUA'")
+    iq = K.kpis(con, ano, "'BRIQI'")
+    pares = K.espera_mediana_media_pares(con, ano)
+    q = lambda sql: con.sql(sql).fetchall()[0][0]  # noqa: E731
+    chuva_br = q(f"""SELECT sum(HorasParalisadas) FILTER (WHERE MotivoParalisacao LIKE 'Chuva%') / sum(HorasParalisadas)
+                     FROM fParalisacao WHERE year(DataRef) = {ano}""")
+    chuva_su = q(f"""SELECT sum(HorasParalisadas) FILTER (WHERE MotivoParalisacao LIKE 'Chuva%') / sum(HorasParalisadas)
+                     FROM fParalisacao WHERE year(DataRef) = {ano} AND IDInstalacao = 'BRSUA'""")
+    esp_nat = dict(con.sql(f"""SELECT n.NaturezaCarga, median(EsperaAtracacao_h) FROM fAtracacao a
+                               JOIN dNaturezaCarga n USING (CodNatureza)
+                               WHERE IDInstalacao = 'BRSUA' AND year(DataRef) = {ano} GROUP BY 1""").fetchall())
+    fa = f"Ano = {ano}"
+    fs = f"Ano = {ano}; Instalação = Suape"
+    return [
+        ("brasil_t", br(b["Toneladas"] / 1e6, 1) + " milhões de t", "[Toneladas]", fa),
+        ("brasil_var", br(b["Var % Toneladas AA"], 1, True), "[Var % Toneladas AA]", fa),
+        ("suape_t", br(s["Toneladas"] / 1e6, 1) + " milhões de t", "[Toneladas]", fs),
+        ("suape_var", br(s["Var % Toneladas AA"], 1, True), "[Var % Toneladas AA]", fs),
+        ("suape_rank", f"{K.ranking(con, ano, 'BRSUA')}ª", "[Ranking Suape Brasil]", fa),
+        ("suape_share", br(s["% do Total Brasil"], 1, True), "[% do Total Brasil]", fs),
+        ("suape_teu", br(s["TEU"] / 1e3) + " mil TEU", "[TEU]", fs),
+        ("suape_teu_ini", br(s0["TEU"] / 1e3) + " mil TEU", "[TEU]", f"Ano = {C.ANO_INICIAL}; Instalação = Suape"),
+        ("suape_teu_cresc", br(s["TEU"] / s0["TEU"] - 1, 1, True), "[TEU] (variação)",
+         f"Ano = {ano} x {C.ANO_INICIAL}; Instalação = Suape"),
+        ("suape_cont", br(s["% Contêiner"], 1, True), "[% Contêiner]", fs),
+        ("suape_cont_ini", br(s0["% Contêiner"], 1, True), "[% Contêiner]", f"Ano = {C.ANO_INICIAL}; Instalação = Suape"),
+        ("suape_espera", br(s["Espera Mediana (h)"], 1) + " h", "[Espera Mediana (h)]", fs),
+        ("suape_espera_ant", br(s_ant["Espera Mediana (h)"], 1) + " h", "[Espera Mediana (h)]",
+         f"Ano = {ano - 1}; Instalação = Suape"),
+        ("suape_espera_ini", br(s0["Espera Mediana (h)"], 1) + " h", "[Espera Mediana (h)]",
+         f"Ano = {C.ANO_INICIAL}; Instalação = Suape"),
+        ("pares_espera", br(pares, 1) + " h", "[Espera Mediana Média Pares (h)]", fa),
+        ("dif_espera", br(abs(s["Espera Mediana (h)"] - pares), 1) + " h", "[Diferença Espera Suape vs Pares (h)]", fa),
+        ("itaqui_espera", br(iq["Espera Mediana (h)"], 1) + " h", "[Espera Mediana (h)]", f"Ano = {ano}; Instalação = Itaqui"),
+        ("suape_espera_cont", br(esp_nat.get("Contêiner"), 1) + " h", "[Espera Mediana (h)]",
+         f"{fs}; Natureza = Contêiner"),
+        ("suape_espera_liq", br(esp_nat.get("Granel Líquido e Gasoso"), 1) + " h", "[Espera Mediana (h)]",
+         f"{fs}; Natureza = Granel Líquido e Gasoso"),
+        ("suape_prancha", br(s["Prancha Média Operacional (t/h)"]) + " t/h", "[Prancha Média Operacional (t/h)]", fs),
+        ("brasil_prancha", br(b["Prancha Média Operacional (t/h)"]) + " t/h", "[Prancha Média Operacional (t/h)]", fa),
+        ("chuva_br", br(chuva_br, 1, True), "[Horas Paralisadas] motivo Chuva ÷ total", fa),
+        ("chuva_suape", br(chuva_su, 1, True), "[Horas Paralisadas] motivo Chuva ÷ total", fs),
+    ]
+
+
+def citados(con, ano: int) -> list[str]:
+    out = ["## 4. Números citados no README, no roteiro do vídeo e no post", "",
+           "Fonte única dos números de texto. `tests/test_documentacao.py` confere que o README usa exatamente "
+           "estes valores.", "", "| ID | Valor | Medida | Filtro |", "|---|---:|---|---|"]
+    out += [f"| {i} | {v} | {m} | {f} |" for i, v, m, f in numeros_citados(con, ano)]
+    return out + [""]
+
+
 def valores_referencia(con) -> str:
     um = K.ultimo_mes(con)
     anos = list(range(C.ANO_INICIAL, int(um[:4]) + 1))
@@ -109,6 +165,7 @@ def valores_referencia(con) -> str:
                 f"- [Espera Mediana Suape (h)] {ano} = **{br(suape, 1)} h**; "
                 f"[Diferença Espera Suape vs Pares (h)] = **{br(suape - med_pares, 1)} h**.", ""]
     ano_ref = int(um[:4]) - 1
+    out += citados(con, ano_ref)
     out += [f"### Espera mediana mensal {ano_ref}: Suape x média dos pares (visual de linha)", "",
             "| Mês | Suape (h) | Média dos pares (h) |", "|---|---:|---:|"]
     for d, s, p in K.espera_mediana_mensal(con, ano_ref):

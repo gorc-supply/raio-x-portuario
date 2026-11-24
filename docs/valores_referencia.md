@@ -1,6 +1,6 @@
 # Valores de referência dos KPIs
 
-> Gerado automaticamente por `etl/04_documentar.py` em 24/11/2026 17:16 a partir dos mesmos CSV de `data/processed/` que o Power BI lê.
+> Gerado automaticamente por `etl/04_documentar.py` em 24/11/2026 17:33 a partir dos mesmos CSV de `data/processed/` que o Power BI lê.
 > Último mês com dado: **01/2026** — o ano de 2026 é **parcial** (e o [Toneladas AA] de 2026 compara só os mesmos meses de 2025).
 
 Use estas tabelas para conferir o Power BI número a número: selecione o ano na segmentação de período (e, para Suape, filtre a instalação) e compare com o cartão/tabela correspondente. As definições das medidas estão em [kpis.md](kpis.md).
@@ -89,6 +89,36 @@ Convenções: toneladas = soma de `VLPesoCargaBruta` com `FlagMCOperacaoCarga = 
 
 - [Espera Mediana Média Pares (h)] 2025 = **26,4 h** (média simples das medianas dos 8 pares).
 - [Espera Mediana Suape (h)] 2025 = **4,3 h**; [Diferença Espera Suape vs Pares (h)] = **-22,1 h**.
+
+## 4. Números citados no README, no roteiro do vídeo e no post
+
+Fonte única dos números de texto. `tests/test_documentacao.py` confere que o README usa exatamente estes valores.
+
+| ID | Valor | Medida | Filtro |
+|---|---:|---|---|
+| brasil_t | 1.403,8 milhões de t | [Toneladas] | Ano = 2025 |
+| brasil_var | 5,9% | [Var % Toneladas AA] | Ano = 2025 |
+| suape_t | 24,3 milhões de t | [Toneladas] | Ano = 2025; Instalação = Suape |
+| suape_var | -2,3% | [Var % Toneladas AA] | Ano = 2025; Instalação = Suape |
+| suape_rank | 13ª | [Ranking Suape Brasil] | Ano = 2025 |
+| suape_share | 1,7% | [% do Total Brasil] | Ano = 2025; Instalação = Suape |
+| suape_teu | 698 mil TEU | [TEU] | Ano = 2025; Instalação = Suape |
+| suape_teu_ini | 519 mil TEU | [TEU] | Ano = 2021; Instalação = Suape |
+| suape_teu_cresc | 34,6% | [TEU] (variação) | Ano = 2025 x 2021; Instalação = Suape |
+| suape_cont | 31,2% | [% Contêiner] | Ano = 2025; Instalação = Suape |
+| suape_cont_ini | 26,7% | [% Contêiner] | Ano = 2021; Instalação = Suape |
+| suape_espera | 4,3 h | [Espera Mediana (h)] | Ano = 2025; Instalação = Suape |
+| suape_espera_ant | 5,9 h | [Espera Mediana (h)] | Ano = 2024; Instalação = Suape |
+| suape_espera_ini | 1,0 h | [Espera Mediana (h)] | Ano = 2021; Instalação = Suape |
+| pares_espera | 26,4 h | [Espera Mediana Média Pares (h)] | Ano = 2025 |
+| dif_espera | 22,1 h | [Diferença Espera Suape vs Pares (h)] | Ano = 2025 |
+| itaqui_espera | 143,9 h | [Espera Mediana (h)] | Ano = 2025; Instalação = Itaqui |
+| suape_espera_cont | 0,8 h | [Espera Mediana (h)] | Ano = 2025; Instalação = Suape; Natureza = Contêiner |
+| suape_espera_liq | 28,8 h | [Espera Mediana (h)] | Ano = 2025; Instalação = Suape; Natureza = Granel Líquido e Gasoso |
+| suape_prancha | 618 t/h | [Prancha Média Operacional (t/h)] | Ano = 2025; Instalação = Suape |
+| brasil_prancha | 765 t/h | [Prancha Média Operacional (t/h)] | Ano = 2025 |
+| chuva_br | 32,1% | [Horas Paralisadas] motivo Chuva ÷ total | Ano = 2025 |
+| chuva_suape | 37,9% | [Horas Paralisadas] motivo Chuva ÷ total | Ano = 2025; Instalação = Suape |
 
 ### Espera mediana mensal 2025: Suape x média dos pares (visual de linha)
 
