@@ -1,0 +1,125 @@
+/// Calendário diário de 01/01/2021 a 31/12/2026 (Power Query), marcado como tabela de datas. MesComDado = mês até o último mês disponível na base.
+table dCalendario
+	dataCategory: Time
+	lineageTag: 79615692-f523-55c9-aafa-6e0362558f19
+
+	column Data
+		dataType: dateTime
+		isKey
+		formatString: dd/mm/yyyy
+		lineageTag: 547aea12-5572-57b8-9fca-74ec129bec42
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: b7a65892-1d0d-5126-a7fd-e7104d65c39d
+		summarizeBy: none
+		sourceColumn: Ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trimestre
+		dataType: string
+		lineageTag: 540e10ce-04a1-5a8d-b6d2-86545d6f5789
+		summarizeBy: none
+		sourceColumn: Trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesNum
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 25427b68-e6cc-57b8-b2a1-ec362fec6ae2
+		summarizeBy: none
+		sourceColumn: MesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesNome
+		dataType: string
+		lineageTag: 1c0b0304-d8d6-52f8-8922-414b5a727b11
+		summarizeBy: none
+		sourceColumn: MesNome
+		sortByColumn: MesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesAbrev
+		dataType: string
+		lineageTag: e6edd88a-c67c-5653-8167-647a0211fca2
+		summarizeBy: none
+		sourceColumn: MesAbrev
+		sortByColumn: MesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnoMes
+		dataType: string
+		lineageTag: ace8559f-86a0-556c-8eba-6ff2ab0efbdd
+		summarizeBy: none
+		sourceColumn: AnoMes
+		sortByColumn: AnoMesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnoMesNum
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 52075b0e-042f-5c7a-8d7a-d6bce66fefa3
+		summarizeBy: none
+		sourceColumn: AnoMesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column InicioMes
+		dataType: dateTime
+		formatString: mm/yyyy
+		lineageTag: ea314d32-4fcd-5efd-9d47-743f2a58e7ca
+		summarizeBy: none
+		sourceColumn: InicioMes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MesComDado
+		dataType: boolean
+		lineageTag: b67eb5a6-ddc5-5025-b921-d6a1b12a548c
+		summarizeBy: none
+		sourceColumn: MesComDado
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dCalendario = m
+		mode: import
+		source =
+				let
+				    MetaCsv = Table.PromoteHeaders(Csv.Document(File.Contents(CaminhoDados & "meta.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]), [PromoteAllScalars = true]),
+				    UltimoMes = Date.FromText(MetaCsv{0}[UltimoMesDisponivel], [Format = "yyyy-MM-dd", Culture = "en-US"]),
+				    Inicio = #date(2021, 1, 1),
+				    Fim = #date(2026, 12, 31),
+				    Datas = List.Dates(Inicio, Duration.Days(Fim - Inicio) + 1, #duration(1, 0, 0, 0)),
+				    Base = Table.FromList(Datas, Splitter.SplitByNothing(), type table [Data = date]),
+				    Abrev = {"jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"},
+				    Nomes = {"janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"},
+				    C1 = Table.AddColumn(Base, "Ano", each Date.Year([Data]), Int64.Type),
+				    C2 = Table.AddColumn(C1, "Trimestre", each "T" & Text.From(Date.QuarterOfYear([Data])), type text),
+				    C3 = Table.AddColumn(C2, "MesNum", each Date.Month([Data]), Int64.Type),
+				    C4 = Table.AddColumn(C3, "MesNome", each Nomes{[MesNum] - 1}, type text),
+				    C5 = Table.AddColumn(C4, "MesAbrev", each Abrev{[MesNum] - 1}, type text),
+				    C6 = Table.AddColumn(C5, "AnoMes", each Abrev{[MesNum] - 1} & "/" & Text.End(Text.From([Ano]), 2), type text),
+				    C7 = Table.AddColumn(C6, "AnoMesNum", each [Ano] * 100 + [MesNum], Int64.Type),
+				    C8 = Table.AddColumn(C7, "InicioMes", each Date.StartOfMonth([Data]), type date),
+				    Final = Table.AddColumn(C8, "MesComDado", each [Data] <= Date.EndOfMonth(UltimoMes), type logical)
+				in
+				    Final
+
+	annotation PBI_ResultType = Table

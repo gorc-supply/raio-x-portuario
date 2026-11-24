@@ -1,0 +1,48 @@
+relationship ada28455-e9dc-5f24-8bc1-a06ebd1cc6fa
+	fromColumn: fCarga.DataRef
+	toColumn: dCalendario.Data
+
+relationship 2d47d40a-f371-5e62-aaa3-def9874fa052
+	fromColumn: fAtracacao.DataRef
+	toColumn: dCalendario.Data
+
+relationship ef38e7e2-92bf-5ab5-9ccf-b2c8801df6b2
+	fromColumn: fParalisacao.DataRef
+	toColumn: dCalendario.Data
+
+relationship 87dab775-55de-5bd6-8fb8-d4def9c0a21f
+	fromColumn: fCarga.IDInstalacao
+	toColumn: dInstalacao.IDInstalacao
+
+relationship 18630cb2-f672-5b52-95d4-0fe329a0cae9
+	fromColumn: fAtracacao.IDInstalacao
+	toColumn: dInstalacao.IDInstalacao
+
+relationship d24817b3-0e4c-520a-bc19-94525782139d
+	fromColumn: fParalisacao.IDInstalacao
+	toColumn: dInstalacao.IDInstalacao
+
+relationship c13dfcc3-bd97-58d8-af3e-40494678e881
+	fromColumn: fCarga.CodMercadoria
+	toColumn: dMercadoria.CodMercadoria
+
+relationship 822faea8-90ba-5998-97bf-0576f62a309b
+	fromColumn: fCarga.CodNavegacao
+	toColumn: dNavegacao.CodNavegacao
+
+relationship c9b8f246-c9a1-5752-99bf-2088ad0dcad0
+	fromColumn: fAtracacao.CodNavegacao
+	toColumn: dNavegacao.CodNavegacao
+
+relationship 41aa3cc7-a4b4-51e0-bdca-dd3dbb94da3f
+	fromColumn: fCarga.CodNatureza
+	toColumn: dNaturezaCarga.CodNatureza
+
+relationship b6dbb526-10c5-5ba1-8aac-97bfc1326081
+	fromColumn: fAtracacao.CodNatureza
+	toColumn: dNaturezaCarga.CodNatureza
+
+relationship 7232078c-29b7-5b1a-a057-ffaf689a4d96
+	fromColumn: fCarga.CodSentido
+	toColumn: dSentido.CodSentido
+

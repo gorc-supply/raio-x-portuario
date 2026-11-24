@@ -1,0 +1,63 @@
+/// Metadados do processamento (data e último mês com dado).
+table Meta
+	isHidden
+	lineageTag: 8101f64c-b636-5b03-ad6d-a032b50cccab
+
+	column DataProcessamento
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: db99d620-17ca-5e5e-a8d1-d8654e38d500
+		summarizeBy: none
+		sourceColumn: DataProcessamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column UltimoMesDisponivel
+		dataType: dateTime
+		formatString: mm/yyyy
+		lineageTag: 61a44b2b-ceba-5e93-8113-14a1b305e91a
+		summarizeBy: none
+		sourceColumn: UltimoMesDisponivel
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column AnoInicial
+		dataType: int64
+		formatString: 0
+		lineageTag: c2dfaf88-dfa2-58dd-8f2d-5e146185f37c
+		summarizeBy: none
+		sourceColumn: AnoInicial
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnoFinal
+		dataType: int64
+		formatString: 0
+		lineageTag: af9fd1b2-1b5b-5f2e-a5ff-460a267f1c2a
+		summarizeBy: none
+		sourceColumn: AnoFinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrigemDados
+		dataType: string
+		lineageTag: de297d41-adb8-5df3-aaf8-ebb94f9acb0e
+		summarizeBy: none
+		sourceColumn: OrigemDados
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Meta = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(CaminhoDados & "meta.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    SemVazios = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _),
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"DataProcessamento", type datetime}, {"UltimoMesDisponivel", type date}, {"AnoInicial", Int64.Type}, {"AnoFinal", Int64.Type}, {"OrigemDados", type text}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "RaioXPortuario"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "eb1bd41c-16ae-5df6-a8ca-b542792ebe78"
+  }
+}

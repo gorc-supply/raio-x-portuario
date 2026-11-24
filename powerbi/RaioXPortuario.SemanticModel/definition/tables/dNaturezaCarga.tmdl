@@ -1,0 +1,53 @@
+/// Natureza da carga (ordem de exibição).
+table dNaturezaCarga
+	lineageTag: 78e140fe-c243-5ba2-be19-498572ff2678
+
+	column CodNatureza
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d0f04531-32de-5ac9-a25e-d861be4d0ebe
+		summarizeBy: none
+		sourceColumn: CodNatureza
+
+		annotation SummarizationSetBy = Automatic
+
+	column NaturezaCarga
+		dataType: string
+		lineageTag: 1e623ba9-fd6f-58d7-b574-768ca7c2ceca
+		summarizeBy: none
+		sourceColumn: NaturezaCarga
+		sortByColumn: OrdemNatureza
+
+		annotation SummarizationSetBy = Automatic
+
+	column NaturezaCargaANTAQ
+		dataType: string
+		lineageTag: 48affa05-3199-5c17-894d-c4f84dfc9454
+		summarizeBy: none
+		sourceColumn: NaturezaCargaANTAQ
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdemNatureza
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9c972f79-963d-5854-9045-15367c01d390
+		summarizeBy: none
+		sourceColumn: OrdemNatureza
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dNaturezaCarga = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(CaminhoDados & "dNaturezaCarga.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    SemVazios = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _),
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"CodNatureza", Int64.Type}, {"NaturezaCarga", type text}, {"NaturezaCargaANTAQ", type text}, {"OrdemNatureza", Int64.Type}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

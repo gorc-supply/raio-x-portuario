@@ -1,0 +1,158 @@
+/// Instalações portuárias (porto organizado ou TUP), complexo, UF, região, coordenadas e marcação do benchmark Nordeste.
+table dInstalacao
+	lineageTag: a3724290-b7b3-5a26-bbd5-f8b9db05196c
+
+	column IDInstalacao
+		dataType: string
+		isHidden
+		lineageTag: a5f9539f-e380-5a52-8457-41217b2b0603
+		summarizeBy: none
+		sourceColumn: IDInstalacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column Instalacao
+		dataType: string
+		lineageTag: e3f6ec9d-2672-57ad-9c30-49e64646cdd6
+		summarizeBy: none
+		sourceColumn: Instalacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column ComplexoPortuario
+		dataType: string
+		lineageTag: a9641061-da86-591a-9c9a-de58de439ce0
+		summarizeBy: none
+		sourceColumn: ComplexoPortuario
+
+		annotation SummarizationSetBy = Automatic
+
+	column ComplexoPortuarioANTAQ
+		dataType: string
+		lineageTag: 6079e83b-3b70-5acb-82bd-e99bc0e586a4
+		summarizeBy: none
+		sourceColumn: ComplexoPortuarioANTAQ
+
+		annotation SummarizationSetBy = Automatic
+
+	column TipoInstalacao
+		dataType: string
+		lineageTag: 3b93486b-d1f6-51c6-bf34-320e99a054d6
+		summarizeBy: none
+		sourceColumn: TipoInstalacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column Municipio
+		dataType: string
+		lineageTag: 4aa501b8-05dd-58ce-ac7a-ee77ef05a376
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: Municipio
+
+		annotation SummarizationSetBy = Automatic
+
+	column UF
+		dataType: string
+		lineageTag: bb3c3ca5-1aad-5a7f-9f87-1d060e058a2c
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: UF
+
+		annotation SummarizationSetBy = Automatic
+
+	column UFNome
+		dataType: string
+		lineageTag: 0330025f-127d-513f-a12d-5e892caafd07
+		summarizeBy: none
+		sourceColumn: UFNome
+
+		annotation SummarizationSetBy = Automatic
+
+	column Regiao
+		dataType: string
+		lineageTag: 09c6d0b0-6dce-54fd-8025-a6dbd76c8e34
+		summarizeBy: none
+		sourceColumn: Regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		formatString: 0.000000
+		lineageTag: 7f4cccb8-f173-5e9d-a773-99b1c16dbd20
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column Longitude
+		dataType: double
+		formatString: 0.000000
+		lineageTag: faef6c9d-2904-5c94-a5f8-7291a20139ff
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column PortoBenchmarkNE
+		dataType: string
+		lineageTag: 1b4e9a3a-00e1-5050-b0eb-c61d398359cb
+		summarizeBy: none
+		sourceColumn: PortoBenchmarkNE
+		sortByColumn: OrdemBenchmark
+
+		annotation SummarizationSetBy = Automatic
+
+	column EhSuape
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ac4ed6da-767d-5fc4-b178-f946945cf327
+		summarizeBy: none
+		sourceColumn: EhSuape
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdemBenchmark
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 981956a1-a5d7-5f15-b5f6-368831332275
+		summarizeBy: none
+		sourceColumn: OrdemBenchmark
+
+		annotation SummarizationSetBy = Automatic
+
+	column GrupoBenchmark
+		dataType: string
+		lineageTag: 661651d3-089e-557a-87f3-b398d0c7d36c
+		summarizeBy: none
+		sourceColumn: GrupoBenchmark
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocalMapa
+		dataType: string
+		lineageTag: d3d15fb6-3ace-5d1b-998f-c0d3b82cf983
+		dataCategory: Place
+		summarizeBy: none
+		sourceColumn: LocalMapa
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dInstalacao = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(CaminhoDados & "dInstalacao.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    SemVazios = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _),
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"IDInstalacao", type text}, {"Instalacao", type text}, {"ComplexoPortuario", type text}, {"ComplexoPortuarioANTAQ", type text}, {"TipoInstalacao", type text}, {"Municipio", type text}, {"UF", type text}, {"UFNome", type text}, {"Regiao", type text}, {"Latitude", type number}, {"Longitude", type number}, {"PortoBenchmarkNE", type text}, {"EhSuape", Int64.Type}, {"OrdemBenchmark", Int64.Type}, {"GrupoBenchmark", type text}}, "en-US"),
+				    Final = Table.AddColumn(Tipos, "LocalMapa", each [Municipio] & " - " & [UF] & ", Brasil", type text)
+				in
+				    Final
+
+	annotation PBI_ResultType = Table

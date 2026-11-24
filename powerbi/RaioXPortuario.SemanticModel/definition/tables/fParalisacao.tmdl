@@ -1,0 +1,65 @@
+/// Horas paralisadas por mês x instalação x motivo (eventos de TemposAtracacaoParalisacao, já limpos).
+table fParalisacao
+	lineageTag: 6795784b-da81-57f2-9c3a-678c98916134
+
+	column DataRef
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: 7f2d04da-f5d9-52fb-9f78-fda189cc9ecc
+		summarizeBy: none
+		sourceColumn: DataRef
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column IDInstalacao
+		dataType: string
+		isHidden
+		lineageTag: a743e2c2-2432-50f9-a3ba-832f16f4d0b4
+		summarizeBy: none
+		sourceColumn: IDInstalacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column MotivoParalisacao
+		dataType: string
+		lineageTag: 895e306b-3ede-54f5-86d3-9beddf74130f
+		summarizeBy: none
+		sourceColumn: MotivoParalisacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column HorasParalisadas
+		dataType: double
+		isHidden
+		formatString: #,0.0
+		lineageTag: 5b6b0807-e972-56bc-afbe-8a957b0ced65
+		summarizeBy: sum
+		sourceColumn: HorasParalisadas
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumOcorrencias
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 77b714f8-c898-59c2-8aca-76a99b3038a4
+		summarizeBy: sum
+		sourceColumn: NumOcorrencias
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fParalisacao = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(CaminhoDados & "fParalisacao.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    SemVazios = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _),
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"DataRef", type date}, {"IDInstalacao", type text}, {"MotivoParalisacao", type text}, {"HorasParalisadas", type number}, {"NumOcorrencias", Int64.Type}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

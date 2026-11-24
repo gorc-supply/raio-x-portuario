@@ -1,0 +1,106 @@
+/// Movimentação de carga (FlagMCOperacaoCarga = 1) por mês x instalação x mercadoria x natureza x navegação x sentido.
+table fCarga
+	lineageTag: 3291c42b-1709-565a-a695-02c52996801f
+
+	column DataRef
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: f5fb9ec4-0f56-5f15-9434-25c18fca712a
+		summarizeBy: none
+		sourceColumn: DataRef
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column IDInstalacao
+		dataType: string
+		isHidden
+		lineageTag: 3c166236-95d6-522f-a5be-fc1263c48d12
+		summarizeBy: none
+		sourceColumn: IDInstalacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column CodMercadoria
+		dataType: string
+		isHidden
+		lineageTag: 8b80896e-da78-5a9b-8887-a4030699a017
+		summarizeBy: none
+		sourceColumn: CodMercadoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column CodNatureza
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0d0df85c-b785-5b10-86aa-bddf695241c4
+		summarizeBy: none
+		sourceColumn: CodNatureza
+
+		annotation SummarizationSetBy = Automatic
+
+	column CodNavegacao
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3895486c-22d3-5c97-9a4c-b5b043e865f4
+		summarizeBy: none
+		sourceColumn: CodNavegacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column CodSentido
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 94c3052e-8817-529c-a18e-a09354f3e503
+		summarizeBy: none
+		sourceColumn: CodSentido
+
+		annotation SummarizationSetBy = Automatic
+
+	column Toneladas
+		dataType: double
+		isHidden
+		formatString: #,0
+		lineageTag: 013daa7f-2808-5f1d-bf37-3375a140ba55
+		summarizeBy: sum
+		sourceColumn: Toneladas
+
+		annotation SummarizationSetBy = Automatic
+
+	column TEU
+		dataType: double
+		isHidden
+		formatString: #,0
+		lineageTag: 174cdd0c-a008-53d5-b029-112d9e46eed0
+		summarizeBy: sum
+		sourceColumn: TEU
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumRegistros
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 3ddec5fb-7049-5145-8759-ed52a6e51f73
+		summarizeBy: sum
+		sourceColumn: NumRegistros
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fCarga = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(CaminhoDados & "fCarga.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    SemVazios = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _),
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"DataRef", type date}, {"IDInstalacao", type text}, {"CodMercadoria", type text}, {"CodNatureza", Int64.Type}, {"CodNavegacao", Int64.Type}, {"CodSentido", Int64.Type}, {"Toneladas", type number}, {"TEU", type number}, {"NumRegistros", Int64.Type}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

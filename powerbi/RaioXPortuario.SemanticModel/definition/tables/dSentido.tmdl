@@ -1,0 +1,53 @@
+/// Sentido da movimentação (embarque/desembarque).
+table dSentido
+	lineageTag: 3cb8cdf4-f309-535b-9551-48c2f83bfcbd
+
+	column CodSentido
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 04fef53b-17e9-5546-b03a-ead77d92e0e9
+		summarizeBy: none
+		sourceColumn: CodSentido
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sentido
+		dataType: string
+		lineageTag: 5bbd062c-35e4-51a0-b1ed-ccc3fec8cd3a
+		summarizeBy: none
+		sourceColumn: Sentido
+		sortByColumn: OrdemSentido
+
+		annotation SummarizationSetBy = Automatic
+
+	column SentidoANTAQ
+		dataType: string
+		lineageTag: b2938e7b-0717-5912-a75a-3fd98eeb3f75
+		summarizeBy: none
+		sourceColumn: SentidoANTAQ
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdemSentido
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 67d85b36-8b20-5e12-a699-4d548988abf0
+		summarizeBy: none
+		sourceColumn: OrdemSentido
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dSentido = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(CaminhoDados & "dSentido.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    SemVazios = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _),
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"CodSentido", Int64.Type}, {"Sentido", type text}, {"SentidoANTAQ", type text}, {"OrdemSentido", Int64.Type}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

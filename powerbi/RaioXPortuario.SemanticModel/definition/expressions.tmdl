@@ -1,0 +1,6 @@
+/// Pasta com os CSV gerados pelo pipeline (etl/run_all.py). Troque aqui se clonar o projeto em outro lugar.
+expression CaminhoDados = "C:\projetos\raio-x-portuario\data\processed\" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: 64b85a0e-5fea-5955-a7fc-606f010bf782
+
+	annotation PBI_ResultType = Text
+

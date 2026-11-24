@@ -1,0 +1,53 @@
+/// Tipo de navegação (ordem de exibição).
+table dNavegacao
+	lineageTag: f8a2b6ee-2cfe-5a8b-b375-047ee51a1aed
+
+	column CodNavegacao
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 273cbb3b-adc2-519e-9779-dc944879e462
+		summarizeBy: none
+		sourceColumn: CodNavegacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column Navegacao
+		dataType: string
+		lineageTag: 170a8ffc-e39a-5fd2-b166-629505bc2cb1
+		summarizeBy: none
+		sourceColumn: Navegacao
+		sortByColumn: OrdemNavegacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column GrupoNavegacao
+		dataType: string
+		lineageTag: e8dda25d-e211-5f38-86d0-86cd0ec3913a
+		summarizeBy: none
+		sourceColumn: GrupoNavegacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdemNavegacao
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9bc3879d-5d89-597e-a270-1bfef96f6739
+		summarizeBy: none
+		sourceColumn: OrdemNavegacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dNavegacao = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(CaminhoDados & "dNavegacao.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    SemVazios = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _),
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"CodNavegacao", Int64.Type}, {"Navegacao", type text}, {"GrupoNavegacao", type text}, {"OrdemNavegacao", Int64.Type}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

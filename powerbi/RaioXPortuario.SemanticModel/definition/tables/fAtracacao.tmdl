@@ -1,0 +1,169 @@
+/// Uma linha por atracação com movimentação de carga: datas, tempos (h, já limpos) e toneladas. Arquivos anuais combinados da pasta fAtracacao.
+table fAtracacao
+	lineageTag: 1fe86690-7319-5ad6-a7ae-e4828273b902
+
+	column IDAtracacao
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 66ed9b7a-f46f-58da-b8f9-1c2abed3f83a
+		summarizeBy: none
+		sourceColumn: IDAtracacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDInstalacao
+		dataType: string
+		isHidden
+		lineageTag: 7719315f-367b-56ff-b15b-289ff5bb9e34
+		summarizeBy: none
+		sourceColumn: IDInstalacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column IDBerco
+		dataType: string
+		isHidden
+		lineageTag: 7261d34e-35e0-5fa0-85d2-b84867663ad5
+		summarizeBy: none
+		sourceColumn: IDBerco
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataChegada
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 30ebaa07-4f07-585e-a026-e1fd048e471b
+		summarizeBy: none
+		sourceColumn: DataChegada
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataAtracacao
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: f3466c74-7cfb-5dcb-89d2-93bfec9725d0
+		summarizeBy: none
+		sourceColumn: DataAtracacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataDesatracacao
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 2778a902-0abc-5bcb-8b16-040120dfa627
+		summarizeBy: none
+		sourceColumn: DataDesatracacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column CodNavegacao
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4f22722f-a3dc-5f48-a4f3-e21166495cbd
+		summarizeBy: none
+		sourceColumn: CodNavegacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column CodNatureza
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ceb1678b-9a60-5e30-bfca-adc84345533d
+		summarizeBy: none
+		sourceColumn: CodNatureza
+
+		annotation SummarizationSetBy = Automatic
+
+	column EsperaAtracacao_h
+		dataType: double
+		isHidden
+		formatString: #,0.0
+		lineageTag: 39712fb9-6cef-5b25-ba67-221d7402cb07
+		summarizeBy: none
+		sourceColumn: EsperaAtracacao_h
+
+		annotation SummarizationSetBy = Automatic
+
+	column Operacao_h
+		dataType: double
+		isHidden
+		formatString: #,0.0
+		lineageTag: eec05bb3-5a9f-5d81-b5b4-a2f493a7b8e9
+		summarizeBy: none
+		sourceColumn: Operacao_h
+
+		annotation SummarizationSetBy = Automatic
+
+	column Atracado_h
+		dataType: double
+		isHidden
+		formatString: #,0.0
+		lineageTag: 5774cdf4-bac9-5017-8094-c585c8a41353
+		summarizeBy: none
+		sourceColumn: Atracado_h
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estadia_h
+		dataType: double
+		isHidden
+		formatString: #,0.0
+		lineageTag: 9a252619-41ca-57b7-85fe-52282b341d9a
+		summarizeBy: none
+		sourceColumn: Estadia_h
+
+		annotation SummarizationSetBy = Automatic
+
+	column Toneladas
+		dataType: double
+		isHidden
+		formatString: #,0
+		lineageTag: 0ac28f5e-a017-588c-a0ea-591bc271af63
+		summarizeBy: sum
+		sourceColumn: Toneladas
+
+		annotation SummarizationSetBy = Automatic
+
+	column TEU
+		dataType: double
+		isHidden
+		formatString: #,0
+		lineageTag: 6f07c1ac-2b96-50db-9007-0c6edc239be1
+		summarizeBy: sum
+		sourceColumn: TEU
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataRef
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: a9cd2d2d-f48e-5e42-82c8-0bb36760eaff
+		summarizeBy: none
+		sourceColumn: DataRef
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition fAtracacao = m
+		mode: import
+		source =
+				let
+				    Arquivos = Folder.Files(CaminhoDados & "fAtracacao"),
+				    SoCsv = Table.SelectRows(Arquivos, each Text.StartsWith([Name], "fAtracacao_") and [Extension] = ".csv"),
+				    Tabelas = List.Transform(SoCsv[Content], each Table.PromoteHeaders(Csv.Document(_, [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]), [PromoteAllScalars = true])),
+				    Combinado = Table.Combine(Tabelas),
+				    SemVazios = Table.TransformColumns(Combinado, {}, each if _ = "" then null else _),
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"IDAtracacao", Int64.Type}, {"IDInstalacao", type text}, {"IDBerco", type text}, {"DataChegada", type datetime}, {"DataAtracacao", type datetime}, {"DataDesatracacao", type datetime}, {"CodNavegacao", Int64.Type}, {"CodNatureza", Int64.Type}, {"EsperaAtracacao_h", type number}, {"Operacao_h", type number}, {"Atracado_h", type number}, {"Estadia_h", type number}, {"Toneladas", type number}, {"TEU", type number}}, "en-US"),
+				    Final = Table.AddColumn(Tipos, "DataRef", each Date.StartOfMonth(DateTime.Date([DataDesatracacao])), type date)
+				in
+				    Final
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,84 @@
+/// Mercadorias: SH4 com descrição oficial do Comex Stat (MDIC), nome curto e grupo simplificado do projeto.
+table dMercadoria
+	lineageTag: b83383f0-a5a7-561b-a131-ac882d7eeded
+
+	column CodMercadoria
+		dataType: string
+		isHidden
+		lineageTag: 9d6b1169-926c-500a-bed4-61a59d99c48c
+		summarizeBy: none
+		sourceColumn: CodMercadoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mercadoria
+		dataType: string
+		lineageTag: 539dbf8e-1ce0-5a81-92bd-544d3c9b1d52
+		summarizeBy: none
+		sourceColumn: Mercadoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column DescricaoSH4
+		dataType: string
+		lineageTag: 6e71adfa-dd1e-52ec-af89-d913f6182a61
+		summarizeBy: none
+		sourceColumn: DescricaoSH4
+
+		annotation SummarizationSetBy = Automatic
+
+	column CapituloSH2
+		dataType: string
+		lineageTag: 35e2fa2c-8642-5405-a01f-a5da8adfe0d8
+		summarizeBy: none
+		sourceColumn: CapituloSH2
+
+		annotation SummarizationSetBy = Automatic
+
+	column DescricaoCapituloSH2
+		dataType: string
+		lineageTag: c75a97e6-5204-5e77-a241-4ab2211ea90b
+		summarizeBy: none
+		sourceColumn: DescricaoCapituloSH2
+
+		annotation SummarizationSetBy = Automatic
+
+	column GrupoMercadoria
+		dataType: string
+		lineageTag: 2c1dbfc3-fd78-5efe-b217-d4fc2f941cc3
+		summarizeBy: none
+		sourceColumn: GrupoMercadoria
+		sortByColumn: OrdemGrupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdemGrupo
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7c85685b-4a69-530a-9f0a-abea64d66278
+		summarizeBy: none
+		sourceColumn: OrdemGrupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column FonteDescricao
+		dataType: string
+		lineageTag: 2634fcf6-4252-5b63-a8d6-0d26964f94d7
+		summarizeBy: none
+		sourceColumn: FonteDescricao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dMercadoria = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents(CaminhoDados & "dMercadoria.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
+				    SemVazios = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _),
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"CodMercadoria", type text}, {"Mercadoria", type text}, {"DescricaoSH4", type text}, {"CapituloSH2", type text}, {"DescricaoCapituloSH2", type text}, {"GrupoMercadoria", type text}, {"OrdemGrupo", Int64.Type}, {"FonteDescricao", type text}}, "en-US")
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,511 @@
+/// Tabela só de medidas, organizadas em pastas.
+table '_Medidas'
+	lineageTag: 4059890c-060c-57bb-a418-46fddf2102d7
+
+	/// Toneladas movimentadas (peso bruto) — soma de VLPesoCargaBruta com FlagMCOperacaoCarga = 1 (regra ANTAQ).
+	measure Toneladas = SUM ( fCarga[Toneladas] )
+		formatString: #,0
+		displayFolder: Volume
+		lineageTag: f4d06b7d-9618-594d-9da2-a70f8282adcb
+
+	/// Toneladas do mesmo período do ano anterior, considerando só os meses que têm dado no período atual (ex.: 2026 parcial compara jan/2026 com jan/2025).
+	measure 'Toneladas AA' =
+			// meses do contexto atual que já têm dado publicado
+			VAR DatasComDado =
+			    CALCULATETABLE ( VALUES ( dCalendario[Data] ), dCalendario[MesComDado] = TRUE () )
+			RETURN
+			    IF (
+			        NOT ISEMPTY ( DatasComDado ),
+			        CALCULATE ( [Toneladas], SAMEPERIODLASTYEAR ( DatasComDado ) )
+			    )
+		formatString: #,0
+		displayFolder: Volume
+		lineageTag: e4616186-23d2-5636-b266-00f32a51b65e
+
+	/// Variação percentual das toneladas contra o mesmo período do ano anterior.
+	measure 'Var % Toneladas AA' =
+			VAR Atual = [Toneladas]
+			VAR AnoAnterior = [Toneladas AA]
+			RETURN
+			    IF ( NOT ISBLANK ( AnoAnterior ), DIVIDE ( Atual - AnoAnterior, AnoAnterior ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Volume
+		lineageTag: 895612c7-aa05-588d-93bd-c06d3b8c709d
+
+	/// Contêineres movimentados em TEU (unidade equivalente a um contêiner de 20 pés).
+	measure TEU = SUM ( fCarga[TEU] )
+		formatString: #,0
+		displayFolder: Volume
+		lineageTag: 2f12fca0-9a44-5c60-a3dc-5d0d7ae4d768
+
+	/// Número de atracações com movimentação de carga no período (mês da desatracação).
+	measure 'Nº Atracações' = COUNTROWS ( fAtracacao )
+		formatString: #,0
+		displayFolder: Volume
+		lineageTag: 70a3a019-84bd-5b32-bffa-b23ec03296c4
+
+	/// Toneladas médias por atracação = soma das toneladas das atracações ÷ nº de atracações (razão de somas).
+	measure 'Toneladas por Atracação' = DIVIDE ( SUM ( fAtracacao[Toneladas] ), [Nº Atracações] )
+		formatString: #,0
+		displayFolder: Volume
+		lineageTag: 5bff60ac-0929-5def-84b1-924279658f43
+
+	/// Participação das toneladas no total do Brasil do mesmo período (ignora filtros de instalação/região).
+	measure '% do Total Brasil' = DIVIDE ( [Toneladas], CALCULATE ( [Toneladas], REMOVEFILTERS ( dInstalacao ) ) )
+		formatString: 0.0%
+		displayFolder: Participação
+		lineageTag: 1d47007c-1ac7-52cc-92cc-a2ca50db1082
+
+	/// Fatia das toneladas movimentada em navegação de cabotagem (entre portos brasileiros).
+	measure '% Cabotagem' =
+			DIVIDE (
+			    CALCULATE ( [Toneladas], dNavegacao[Navegacao] = "Cabotagem" ),
+			    CALCULATE ( [Toneladas], REMOVEFILTERS ( dNavegacao ) )
+			)
+		formatString: 0.0%
+		displayFolder: Participação
+		lineageTag: a5c71b14-fbbb-5cfd-b0f3-75fa91007c6b
+
+	/// Fatia das toneladas movimentada em navegação de longo curso (comércio exterior).
+	measure '% Longo Curso' =
+			DIVIDE (
+			    CALCULATE ( [Toneladas], dNavegacao[Navegacao] = "Longo Curso" ),
+			    CALCULATE ( [Toneladas], REMOVEFILTERS ( dNavegacao ) )
+			)
+		formatString: 0.0%
+		displayFolder: Participação
+		lineageTag: 99a25b8d-041f-55db-b2a2-7469881dee8c
+
+	/// Fatia das toneladas movimentada em contêiner.
+	measure '% Contêiner' =
+			DIVIDE (
+			    CALCULATE ( [Toneladas], dNaturezaCarga[NaturezaCarga] = "Contêiner" ),
+			    CALCULATE ( [Toneladas], REMOVEFILTERS ( dNaturezaCarga ) )
+			)
+		formatString: 0.0%
+		displayFolder: Participação
+		lineageTag: ebc61e8a-28ab-54fc-ba32-2196ce970a62
+
+	/// Posição por toneladas entre as instalações (ou complexos) visíveis no visual — 1 = maior.
+	measure 'Ranking Porto' =
+			VAR T = [Toneladas]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( T ), BLANK (),
+			        ISINSCOPE ( dInstalacao[Instalacao] ) || ISINSCOPE ( dInstalacao[PortoBenchmarkNE] ),
+			            RANKX (
+			                ALLSELECTED ( dInstalacao[Instalacao], dInstalacao[PortoBenchmarkNE] ),
+			                [Toneladas], , DESC, DENSE
+			            ),
+			        ISINSCOPE ( dInstalacao[ComplexoPortuario] ),
+			            RANKX ( ALLSELECTED ( dInstalacao[ComplexoPortuario] ), [Toneladas], , DESC, DENSE )
+			    )
+		formatString: 0
+		displayFolder: Participação
+		lineageTag: fc74433f-cd9c-5b77-81db-cbfe1715d1e3
+
+	/// Posição de Suape entre todas as instalações do Brasil por toneladas no período.
+	measure 'Ranking Suape Brasil' =
+			VAR ToneladasSuape =
+			    CALCULATE ( [Toneladas], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 )
+			VAR Todas =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( dInstalacao[Instalacao] ), "@t", [Toneladas] ),
+			        REMOVEFILTERS ( dInstalacao )
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( ToneladasSuape ), COUNTROWS ( FILTER ( Todas, [@t] > ToneladasSuape ) ) + 1 )
+		formatString: 0
+		displayFolder: Participação
+		lineageTag: 480e69ef-e222-554c-a594-ff762e673965
+
+	/// Média das horas entre a chegada do navio e a atracação. Sensível a filas longas.
+	measure 'Espera Média (h)' = AVERAGE ( fAtracacao[EsperaAtracacao_h] )
+		formatString: #,0.0
+		displayFolder: Eficiência
+		lineageTag: 54eb71d1-e55a-5d84-becb-fe6767bebb8b
+
+	/// Mediana das horas entre chegada e atracação: a espera do navio 'típico', sem distorção das filas extremas.
+	measure 'Espera Mediana (h)' = MEDIAN ( fAtracacao[EsperaAtracacao_h] )
+		formatString: #,0.0
+		displayFolder: Eficiência
+		lineageTag: d26e48a9-f74c-50c5-914b-9f7b6f545b1c
+
+	/// Média das horas entre atracação e desatracação (ocupação do berço por navio).
+	measure 'Tempo Atracado Médio (h)' = AVERAGE ( fAtracacao[Atracado_h] )
+		formatString: #,0.0
+		displayFolder: Eficiência
+		lineageTag: a82ae17a-2094-51bb-84b9-2b2910358950
+
+	/// Média das horas entre o início e o fim da operação de carga/descarga.
+	measure 'Tempo de Operação Médio (h)' = AVERAGE ( fAtracacao[Operacao_h] )
+		formatString: #,0.0
+		displayFolder: Eficiência
+		lineageTag: 97941b91-846a-5fca-910a-15c43c15612f
+
+	/// Horas de operação ÷ horas atracado (só atracações com os dois tempos). Quanto do tempo no berço é operação de fato.
+	measure '% Atracado em Operação' =
+			VAR HorasOperacao =
+			    CALCULATE (
+			        SUM ( fAtracacao[Operacao_h] ),
+			        KEEPFILTERS ( NOT ISBLANK ( fAtracacao[Operacao_h] ) ),
+			        KEEPFILTERS ( NOT ISBLANK ( fAtracacao[Atracado_h] ) )
+			    )
+			VAR HorasAtracado =
+			    CALCULATE (
+			        SUM ( fAtracacao[Atracado_h] ),
+			        KEEPFILTERS ( NOT ISBLANK ( fAtracacao[Operacao_h] ) ),
+			        KEEPFILTERS ( NOT ISBLANK ( fAtracacao[Atracado_h] ) )
+			    )
+			RETURN
+			    DIVIDE ( HorasOperacao, HorasAtracado )
+		formatString: 0.0%
+		displayFolder: Eficiência
+		lineageTag: 313ef974-a0d4-5854-b317-87a12da74b01
+
+	/// Toneladas ÷ horas de operação (razão de somas, só atracações com tempo de operação > 0).
+	measure 'Prancha Média Operacional (t/h)' =
+			DIVIDE (
+			    CALCULATE ( SUM ( fAtracacao[Toneladas] ), KEEPFILTERS ( fAtracacao[Operacao_h] > 0 ) ),
+			    CALCULATE ( SUM ( fAtracacao[Operacao_h] ), KEEPFILTERS ( fAtracacao[Operacao_h] > 0 ) )
+			)
+		formatString: #,0
+		displayFolder: Eficiência
+		lineageTag: c1be96d0-574f-5e69-9128-be9e61163337
+
+	/// Toneladas ÷ horas atracado (razão de somas): produtividade considerando todo o tempo no berço.
+	measure 'Prancha Média Geral (t/h)' =
+			DIVIDE (
+			    CALCULATE ( SUM ( fAtracacao[Toneladas] ), KEEPFILTERS ( fAtracacao[Atracado_h] > 0 ) ),
+			    CALCULATE ( SUM ( fAtracacao[Atracado_h] ), KEEPFILTERS ( fAtracacao[Atracado_h] > 0 ) )
+			)
+		formatString: #,0
+		displayFolder: Eficiência
+		lineageTag: cdce4cda-966d-5a0d-851b-4afa21a49509
+
+	/// Soma das horas de paralisação registradas durante as atracações (chuva, quebra, espera de carga etc.).
+	measure 'Horas Paralisadas' = SUM ( fParalisacao[HorasParalisadas] )
+		formatString: #,0
+		displayFolder: Eficiência
+		lineageTag: 37c1d236-05e3-590f-a7d9-ae22e41dfc87
+
+	/// Espera mediana de Suape no período, independentemente do porto filtrado.
+	measure 'Espera Mediana Suape (h)' = CALCULATE ( [Espera Mediana (h)], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 )
+		formatString: #,0.0
+		displayFolder: Eficiência\Benchmark Nordeste
+		lineageTag: d88757e3-58e3-5e46-9f41-d9cd669f5093
+
+	/// Média simples das esperas medianas dos 8 pares do Nordeste (Pecém, Itaqui, Salvador, Aratu, Recife, Natal, Cabedelo, Maceió).
+	measure 'Espera Mediana Média Pares (h)' =
+			VAR Pares =
+			    CALCULATETABLE (
+			        VALUES ( dInstalacao[PortoBenchmarkNE] ),
+			        REMOVEFILTERS ( dInstalacao ),
+			        dInstalacao[GrupoBenchmark] = "Pares do Nordeste"
+			    )
+			RETURN
+			    AVERAGEX (
+			        Pares,
+			        VAR Porto = dInstalacao[PortoBenchmarkNE]
+			        RETURN
+			            CALCULATE (
+			                [Espera Mediana (h)],
+			                REMOVEFILTERS ( dInstalacao ),
+			                dInstalacao[PortoBenchmarkNE] = Porto
+			            )
+			    )
+		formatString: #,0.0
+		displayFolder: Eficiência\Benchmark Nordeste
+		lineageTag: 915e10f4-688d-5438-9659-afe738df911b
+
+	/// Espera mediana de Suape menos a média dos pares (negativo = Suape espera menos).
+	measure 'Diferença Espera Suape vs Pares (h)' = [Espera Mediana Suape (h)] - [Espera Mediana Média Pares (h)]
+		formatString: +#,0.0;-#,0.0;0.0
+		displayFolder: Eficiência\Benchmark Nordeste
+		lineageTag: 5cc59285-3d3a-5629-bf2c-d8d1cc381343
+
+	/// Toneladas de Suape no período.
+	measure 'Toneladas Suape' = CALCULATE ( [Toneladas], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 )
+		formatString: #,0
+		displayFolder: Volume\Suape
+		lineageTag: a2fe248b-31e1-54e9-be00-8d3c666676e4
+
+	/// TEU movimentados em Suape no período.
+	measure 'TEU Suape' = CALCULATE ( [TEU], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 )
+		formatString: #,0
+		displayFolder: Volume\Suape
+		lineageTag: bb02482d-a450-550e-9089-54389f06c3cd
+
+	/// Variação de toneladas de Suape vs. ano anterior.
+	measure 'Var % Toneladas Suape AA' = CALCULATE ( [Var % Toneladas AA], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Volume\Suape
+		lineageTag: bd9bcdfd-e386-5357-84cb-41444561fb8e
+
+	/// Fatia de contêiner nas toneladas de Suape.
+	measure '% Contêiner Suape' = CALCULATE ( [% Contêiner], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 )
+		formatString: 0.0%
+		displayFolder: Participação
+		lineageTag: f2e010fe-a6ac-5e05-b2c4-79b58d5c6b62
+
+	/// Texto com o último mês de dado da ANTAQ e a data de processamento do pipeline.
+	measure 'Última Atualização' =
+			"Dados ANTAQ até " & FORMAT ( MAX ( Meta[UltimoMesDisponivel] ), "mm/yyyy" )
+			    & " · processado em " & FORMAT ( MAX ( Meta[DataProcessamento] ), "dd/mm/yyyy" )
+		displayFolder: Auxiliares
+		lineageTag: a795f4cb-0a21-5ab8-b464-0e1479106615
+
+	/// Texto do período filtrado com dado (ex.: 'em 2025', 'de 2021 a 2025', 'em jan/2026').
+	measure 'Título Dinâmico Período' =
+			VAR DataIni = CALCULATE ( MIN ( dCalendario[Data] ), dCalendario[MesComDado] = TRUE () )
+			VAR DataFim = CALCULATE ( MAX ( dCalendario[Data] ), dCalendario[MesComDado] = TRUE () )
+			VAR AnoIni = YEAR ( DataIni )
+			VAR AnoFim = YEAR ( DataFim )
+			VAR AnoCompleto = MONTH ( DataIni ) = 1 && MONTH ( DataFim ) = 12
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( DataIni ), "no período sem dados",
+			        AnoIni = AnoFim && AnoCompleto, "em " & AnoIni,
+			        AnoIni = AnoFim && MONTH ( DataIni ) = MONTH ( DataFim ), "em " & FORMAT ( DataFim, "mmm/yyyy" ),
+			        AnoIni = AnoFim, "de " & FORMAT ( DataIni, "mmm" ) & " a " & FORMAT ( DataFim, "mmm/yyyy" ),
+			        "de " & AnoIni & " a " & FORMAT ( DataFim, IF ( MONTH ( DataFim ) = 12, "yyyy", "mmm/yyyy" ) )
+			    )
+		displayFolder: Auxiliares
+		lineageTag: 17189bcd-f83d-5039-b1c5-fa158b6b2b8c
+
+	/// Toneladas só das 10 maiores instalações visíveis (para o gráfico de ranking).
+	measure 'Toneladas (Top 10)' = IF ( [Ranking Porto] <= 10, [Toneladas] )
+		formatString: #,0
+		displayFolder: Auxiliares
+		lineageTag: 41cfa5a3-a6f2-5d27-8c20-4e89625f3218
+
+	/// Toneladas só das 10 maiores mercadorias visíveis.
+	measure 'Toneladas (Top 10 mercadorias)' =
+			VAR Posicao =
+			    IF (
+			        ISINSCOPE ( dMercadoria[Mercadoria] ),
+			        RANKX ( ALLSELECTED ( dMercadoria[Mercadoria] ), [Toneladas], , DESC, DENSE )
+			    )
+			RETURN
+			    IF ( Posicao <= 10, [Toneladas] )
+		formatString: #,0
+		displayFolder: Auxiliares
+		lineageTag: d7a07ca8-46f0-5082-85c5-3f88fc8f2d4e
+
+	/// Horas paralisadas só dos 10 motivos com mais horas no contexto.
+	measure 'Horas Paralisadas (Top 10 motivos)' =
+			VAR Posicao =
+			    IF (
+			        ISINSCOPE ( fParalisacao[MotivoParalisacao] ),
+			        RANKX ( ALLSELECTED ( fParalisacao[MotivoParalisacao] ), [Horas Paralisadas], , DESC, DENSE )
+			    )
+			RETURN
+			    IF ( Posicao <= 10, [Horas Paralisadas] )
+		formatString: #,0
+		displayFolder: Auxiliares
+		lineageTag: c36528d6-8241-56f5-8734-690dde7c9589
+
+	/// Cor das barras/pontos: dourado para Suape, azul para as demais (formatação condicional por valor de campo).
+	measure 'Cor Destaque Suape' = IF ( SELECTEDVALUE ( dInstalacao[EhSuape], 0 ) = 1, "#C9A96E", "#8FB4D9" )
+		displayFolder: Auxiliares
+		lineageTag: 89b41581-df55-5961-aa1b-6c60ab0a1919
+
+	/// Cor do texto: dourado na linha de Suape, branco nas demais.
+	measure 'Cor Texto Suape' = IF ( SELECTEDVALUE ( dInstalacao[EhSuape], 0 ) = 1, "#C9A96E", "#FFFFFF" )
+		displayFolder: Auxiliares
+		lineageTag: 817181a9-400b-5cfd-8a61-6b3943da338d
+
+	/// Cor do mapa de calor da espera mediana: até 2 h, 6 h, 24 h, 72 h e acima de 72 h.
+	measure 'Cor Calor Espera' =
+			VAR Espera = [Espera Mediana (h)]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( Espera ), BLANK (),
+			        Espera <= 2, "#1E3A2F",
+			        Espera <= 6, "#2F5D46",
+			        Espera <= 24, "#7A6A3A",
+			        Espera <= 72, "#A0522D",
+			        "#8B1E2D"
+			    )
+		displayFolder: Auxiliares
+		lineageTag: 83afb9e6-7c4c-5219-b349-6aaf6ad6da1b
+
+	/// Verde se a espera mediana do porto é menor ou igual à média dos pares; vermelho se maior.
+	measure 'Cor Benchmark Espera' =
+			VAR Espera = [Espera Mediana (h)]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( Espera ),
+			        IF ( Espera <= [Espera Mediana Média Pares (h)], "#1E3A2F", "#4A1C14" )
+			    )
+		displayFolder: Auxiliares
+		lineageTag: 8b49111f-631d-5309-bcec-0f7da348a3af
+
+	/// Título da página Visão Geral.
+	measure 'Título KPI Brasil' =
+			VAR Mt = [Toneladas] / 1000000
+			VAR Variacao = [Var % Toneladas AA]
+			RETURN
+			    "Portos brasileiros movimentaram " & FORMAT ( Mt, "#,0.0" ) & " milhões de t " & [Título Dinâmico Período]
+			        & IF ( NOT ISBLANK ( Variacao ), " (" & FORMAT ( Variacao, "+0.0%;-0.0%" ) & " vs. ano anterior)" )
+		displayFolder: Auxiliares\Títulos
+		lineageTag: 91c4be33-400c-5ce3-8a85-93b23b0dce53
+
+	/// Título do gráfico de linha mensal.
+	measure 'Título Linha Mensal' = "Toneladas por mês " & [Título Dinâmico Período] & " x mesmo mês do ano anterior"
+		displayFolder: Auxiliares\Títulos
+		lineageTag: f699e08e-3eff-5e1d-8292-6755d94c63eb
+
+	/// Título do gráfico por região.
+	measure 'Título Região' =
+			VAR Top =
+			    TOPN ( 1, ADDCOLUMNS ( VALUES ( dInstalacao[Regiao] ), "@t", [Toneladas] ), [@t], DESC )
+			VAR Nome = MAXX ( Top, dInstalacao[Regiao] )
+			VAR Fatia = DIVIDE ( MAXX ( Top, [@t] ), [Toneladas] )
+			RETURN
+			    Nome & " concentra " & FORMAT ( Fatia, "0%" ) & " da carga " & [Título Dinâmico Período]
+		displayFolder: Auxiliares\Títulos
+		lineageTag: 61b7a2ed-1209-5ec7-99b1-79bd8443fca7
+
+	/// Título do ranking de instalações.
+	measure 'Título Top 10' =
+			VAR Top =
+			    TOPN ( 1, ADDCOLUMNS ( VALUES ( dInstalacao[Instalacao] ), "@t", [Toneladas] ), [@t], DESC )
+			RETURN
+			    MAXX ( Top, dInstalacao[Instalacao] ) & " lidera com " & FORMAT ( MAXX ( Top, [@t] ) / 1000000, "#,0.0" )
+			        & " milhões de t " & [Título Dinâmico Período]
+		displayFolder: Auxiliares\Títulos
+		lineageTag: f47bcf9a-e06d-53fa-9c53-64093b15c70c
+
+	/// Título da página Nordeste & Suape: conclusão sobre a espera de Suape vs. pares.
+	measure 'Título Benchmark Espera' =
+			VAR Dif = [Diferença Espera Suape vs Pares (h)]
+			RETURN
+			    IF (
+			        ISBLANK ( Dif ), "Espera mediana: Suape x média dos pares",
+			        "Suape opera com espera mediana " & FORMAT ( ABS ( Dif ), "#,0.0" ) & " h "
+			            & IF ( Dif <= 0, "menor", "maior" ) & " que a média dos pares " & [Título Dinâmico Período]
+			    )
+		displayFolder: Auxiliares\Títulos
+		lineageTag: 87425e10-9da6-528f-bca4-91adc26f85a0
+
+	/// Título das barras de crescimento.
+	measure 'Título Crescimento Pares' =
+			VAR Pares =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( dInstalacao[PortoBenchmarkNE] ), "@v", [Var % Toneladas AA] ),
+			        NOT ISBLANK ( dInstalacao[PortoBenchmarkNE] )
+			    )
+			VAR Top = TOPN ( 1, FILTER ( Pares, NOT ISBLANK ( [@v] ) ), [@v], DESC )
+			RETURN
+			    IF (
+			        ISEMPTY ( Top ), "Crescimento vs. ano anterior",
+			        "Maior crescimento " & [Título Dinâmico Período] & ": " & MAXX ( Top, dInstalacao[PortoBenchmarkNE] )
+			            & " (" & FORMAT ( MAXX ( Top, [@v] ), "+0.0%;-0.0%" ) & ")"
+			    )
+		displayFolder: Auxiliares\Títulos
+		lineageTag: cfa66947-3764-5450-b28d-377e0df6ad4a
+
+	/// Texto do cartão de ranking de Suape.
+	measure 'Título Ranking Suape' = "Suape é a " & [Ranking Suape Brasil] & "ª maior instalação do Brasil " & [Título Dinâmico Período]
+		displayFolder: Auxiliares\Títulos
+		lineageTag: a1a1107d-1f94-52cf-abed-1071c7dd70d9
+
+	/// Título do mapa de calor.
+	measure 'Título Mapa de Calor' =
+			VAR Top =
+			    TOPN (
+			        1,
+			        CALCULATETABLE (
+			            ADDCOLUMNS ( VALUES ( dInstalacao[PortoBenchmarkNE] ), "@e", [Espera Mediana (h)] ),
+			            NOT ISBLANK ( dInstalacao[PortoBenchmarkNE] )
+			        ),
+			        [@e], DESC
+			    )
+			RETURN
+			    "Maior espera mediana entre os pares " & [Título Dinâmico Período] & ": " & MAXX ( Top, dInstalacao[PortoBenchmarkNE] )
+			        & " (" & FORMAT ( MAXX ( Top, [@e] ), "#,0" ) & " h)"
+		displayFolder: Auxiliares\Títulos
+		lineageTag: 22eba196-f214-50bb-afc0-d3c10eeb29bf
+
+	/// Título das barras de % atracado em operação.
+	measure 'Título Operação' =
+			"Suape usa " & FORMAT ( CALCULATE ( [% Atracado em Operação], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 ), "0%" )
+			    & " do tempo atracado operando " & [Título Dinâmico Período]
+		displayFolder: Auxiliares\Títulos
+		lineageTag: 8de51d95-6b74-53a4-aab1-44a8856ad86c
+
+	/// Título das horas paralisadas por motivo.
+	measure 'Título Paralisação' =
+			VAR Top =
+			    TOPN ( 1, ADDCOLUMNS ( VALUES ( fParalisacao[MotivoParalisacao] ), "@h", [Horas Paralisadas] ), [@h], DESC )
+			RETURN
+			    IF (
+			        ISEMPTY ( Top ), "Horas paralisadas por motivo",
+			        "Principal causa de paralisação: " & MAXX ( Top, fParalisacao[MotivoParalisacao] ) & " ("
+			            & FORMAT ( DIVIDE ( MAXX ( Top, [@h] ), [Horas Paralisadas] ), "0%" ) & " das horas)"
+			    )
+		displayFolder: Auxiliares\Títulos
+		lineageTag: 3f22b3d0-4df8-526c-9e8d-c439aaeead8d
+
+	/// Título da dispersão espera x prancha.
+	measure 'Título Dispersão' = "Portos públicos " & [Título Dinâmico Período] & ": espera mediana (h) x prancha operacional (t/h)"
+		displayFolder: Auxiliares\Títulos
+		lineageTag: dac74095-0172-5468-850a-9df11ee0b571
+
+	/// Título da composição por natureza de carga.
+	measure 'Título Natureza' =
+			VAR Top =
+			    TOPN ( 1, ADDCOLUMNS ( VALUES ( dNaturezaCarga[NaturezaCarga] ), "@t", [Toneladas] ), [@t], DESC )
+			RETURN
+			    MAXX ( Top, dNaturezaCarga[NaturezaCarga] ) & " responde por " & FORMAT ( DIVIDE ( MAXX ( Top, [@t] ), [Toneladas] ), "0%" )
+			        & " da carga " & [Título Dinâmico Período]
+		displayFolder: Auxiliares\Títulos
+		lineageTag: 63f10294-a6dd-590f-a5af-f56ec6382d8a
+
+	/// Título do top mercadorias.
+	measure 'Título Mercadorias' =
+			VAR Top =
+			    TOPN ( 1, ADDCOLUMNS ( VALUES ( dMercadoria[Mercadoria] ), "@t", [Toneladas] ), [@t], DESC )
+			RETURN
+			    MAXX ( Top, dMercadoria[Mercadoria] ) & " é a principal mercadoria: " & FORMAT ( DIVIDE ( MAXX ( Top, [@t] ), [Toneladas] ), "0%" )
+			        & " das toneladas"
+		displayFolder: Auxiliares\Títulos
+		lineageTag: d4d018da-1d66-5617-90d0-f9fbda095920
+
+	/// Título do embarque x desembarque.
+	measure 'Título Sentido' =
+			VAR Emb = CALCULATE ( [Toneladas], dSentido[Sentido] = "Embarque" )
+			RETURN
+			    FORMAT ( DIVIDE ( Emb, CALCULATE ( [Toneladas], REMOVEFILTERS ( dSentido ) ) ), "0%" ) & " das toneladas são embarque"
+		displayFolder: Auxiliares\Títulos
+		lineageTag: 83782753-f387-5db3-a8d1-4d9fbdcc8c04
+
+	/// Título da movimentação por navegação.
+	measure 'Título Navegação' =
+			"Longo curso: " & FORMAT ( [% Longo Curso], "0%" ) & " · cabotagem: " & FORMAT ( [% Cabotagem], "0%" )
+			    & " das toneladas"
+		displayFolder: Auxiliares\Títulos
+		lineageTag: dc0555a8-a8af-5aaf-94c1-8e87db499a99
+
+	column Medidas
+		dataType: string
+		isHidden
+		lineageTag: 1b802c51-80ba-559b-af2c-b1a026770965
+		summarizeBy: none
+		sourceColumn: Medidas
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Medidas' = m
+		mode: import
+		source =
+				let
+				    Fonte = #table(type table [Medidas = text], {})
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
