@@ -461,7 +461,7 @@ def fatos(con, log: list) -> None:
                navegacao AS CodNavegacao, natureza AS CodNatureza,
                round(espera, 2) AS EsperaAtracacao_h, round(operacao, 2) AS Operacao_h,
                round(atracado, 2) AS Atracado_h, round(estadia, 2) AS Estadia_h,
-               round(toneladas, 2) AS Toneladas, round(teu, 1) AS TEU
+               round(toneladas, 3) AS Toneladas, round(teu, 1) AS TEU
         FROM atrac_t ORDER BY DataDesatracacao, IDAtracacao
     """)
 
