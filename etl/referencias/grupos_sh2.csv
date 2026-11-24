@@ -1,0 +1,16 @@
+CapituloIni,CapituloFim,GrupoMercadoria,OrdemGrupo
+10,12,Grãos e oleaginosas,1
+23,23,Grãos e oleaginosas,1
+01,09,Alimentos e outros agro,2
+13,22,Alimentos e outros agro,2
+24,24,Alimentos e outros agro,2
+25,26,Minérios e minerais,3
+27,27,Petróleo e combustíveis,4
+28,38,Químicos e fertilizantes,5
+39,40,Plásticos e borracha,6
+44,49,"Celulose, papel e madeira",7
+72,83,Siderurgia e metais,8
+84,89,"Veículos, máquinas e equipamentos",9
+41,43,Outros,11
+50,71,Outros,11
+90,99,Outros,11
