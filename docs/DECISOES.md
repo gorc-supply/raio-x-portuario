@@ -154,3 +154,10 @@ Cada decisão: **contexto → decisão → alternativas → motivo**. Ordem cron
 - **Contexto:** o `ffmpeg.exe` instalado via winget (Gyan.FFmpeg) foi bloqueado pela política de Controle de Aplicativo do Windows; não houve tentativa de contornar. O pacote foi desinstalado em seguida.
 - **Decisão:** captura de tela com `mss` e codificação H.264 com PyAV/libx264 dentro do `.venv` (30 fps, recorte só na área do relatório); legendas e cartelas desenhadas com Pillow; `+faststart` via opção do muxer. Capa, GIF e PDF também com Pillow (`ferramentas/entregaveis.py`).
 - **Ciclos de QA:** 6 ciclos de captura (`docs/img/qa/c1b_*` a `c6_*`) + a sessão final que gerou as capturas definitivas, o vídeo e salvou o PBIP (`ferramentas/sessao_final.py`). A navegação no Desktop é feita por nome de controle (UI Automation) e nunca toca em Publicar, Entrar, Sair ou Compartilhar.
+
+## D27 — Sem link público do Power BI
+
+- **Contexto:** o "Publicar na Web" do Power BI Service está bloqueado pelo administrador da conta institucional (UPE), e a liberação não será pedida.
+- **Decisão:** não existe versão pública na web. O relatório fica só no workspace pessoal, privado. O painel é distribuído por vídeo, PDF, capturas das páginas e o PBIP (abre no Power BI Desktop gratuito; zip na release). Os marcadores `LINK_PUBLICO` do README e do portfólio foram removidos, junto com o botão comentado "Ver painel ao vivo" do card (PT/EN/ES e modal).
+- **Mapa:** fica como está. A Visão Geral usa a dispersão sobre a malha do IBGE (D22), sem Azure Maps, e o PBIP não tem a página oculta "Mapa (plano B)" (gerado com `--sem-plano-b`). Sem link público, não há o que testar no Azure Maps; o código da opção 1 continua no gerador.
+- **Consequência:** `docs/PUBLICAR.md` virou uma nota curta, e as pendências de publicação foram fechadas em `docs/PENDENCIAS.md`.

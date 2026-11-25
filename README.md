@@ -4,10 +4,9 @@ Quanto o Brasil movimenta, onde os navios esperam e como Suape se compara aos vi
 
 ![Raio-X Portuário: as cinco páginas do painel](docs/img/capa.gif)
 
-<!-- LINK_PUBLICO: quando o painel for publicado, trocar este comentário por:
-**[Abrir o painel ao vivo ↗](URL_DO_PUBLICAR_NA_WEB)** -->
-
 ## Como ver o painel
+
+O painel é distribuído por vídeo, PDF, capturas das páginas e o arquivo PBIP, que abre no Power BI Desktop (gratuito).
 
 - **Vídeo (78 s):** [![Tour pelo painel](docs/video/poster.jpg)](docs/video/raio-x-portuario.mp4) — clique na imagem para abrir o vídeo.
 - **PDF com as 5 páginas:** [docs/RaioXPortuario.pdf](docs/RaioXPortuario.pdf)
@@ -17,8 +16,6 @@ Quanto o Brasil movimenta, onde os navios esperam e como Suape se compara aos vi
   2. Baixe o zip da [release mais recente](https://github.com/gorc-supply/raio-x-portuario/releases/latest) e extraia em `C:\projetos\raio-x-portuario\` (ou clone o repositório nessa pasta).
   3. Abra `powerbi\RaioXPortuario.pbip`. Se você extraiu em outra pasta: **Página Inicial > Transformar dados > Editar parâmetros > CaminhoDados** e aponte para a pasta `data\processed\` (terminando com `\`).
   4. Clique em **Atualizar** (Página Inicial). Os dados tratados já estão no zip; não é preciso rodar o Python.
-
-<!-- LINK_PUBLICO: link do "Publicar na Web" entra também aqui, como primeiro item da lista acima -->
 
 ## O problema
 
@@ -52,7 +49,7 @@ flowchart LR
     I[IBGE<br/>malha do Brasil] --> B
     B --> C[CSV tratados<br/>data/processed ~50 MB]
     C --> D[Power BI Desktop<br/>PBIP: TMDL + PBIR]
-    D --> E[Power BI Service<br/>Publicar na Web]
+    D --> E[Vídeo, PDF e capturas<br/>docs/ e release]
     E --> F[Portfólio<br/>gorc-supply.github.io]
 ```
 

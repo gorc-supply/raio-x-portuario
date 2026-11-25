@@ -16,10 +16,10 @@ Adiciona o projeto **Raio-X Portuário** (painel Power BI sobre os portos brasil
 - Capturas com navegador sem interface em 1440 px e 390 px, em PT/EN/ES, do card e do modal: sem rolagem horizontal; vídeo e texto do card largo com a mesma altura (335 px) no desktop.
 - Nenhum marcador visível para o visitante: os 5 `LINK_PUBLICO` estão em comentários HTML/JS.
 
-### Depois de publicar o painel
-
-Procurar `LINK_PUBLICO` no `index.html`, tirar o comentário e trocar pelo link do "Publicar na Web" (passo a passo em `raio-x-portuario/docs/PUBLICAR.md`, seção 4).
-
 Código do projeto: https://github.com/gorc-supply/raio-x-portuario
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+---
+
+**Atualização posterior:** não vai existir link público do painel (decisão D27 do projeto). O botão comentado "Ver painel ao vivo" e os marcadores `LINK_PUBLICO` foram removidos do `index.html`; o card fica com vídeo, PDF e GitHub.

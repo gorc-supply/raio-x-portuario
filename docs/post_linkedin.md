@@ -1,6 +1,6 @@
 # Rascunho de post (LinkedIn)
 
-> Anexar o vídeo `docs/video/raio-x-portuario.mp4` ao post. Quando o painel estiver publicado, acrescentar o link público no lugar indicado. Números conferidos em `docs/valores_referencia.md` (seção 4).
+> Anexar o vídeo `docs/video/raio-x-portuario.mp4` ao post. Números conferidos em `docs/valores_referencia.md` (seção 4).
 
 ---
 
@@ -13,7 +13,6 @@ Na fila, Suape vai bem: espera mediana de 4,3 h para atracar em 2025, contra 26,
 Montei tudo num painel de Power BI, com o pipeline em Python e DuckDB no GitHub. O vídeo abaixo mostra o painel em pouco mais de um minuto. O total que eu calculo bate com o oficial da ANTAQ com diferença de no máximo 1,16% por ano, e isso foi o que mais deu trabalho.
 
 Código, método e PDF: github.com/gorc-supply/raio-x-portuario
-<!-- quando publicar: "Painel ao vivo: LINK" -->
 
 Se você trabalha com porto ou com logística no Nordeste, me conta se esses números batem com o que você vê na operação.
 
