@@ -1,59 +1,63 @@
-# Raio-X Portuário: desempenho dos portos brasileiros com foco no Nordeste
+**English** · [Português](README.pt-BR.md)
 
-Quanto o Brasil movimenta, onde os navios esperam e como Suape se compara aos vizinhos — com dados abertos da ANTAQ, um pipeline que reproduz o total oficial e um painel Power BI.
+# Raio-X Portuário: performance of Brazilian ports with a focus on the Northeast
 
-![Raio-X Portuário: as cinco páginas do painel](docs/img/capa.gif)
+How much Brazil moves, where ships wait and how Suape compares with its neighbors, built on ANTAQ open data, a pipeline that reproduces the official total and a Power BI dashboard.
 
-## Como ver o painel
+Read the data story: [Brazil's ports hit a record. Suape grew in value, not in weight.](https://gorc-supply.github.io/stories/ports.html)
 
-O painel é distribuído por vídeo, PDF, capturas das páginas e o arquivo PBIP, que abre no Power BI Desktop (gratuito).
+![Raio-X Portuário: the five dashboard pages](docs/img/capa.gif)
 
-- **Vídeo (78 s):** [![Tour pelo painel](docs/video/poster.jpg)](docs/video/raio-x-portuario.mp4) — clique na imagem para abrir o vídeo.
-- **PDF com as 5 páginas:** [docs/RaioXPortuario.pdf](docs/RaioXPortuario.pdf)
-- **Capturas:** [Visão Geral](docs/img/pagina-1.png) · [Nordeste & Suape](docs/img/pagina-2.png) · [Eficiência e Gargalos](docs/img/pagina-3.png) · [Perfil de Carga](docs/img/pagina-4.png) · [Sobre](docs/img/pagina-5.png)
-- **Interativo no seu computador** (Power BI Desktop é gratuito):
-  1. Instale o [Power BI Desktop](https://www.microsoft.com/store/productId/9NTXR16HNW1T) (Microsoft Store).
-  2. Baixe o zip da [release mais recente](https://github.com/gorc-supply/raio-x-portuario/releases/latest) e extraia em `C:\projetos\raio-x-portuario\` (ou clone o repositório nessa pasta).
-  3. Abra `powerbi\RaioXPortuario.pbip`. Se você extraiu em outra pasta: **Página Inicial > Transformar dados > Editar parâmetros > CaminhoDados** e aponte para a pasta `data\processed\` (terminando com `\`).
-  4. Clique em **Atualizar** (Página Inicial). Os dados tratados já estão no zip; não é preciso rodar o Python.
+## How to view the dashboard
 
-## O problema
+The dashboard is distributed as a video, a PDF, page screenshots and the PBIP file, which opens in Power BI Desktop (free).
 
-O Estatístico Aquaviário da ANTAQ tem tudo — cada atracação, cada carga, cada paralisação — mas em arquivos de milhões de linhas, com regras de contagem que não estão na cara. Este projeto transforma essa base num painel que responde quatro perguntas:
+- **Video (78 s):** [![Dashboard tour](docs/video/poster.jpg)](docs/video/raio-x-portuario.mp4) — click the image to open the video.
+- **PDF with the 5 pages:** [docs/RaioXPortuario.pdf](docs/RaioXPortuario.pdf)
+- **Screenshots:** [Visão Geral (Overview)](docs/img/pagina-1.png) · [Nordeste & Suape (Northeast & Suape)](docs/img/pagina-2.png) · [Eficiência e Gargalos (Efficiency and Bottlenecks)](docs/img/pagina-3.png) · [Perfil de Carga (Cargo Profile)](docs/img/pagina-4.png) · [Sobre (About)](docs/img/pagina-5.png)
+- **Interactive on your computer** (Power BI Desktop is free):
+  1. Install [Power BI Desktop](https://www.microsoft.com/store/productId/9NTXR16HNW1T) (Microsoft Store).
+  2. Download the zip from the [latest release](https://github.com/gorc-supply/raio-x-portuario/releases/latest) and extract it to `C:\projetos\raio-x-portuario\` (or clone the repository into that folder).
+  3. Open `powerbi\RaioXPortuario.pbip`. If you extracted it somewhere else: **Home > Transform data > Edit parameters > CaminhoDados** and point it to the `data\processed\` folder (ending with `\`).
+  4. Click **Refresh** (Home). The processed data is already in the zip; you don't need to run the Python code.
 
-1. **Quanto o Brasil movimenta** por porto, região, tipo de navegação e natureza da carga, e como isso evoluiu mês a mês e ano a ano?
-2. **Como Suape se compara** com Pecém, Itaqui, Salvador, Aratu, Recife, Natal, Cabedelo e Maceió em volume, crescimento e eficiência?
-3. **Onde estão os gargalos:** espera para atracar, tempo atracado x tempo de operação, prancha, sazonalidade e paralisações?
-4. **O que cada porto movimenta:** principais mercadorias, embarque x desembarque, perfil de navegação?
+## The problem
 
-Recorte: anos completos de 2021 a 2025.
+ANTAQ's Estatístico Aquaviário (Waterway Statistics) has everything (every berthing, every cargo, every stoppage), but in files with millions of rows and counting rules that are not obvious. This project turns that data into a dashboard that answers four questions:
 
-## Principais achados
+1. **How much does Brazil move** by port, region, type of navigation and cargo type, and how has that changed month by month and year by year?
+2. **How does Suape compare** with Pecém, Itaqui, Salvador, Aratu, Recife, Natal, Cabedelo and Maceió in volume, growth and efficiency?
+3. **Where are the bottlenecks:** wait to berth, time at berth vs operating time, handling rate, seasonality and stoppages?
+4. **What does each port move:** main commodities, loading vs unloading, navigation profile?
 
-Todos os números vêm de [docs/valores_referencia.md](docs/valores_referencia.md) (seção 4), com a medida e o filtro de origem.
+Scope: full years 2021 to 2025.
 
-1. **Recorde nacional em 2025.** Os portos brasileiros movimentaram **1.403,8 milhões de t**, alta de **5,9%** sobre 2024. *Origem: [Toneladas] e [Var % Toneladas AA], Ano = 2025.*
-2. **Suape trocou volume por valor.** A tonelagem ficou estável — **24,3 milhões de t** em 2025 (**-2,3%**), a **13ª** maior instalação do país, com **1,7%** do total —, mas os contêineres saíram de **519 mil TEU** em 2021 para **698 mil TEU** em 2025 (**34,6%** a mais), e a fatia de contêiner subiu de **26,7%** para **31,2%**. *Origem: [Toneladas], [Ranking Suape Brasil], [% do Total Brasil], [TEU], [% Contêiner]; Instalação = Suape.*
-3. **Suape espera pouco para atracar, mas espera mais do que antes.** A espera mediana foi de **4,3 h** em 2025, **22,1 h** abaixo da média dos pares (**26,4 h**) — média puxada por Itaqui, com **143,9 h** de espera mediana. Em 2021 a espera mediana de Suape era **1,0 h**; em 2024 chegou a **5,9 h**. *Origem: [Espera Mediana (h)], [Espera Mediana Média Pares (h)], [Diferença Espera Suape vs Pares (h)].*
-4. **O mix explica a espera de Suape.** Em 2025, navio de contêiner atracou com espera mediana de **0,8 h**; navio de granel líquido (derivados, petróleo, GLP), de **28,8 h**. Quem quiser melhorar a fila de Suape tem que olhar o cais de líquidos. *Origem: [Espera Mediana (h)], Instalação = Suape, Natureza = Contêiner / Granel Líquido e Gasoso.*
-5. **Chuva é o maior ladrão de tempo.** No Brasil, chuva e clima respondem por **32,1%** das horas paralisadas em 2025; em Suape, por **37,9%**. A prancha operacional de Suape (**618 t/h**) fica abaixo da média nacional (**765 t/h**), que é puxada pelos terminais de minério. *Origem: [Horas Paralisadas] por motivo; [Prancha Média Operacional (t/h)].*
+## Key findings
 
-> **Nota sobre 5,9% x 6,1%.** O Anuário "Desempenho Aquaviário 2025" da ANTAQ publica alta de 6,1% em 2025. O total de 2025 do painel bate com o do Anuário (+0,05%), mas a base de 2024 do painel está 0,26% acima da publicada (a ANTAQ revisa a base depois de fechar o Anuário), o que reduz a variação em 0,2 ponto. O número do painel não foi ajustado. Conta completa em [docs/conciliacao_antaq.md](docs/conciliacao_antaq.md#2-por-que-o-painel-mostra-59-em-2025-e-o-anuário-61).
+All numbers come from [docs/valores_referencia.md](docs/valores_referencia.md) (section 4), with the source measure and filter.
 
-## Arquitetura
+1. **National record in 2025.** Brazilian ports moved **1,403.8 million t**, up **5.9%** on 2024. *Source: [Toneladas] (tonnes) and [Var % Toneladas AA] (year-over-year change), Ano = 2025.*
+2. **Suape traded volume for value.** Tonnage stayed flat (**24.3 million t** in 2025, **-2.3%**, the country's **13th** largest facility, with **1.7%** of the total), but containers went from **519 thousand TEU** in 2021 to **698 thousand TEU** in 2025 (**34.6%** more), and the container share rose from **26.7%** to **31.2%**. *Source: [Toneladas], [Ranking Suape Brasil] (Suape's national rank), [% do Total Brasil] (share of Brazil's total), [TEU], [% Contêiner] (container share); Instalação = Suape.*
+3. **Suape waits little to berth, but more than it used to.** The median wait was **4.3 h** in 2025, **22.1 h** below the peer average (**26.4 h**), an average pulled up by Itaqui, with a median wait of **143.9 h**. In 2021 Suape's median wait was **1.0 h**; in 2024 it reached **5.9 h**. *Source: [Espera Mediana (h)] (median wait), [Espera Mediana Média Pares (h)] (peer average of median waits), [Diferença Espera Suape vs Pares (h)] (Suape vs peers wait gap).*
+4. **The cargo mix explains Suape's wait.** In 2025, container ships berthed with a median wait of **0.8 h**; liquid bulk ships (oil products, crude oil, LPG), **28.8 h**. Anyone who wants to improve Suape's queue has to look at the liquids berths. *Source: [Espera Mediana (h)], Instalação = Suape, Natureza = Contêiner / Granel Líquido e Gasoso.*
+5. **Rain is the biggest time thief.** In Brazil, rain and weather account for **32.1%** of the hours stopped in 2025; in Suape, **37.9%**. Suape's operating handling rate (**618 t/h**) is below the national average (**765 t/h**), which is pulled up by the iron ore terminals. *Source: [Horas Paralisadas] (hours stopped) by reason; [Prancha Média Operacional (t/h)] (average operating handling rate).*
+
+> **Note on 5.9% vs 6.1%.** ANTAQ's yearbook "Desempenho Aquaviário 2025" reports 6.1% growth in 2025. The dashboard's 2025 total matches the yearbook's (+0.05%), but the dashboard's 2024 base is 0.26% above the published one (ANTAQ revises the base after closing the yearbook), which lowers the change by 0.2 points. The dashboard number was not adjusted. Full calculation in [docs/conciliacao_antaq.md](docs/conciliacao_antaq.md#2-por-que-o-painel-mostra-59-em-2025-e-o-anuário-61).
+
+## Architecture
 
 ```mermaid
 flowchart LR
-    A[ANTAQ<br/>Estatístico Aquaviário<br/>Atracação, Carga, Tempos, Paralisações] --> B[Python + DuckDB<br/>etl/01..04<br/>regra oficial, limpeza, testes]
-    S[Comex Stat / MDIC<br/>nomenclatura SH] --> B
-    I[IBGE<br/>malha do Brasil] --> B
-    B --> C[CSV tratados<br/>data/processed ~50 MB]
+    A[ANTAQ<br/>Estatístico Aquaviário<br/>Berthing, Cargo, Times, Stoppages] --> B[Python + DuckDB<br/>etl/01..04<br/>official rule, cleaning, tests]
+    S[Comex Stat / MDIC<br/>HS nomenclature] --> B
+    I[IBGE<br/>Brazil boundaries] --> B
+    B --> C[Processed CSV<br/>data/processed ~50 MB]
     C --> D[Power BI Desktop<br/>PBIP: TMDL + PBIR]
-    D --> E[Vídeo, PDF e capturas<br/>docs/ e release]
-    E --> F[Portfólio<br/>gorc-supply.github.io]
+    D --> E[Video, PDF and screenshots<br/>docs/ and release]
+    E --> F[Portfolio<br/>gorc-supply.github.io]
 ```
 
-## Modelo de dados (esquema estrela)
+## Data model (star schema)
 
 ```mermaid
 erDiagram
@@ -91,71 +95,71 @@ erDiagram
     }
 ```
 
-Relacionamentos 1:N com filtro em direção única, sem muitos-para-muitos. Modo Import. A tabela `_Medidas` concentra as medidas em pastas (Volume, Participação, Eficiência, Auxiliares). Nomes visíveis em português com acento (Região, Instalação, Navegação, Natureza da Carga, Mês...).
+One-to-many relationships with single-direction filtering, no many-to-many. Import mode. The `_Medidas` table holds the measures in folders (Volume, Participação, Eficiência, Auxiliares). Visible names are in Portuguese with accents (Região, Instalação, Navegação, Natureza da Carga, Mês...).
 
-## Dicionário de KPIs (resumo)
+## KPI dictionary (summary)
 
-| Medida | O que é |
+| Measure | What it is |
 |---|---|
-| [Toneladas] | Peso bruto movimentado (regra ANTAQ: `FlagMCOperacaoCarga = 1`, inclui transbordo) |
-| [Var % Toneladas AA] | Variação contra o mesmo período do ano anterior |
-| [Nº Atracações] | Atracações com movimentação de carga |
-| [Espera Mediana (h)] | Mediana das horas entre chegada e atracação — o navio típico |
-| [% Atracado em Operação] | Horas operando ÷ horas no berço |
-| [Prancha Média Operacional (t/h)] | Toneladas ÷ horas de operação (razão de somas) |
-| [Ranking Porto] | Posição por toneladas entre os portos visíveis |
+| [Toneladas] (tonnes) | Gross weight moved (ANTAQ rule: `FlagMCOperacaoCarga = 1`, includes transshipment) |
+| [Var % Toneladas AA] (year-over-year change) | Change against the same period of the previous year |
+| [Nº Atracações] (number of berthings) | Berthings with cargo handling |
+| [Espera Mediana (h)] (median wait) | Median hours between arrival and berthing — the typical ship |
+| [% Atracado em Operação] (% of berth time operating) | Hours operating ÷ hours at berth |
+| [Prancha Média Operacional (t/h)] (average operating handling rate) | Tonnes ÷ operating hours (ratio of sums) |
+| [Ranking Porto] (port rank) | Position by tonnes among the visible ports |
 
-Todas as medidas, com DAX, significado na operação e exemplo numérico: [docs/kpis.md](docs/kpis.md).
+All measures, with DAX, operational meaning and a numeric example: [docs/kpis.md](docs/kpis.md).
 
-## Qualidade dos dados
+## Data quality
 
-- **Conciliação com a ANTAQ** ([docs/conciliacao_antaq.md](docs/conciliacao_antaq.md)): total anual do pipeline x total oficial — diferença entre −0,13% e +1,16% de 2021 a 2025 (critério: ±2%, testado no pytest). Em 2025, conferência extra com o Anuário (natureza da carga e regiões) e com os Boletins trimestrais (Brasil, Suape, Itaqui e Pecém).
-- **Regras de limpeza e linhas afetadas por ano** ([docs/data_quality.md](docs/data_quality.md)).
-- **Exploração da base** ([docs/exploracao.md](docs/exploracao.md)): colunas reais, chaves, nulos, definição de cada tempo conferida contra as datas.
-- **Decisões** ([docs/DECISOES.md](docs/DECISOES.md)): o que foi decidido, as alternativas e o porquê.
+- **Reconciliation with ANTAQ** ([docs/conciliacao_antaq.md](docs/conciliacao_antaq.md)): pipeline annual total vs official total — gap between −0.13% and +1.16% from 2021 to 2025 (criterion: ±2%, tested in pytest). For 2025, an extra check against the yearbook (cargo type and regions) and the quarterly bulletins (Brazil, Suape, Itaqui and Pecém).
+- **Cleaning rules and rows affected per year** ([docs/data_quality.md](docs/data_quality.md)).
+- **Data exploration** ([docs/exploracao.md](docs/exploracao.md)): actual columns, keys, nulls, each time definition checked against the dates.
+- **Decisions** ([docs/DECISOES.md](docs/DECISOES.md)): what was decided, the alternatives and why.
 
-> **Sobre a fonte.** O portal de download da ANTAQ (`web3.antaq.gov.br`) está fora do ar desde junho de 2026. Os arquivos oficiais foram obtidos de um espelho público (Hugging Face, CC-BY-4.0, versão fixada) com o layout original; a fidelidade foi conferida contra os totais oficiais. Quando a ANTAQ voltar, o pipeline usa os zips oficiais automaticamente. Detalhes em [DECISOES.md, D02](docs/DECISOES.md).
+> **About the source.** ANTAQ's download portal (`web3.antaq.gov.br`) has been down since June 2026. The official files were taken from a public mirror (Hugging Face, CC-BY-4.0, pinned version) with the original layout; fidelity was checked against the official totals. When ANTAQ is back, the pipeline uses the official zips automatically. Details in [DECISOES.md, D02](docs/DECISOES.md).
 
-## Como reproduzir do zero
+## How to reproduce from scratch
 
-Pré-requisitos: Windows, Git, Python 3.12 (ou [uv](https://docs.astral.sh/uv/)) e Power BI Desktop.
+Prerequisites: Windows, Git, Python 3.12 (or [uv](https://docs.astral.sh/uv/)) and Power BI Desktop.
 
 ```powershell
 git clone https://github.com/gorc-supply/raio-x-portuario.git C:\projetos\raio-x-portuario
 cd C:\projetos\raio-x-portuario
-uv venv .venv --python 3.12          # ou: py -3.12 -m venv .venv
+uv venv .venv --python 3.12          # or: py -3.12 -m venv .venv
 uv pip install --python .venv\Scripts\python.exe -r requirements.txt
-.venv\Scripts\python etl\run_all.py  # baixa, trata, exporta, documenta, valida o PBIP e roda os testes
+.venv\Scripts\python etl\run_all.py  # downloads, processes, exports, documents, validates the PBIP and runs the tests
 ```
 
-1. O `run_all.py` leva ~3 minutos e baixa ~90 MB em `data/raw/` (ignorado no Git). Os CSV finais ficam em `data/processed/`.
-2. Se tiver os zips oficiais da ANTAQ, coloque em `data/raw/antaq_oficial/` antes de rodar: eles têm prioridade sobre o espelho.
-3. Abra `powerbi/RaioXPortuario.pbip` no Power BI Desktop e clique em **Atualizar**.
-4. Confira os cartões contra [docs/valores_referencia.md](docs/valores_referencia.md).
+1. `run_all.py` takes ~3 minutes and downloads ~90 MB into `data/raw/` (ignored by Git). The final CSV files go to `data/processed/`.
+2. If you have ANTAQ's official zips, put them in `data/raw/antaq_oficial/` before running: they take priority over the mirror.
+3. Open `powerbi/RaioXPortuario.pbip` in Power BI Desktop and click **Refresh**.
+4. Check the cards against [docs/valores_referencia.md](docs/valores_referencia.md).
 
-O relatório é gerado por código (`etl/gerar_pbip.py`) e foi revisado no Desktop com capturas de tela automatizadas (`ferramentas/`, capturas em `docs/img/qa/`).
+The report is generated by code (`etl/gerar_pbip.py`) and was reviewed in Desktop with automated screenshots (`ferramentas/`, screenshots in `docs/img/qa/`).
 
 ```text
 etl/            01_download · 02_transform · 03_export · 04_documentar · explorar · kpis_doc · mapa_base
-                gerar_pbip (gera o PBIP) · validar_pbip (schemas PBIR + referências) · run_all
-ferramentas/    automação do Power BI Desktop para QA visual, gravação do vídeo e entregáveis (capa, GIF, PDF)
-data/processed/ CSV finais (fCarga, fAtracacao/ por ano, fParalisacao, dimensões, meta)
+                gerar_pbip (generates the PBIP) · validar_pbip (PBIR schemas + references) · run_all
+ferramentas/    Power BI Desktop automation for visual QA, video recording and deliverables (cover, GIF, PDF)
+data/processed/ final CSV files (fCarga, fAtracacao/ per year, fParalisacao, dimensions, meta)
 powerbi/        RaioXPortuario.pbip, .SemanticModel (TMDL), .Report (PBIR), tema-raio-x.json
-docs/           decisões, pendências, exploração, qualidade, conciliação, KPIs, roteiro, post, vídeo, PDF
-tests/          pytest: chaves, órfãos, horas negativas, conciliação ±2%, PBIP, números do README
+docs/           decisions, open items, exploration, quality, reconciliation, KPIs, script, post, video, PDF
+tests/          pytest: keys, orphans, negative hours, ±2% reconciliation, PBIP, README numbers
 ```
 
-## Limitações
+## Limitations
 
-- **Recorte de anos completos (2021–2025).** O espelho também traz janeiro de 2026, deixado de fora por ser um ano incompleto.
-- **Fonte de contingência.** Os dados não foram baixados do site da ANTAQ, e sim de um espelho público dos mesmos arquivos. A conciliação com os totais oficiais reduz, mas não elimina, esse risco.
-- **Mercadorias.** A tabela oficial de mercadorias da ANTAQ não estava disponível; as descrições vêm da nomenclatura SH oficial (Comex Stat).
-- **Mapa por complexo portuário.** Suape aparece no complexo oficial "Suape - Recife"; a coordenada de cada complexo é a média ponderada por tonelada das instalações.
-- **Quebras por navegação** diferem um pouco mais que o total (ex.: interior +8% em 2021) por diferenças de classificação da ANTAQ; o total bate.
-- **Espera mediana agregada é sensível ao mix de cargas** (ver achado 4).
+- **Full years only (2021–2025).** The mirror also includes January 2026, left out because the year is incomplete.
+- **Fallback source.** The data was not downloaded from ANTAQ's website but from a public mirror of the same files. Reconciling with the official totals reduces this risk but does not remove it.
+- **Commodities.** ANTAQ's official commodity table was not available; descriptions come from the official HS nomenclature (Comex Stat).
+- **Map by port complex.** Suape appears in the official "Suape - Recife" complex; each complex's coordinate is the tonnage-weighted average of its facilities.
+- **Breakdowns by navigation type** differ a bit more than the total (e.g., inland +8% in 2021) because of ANTAQ classification differences; the total matches.
+- **Aggregated median wait is sensitive to the cargo mix** (see finding 4).
 
-## Autor e licença
+## Author and license
 
-**Gabriel Cunha** — Supply Chain & Operations, Recife/PE · [LinkedIn](https://www.linkedin.com/in/gabriel-cunha-xp) · [GitHub](https://github.com/gorc-supply) · [Portfólio](https://gorc-supply.github.io)
+**Gabriel Cunha** — Supply Chain & Operations, Recife/PE · [LinkedIn](https://www.linkedin.com/in/gabriel-cunha-xp) · [GitHub](https://github.com/gorc-supply) · [Portfolio](https://gorc-supply.github.io)
 
-Código sob licença [MIT](LICENSE). Dados: ANTAQ (dados abertos), via espelho [vinicius-souza/antaq](https://huggingface.co/datasets/vinicius-souza/antaq) (CC-BY-4.0); nomenclatura SH: Comex Stat/MDIC; malha: IBGE.
+Code under the [MIT](LICENSE) license. Data: ANTAQ (open data), via the mirror [vinicius-souza/antaq](https://huggingface.co/datasets/vinicius-souza/antaq) (CC-BY-4.0); HS nomenclature: Comex Stat/MDIC; boundaries: IBGE.
