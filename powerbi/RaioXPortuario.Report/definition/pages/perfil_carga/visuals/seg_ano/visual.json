@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "seg_ano",
   "position": {
     "x": 16,
@@ -104,7 +104,7 @@
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "c",
+                    "Name": "d",
                     "Entity": "dCalendario",
                     "Type": 0
                   }
@@ -118,7 +118,7 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "c"
+                                  "Source": "d"
                                 }
                               },
                               "Property": "Ano"
@@ -129,7 +129,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "2025L"
+                                "Value": "2026L"
                               }
                             }
                           ]

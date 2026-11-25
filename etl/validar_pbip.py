@@ -26,7 +26,7 @@ from referencing.exceptions import NoSuchResource
 RAIZ = Path(__file__).resolve().parents[1]
 PBI = RAIZ / "powerbi"
 CACHE = RAIZ / "data" / "raw" / "json-schemas"
-COMMIT = "582c790d5862f8330d839bffdcf81ba23e984c96"  # microsoft/json-schemas, 23/11/2026
+COMMIT = "582c790d5862f8330d839bffdcf81ba23e984c96"  # microsoft/json-schemas, 2026-11-23
 PREFIXO = "https://developer.microsoft.com/json-schemas/"
 RAW = f"https://raw.githubusercontent.com/microsoft/json-schemas/{COMMIT}/"
 
@@ -53,6 +53,8 @@ def baixar_schema(uri: str) -> dict:
     local = CACHE / rel
     if not local.exists():
         r = requests.get(RAW + rel, timeout=60)
+        if r.status_code == 404:
+            raise FileNotFoundError(uri)
         r.raise_for_status()
         local.parent.mkdir(parents=True, exist_ok=True)
         local.write_bytes(r.content)
@@ -64,6 +66,22 @@ def recuperar(uri: str) -> Resource:
 
 
 REGISTRO = Registry(retrieve=recuperar)
+avisos: list[str] = []
+# propriedades que o Power BI Desktop grava mas que a versão de schema declarada ainda não descreve
+PROPRIEDADES_DO_DESKTOP = {"linguisticSchemaSyncVersion"}
+
+
+def versao_publicada_anterior(uri: str) -> tuple[str, dict]:
+    m = re.search(r"/(\d+)\.(\d+)\.(\d+)/", uri)
+    maior, menor = int(m.group(1)), int(m.group(2))
+    while menor > 0:
+        menor -= 1
+        candidato = uri.replace(m.group(0), f"/{maior}.{menor}.0/")
+        try:
+            return candidato, baixar_schema(candidato)
+        except FileNotFoundError:
+            continue
+    raise FileNotFoundError(uri)
 
 
 def validar_schemas() -> int:
@@ -71,7 +89,8 @@ def validar_schemas() -> int:
     for arq in sorted(PBI.rglob("*")):
         if arq.is_dir() or arq.suffix not in {".json", ".pbir", ".pbism", ".pbip", ".platform"}:
             continue
-        if "StaticResources" in arq.parts or arq.name == "tema-raio-x.json":
+        # arquivos sem schema público: tema, recursos estáticos e o layout de diagrama que o Desktop grava
+        if "StaticResources" in arq.parts or arq.name in {"tema-raio-x.json", "diagramLayout.json"}:
             try:
                 json.loads(arq.read_text(encoding="utf-8"))
             except json.JSONDecodeError as e:
@@ -82,10 +101,22 @@ def validar_schemas() -> int:
         if not uri:
             erro(f"{arq.relative_to(RAIZ)}: sem $schema")
             continue
-        schema = baixar_schema(uri)
+        uri_usado = uri
+        try:
+            schema = baixar_schema(uri)
+        except FileNotFoundError:
+            # O Desktop grava versões de schema que a Microsoft publica semanas depois (ex.: visualContainer
+            # 2.15.0 em nov/2026). Valida contra a maior versão já publicada da mesma família e avisa.
+            uri_usado, schema = versao_publicada_anterior(uri)
+            avisos.append(f"{arq.relative_to(RAIZ)}: {uri.split('/definition/')[-1]} ainda não publicado; "
+                          f"validado com {uri_usado.split('/definition/')[-1]}")
+            doc = {**doc, "$schema": uri_usado}
         cls = validators.validator_for(schema)
-        v = cls(schema, registry=REGISTRO.with_resource(uri, Resource.from_contents(schema)))
+        v = cls(schema, registry=REGISTRO.with_resource(uri_usado, Resource.from_contents(schema)))
         for e in sorted(v.iter_errors(doc), key=lambda e: list(e.path)):
+            if any(f"'{k}' was unexpected" in e.message for k in PROPRIEDADES_DO_DESKTOP):
+                avisos.append(f"{arq.relative_to(RAIZ)}: propriedade gravada pelo Desktop fora do schema: {e.message[:90]}")
+                continue
             erro(f"{arq.relative_to(RAIZ)}: schema: {'/'.join(map(str, e.path))}: {e.message[:200]}")
         n += 1
     return n
@@ -228,6 +259,10 @@ def main() -> int:
     n_ref = checar_relatorio(mod)
     print(f"{n_json} arquivos JSON validados contra o schema; {n_ref} referências de campo/medida conferidas; "
           f"{len(mod['medidas'])} medidas e {sum(map(len, mod['colunas'].values()))} colunas no modelo")
+    for a in sorted(set(avisos))[:5]:
+        print("  aviso:", a)
+    if len(set(avisos)) > 5:
+        print(f"  aviso: ... e mais {len(set(avisos)) - 5} arquivos com schema ainda não publicado")
     if erros:
         print(f"*** {len(erros)} ERRO(S):")
         for e in erros:

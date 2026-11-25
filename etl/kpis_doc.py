@@ -88,7 +88,7 @@ def fmt_valor(medida: str, v) -> str:
 
 def main() -> int:
     con = K.conectar()
-    ano = int(K.ultimo_mes(con)[:4]) - 1
+    ano = K.ano_final(con)
     bra, sua = K.kpis(con, ano), K.kpis(con, ano, "'BRSUA'")
     extra_bra = {"Ranking Suape Brasil": K.ranking(con, ano, "BRSUA"),
                  "Espera Mediana Suape (h)": sua["Espera Mediana (h)"],

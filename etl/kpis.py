@@ -35,6 +35,11 @@ def ultimo_mes(con) -> str:
     return str(con.sql("SELECT max(UltimoMesDisponivel) FROM meta").fetchall()[0][0])
 
 
+def ano_final(con) -> int:
+    """Último ano do recorte (o projeto usa só anos completos: 2021–2025)."""
+    return min(C.ANO_FINAL, int(ultimo_mes(con)[:4]))
+
+
 def _filtro(ano: int, inst: str | None, meses_ate: int | None = None) -> str:
     f = f"year(DataRef) = {ano}"
     if meses_ate:
@@ -47,7 +52,7 @@ def _filtro(ano: int, inst: str | None, meses_ate: int | None = None) -> str:
 def kpis(con, ano: int, inst: str | None = None) -> dict:
     """KPIs de um ano. `inst` = lista SQL de IDInstalacao (ex.: "'BRSUA'") ou None (Brasil)."""
     um = con.sql("SELECT max(UltimoMesDisponivel)::DATE FROM meta").fetchall()[0][0]
-    # [Toneladas AA] compara só os meses com dado do ano corrente (ex.: jan/2026 x jan/2025)
+    # [Toneladas AA] compara só os meses com dado do ano corrente (protege anos parciais, se o recorte passar a incluir um)
     meses = um.month if ano == um.year else None
     f = _filtro(ano, inst)
     fa = _filtro(ano - 1, inst, meses)

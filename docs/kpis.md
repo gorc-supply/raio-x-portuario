@@ -361,7 +361,7 @@ Formato: `#,0` · Pasta: `Eficiência`
 
 **Média, mediana ou razão:** Soma.
 
-**Exemplo (2025):** Brasil: **195.717** · Suape: **3.299**.
+**Exemplo (2025):** Brasil: **195.736** · Suape: **3.299**.
 
 ```dax
 SUM ( fParalisacao[HorasParalisadas] )

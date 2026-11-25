@@ -28,7 +28,7 @@ DOWNLOAD_LOG = RAW_DIR / "download.log"
 # Recorte
 # ---------------------------------------------------------------------------
 ANO_INICIAL = 2021
-ANO_FINAL = 2026
+ANO_FINAL = 2025  # jan/2026 (único mês de 2026 no espelho) fica fora: ver DECISOES D18
 ANOS = list(range(ANO_INICIAL, ANO_FINAL + 1))
 
 # Tabelas do Estatístico Aquaviário usadas no projeto (nomes oficiais dos arquivos).

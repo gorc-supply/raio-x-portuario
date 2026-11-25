@@ -226,7 +226,8 @@ def dim_instalacao(con) -> None:
         CREATE OR REPLACE TABLE dInstalacao AS
         WITH base AS (
             SELECT cdtup,
-                   mode(porto_atracacao) AS porto, mode(complexo_portuario) AS complexo,
+                   mode(porto_atracacao) AS porto,
+                   regexp_replace(trim(mode(complexo_portuario)), ' {2,}', ' ', 'g') AS complexo,
                    mode(tipo_autoridade) AS tipo, mode(municipio) AS municipio, mode(uf_nome) AS uf_nome,
                    mode(sguf) AS sguf, mode(regiao) AS regiao, mode(coordenadas) AS coord,
                    count(*) AS n
@@ -246,12 +247,14 @@ def dim_instalacao(con) -> None:
         )
         SELECT u.cdtup AS IDInstalacao,
                u.instalacao AS Instalacao,
-               CASE WHEN u.complexo IS NULL OR u.complexo ILIKE 'Sem complexo%' OR u.complexo ILIKE '%(Instalação Isolada)%'
+               CASE WHEN u.cdtup = 'BR' THEN u.instalacao
+                    WHEN u.complexo IS NULL OR u.complexo ILIKE 'Sem complexo%' OR u.complexo ILIKE '%(Instalação Isolada)%'
                     THEN u.instalacao ELSE u.complexo END AS ComplexoPortuario,
                coalesce(u.complexo, 'Não informado') AS ComplexoPortuarioANTAQ,
-               CASE u.tipo WHEN 'Porto Organizado' THEN 'Porto Organizado'
-                           WHEN 'Terminal Autorizado' THEN 'TUP (Terminal Autorizado)'
-                           ELSE 'Não informado' END AS TipoInstalacao,
+               CASE WHEN u.cdtup = 'BR' THEN 'Não informado'
+                    WHEN u.tipo = 'Porto Organizado' THEN 'Porto Organizado'
+                    WHEN u.tipo = 'Terminal Autorizado' THEN 'TUP (Terminal Autorizado)'
+                    ELSE 'Não informado' END AS TipoInstalacao,
                coalesce(u.municipio, 'Não informado') AS Municipio,
                coalesce(u.sguf, 'ND') AS UF,
                coalesce(u.uf_nome, 'Não informado') AS UFNome,
@@ -267,6 +270,22 @@ def dim_instalacao(con) -> None:
         ORDER BY 1
     """)
     con.unregister("_bench")
+    # Coordenada do COMPLEXO = média das coordenadas oficiais das instalações do complexo, ponderada pelas
+    # toneladas de todo o recorte (o ponto cai perto do terminal que mais movimenta). Ver DECISOES D21.
+    con.sql("""
+        CREATE OR REPLACE TABLE _coord_cx AS
+        SELECT d.ComplexoPortuario,
+               round(sum(d.Latitude * t.ton) / sum(t.ton), 6) AS lat_cx,
+               round(sum(d.Longitude * t.ton) / sum(t.ton), 6) AS lon_cx
+        FROM dInstalacao d
+        JOIN (SELECT cdtup, sum(peso) AS ton FROM carga_mov GROUP BY 1) t ON t.cdtup = d.IDInstalacao
+        WHERE d.Latitude IS NOT NULL AND t.ton > 0
+        GROUP BY 1
+    """)
+    con.sql("ALTER TABLE dInstalacao ADD COLUMN LatitudeComplexo DOUBLE")
+    con.sql("ALTER TABLE dInstalacao ADD COLUMN LongitudeComplexo DOUBLE")
+    con.sql("""UPDATE dInstalacao SET LatitudeComplexo = c.lat_cx, LongitudeComplexo = c.lon_cx
+                FROM _coord_cx c WHERE dInstalacao.ComplexoPortuario = c.ComplexoPortuario""")
 
 
 def dim_mercadoria(con) -> None:

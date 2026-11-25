@@ -116,8 +116,8 @@ def citados(con, ano: int) -> list[str]:
 
 
 def valores_referencia(con) -> str:
-    um = K.ultimo_mes(con)
-    anos = list(range(C.ANO_INICIAL, int(um[:4]) + 1))
+    ultimo = K.ano_final(con)
+    anos = list(range(C.ANO_INICIAL, ultimo + 1))
     ids = K.ids_benchmark(con)
     lista_pares = ", ".join(f"'{i}'" for i, _, s in ids)
     out = [
@@ -125,8 +125,8 @@ def valores_referencia(con) -> str:
         "",
         f"> Gerado automaticamente por `etl/04_documentar.py` em {datetime.now():%d/%m/%Y %H:%M} "
         "a partir dos mesmos CSV de `data/processed/` que o Power BI lê.",
-        f"> Último mês com dado: **{um[5:7]}/{um[:4]}** — o ano de {um[:4]} é **parcial** "
-        f"(e o [Toneladas AA] de {um[:4]} compara só os mesmos meses de {int(um[:4]) - 1}).",
+        f"> Recorte: anos completos **{C.ANO_INICIAL}–{ultimo}** (jan/2026, o único mês de 2026 no espelho, "
+        "fica fora do projeto — ver DECISOES.md, D18).",
         "",
         "Use estas tabelas para conferir o Power BI número a número: selecione o ano na segmentação de período "
         "(e, para Suape, filtre a instalação) e compare com o cartão/tabela correspondente. "
@@ -147,7 +147,7 @@ def valores_referencia(con) -> str:
         "## 3. Benchmark Nordeste (página \"Nordeste & Suape\")",
         "",
     ]
-    for ano in [a for a in anos if a >= int(um[:4]) - 1][::-1]:
+    for ano in [a for a in anos if a >= ultimo - 1][::-1]:
         out += [f"### {ano}", "",
                 "| Porto | Toneladas | Var % AA | Espera mediana (h) | Prancha operacional (t/h) | % Contêiner "
                 "| % Atracado em operação | Nº atracações | Ranking entre os 9 |",
@@ -164,7 +164,7 @@ def valores_referencia(con) -> str:
                     "(média simples das medianas dos 8 pares).",
                 f"- [Espera Mediana Suape (h)] {ano} = **{br(suape, 1)} h**; "
                 f"[Diferença Espera Suape vs Pares (h)] = **{br(suape - med_pares, 1)} h**.", ""]
-    ano_ref = int(um[:4]) - 1
+    ano_ref = ultimo
     out += citados(con, ano_ref)
     out += [f"### Espera mediana mensal {ano_ref}: Suape x média dos pares (visual de linha)", "",
             "| Mês | Suape (h) | Média dos pares (h) |", "|---|---:|---:|"]
@@ -185,7 +185,7 @@ def data_quality(meta: dict) -> str:
             "| Regra | O que faz |", "|---|---|",
             "| R1 | Linhas de carga com `FlagMCOperacaoCarga` ≠ 1 (safamento, remoção a bordo, transferência interna, "
             "operação intermediária, abastecimento) ficam fora da tonelagem — metodologia ANTAQ. |",
-            "| R2 | Atracação sem data de desatracação ou fora de 2021–2026 é excluída. |",
+            f"| R2 | Atracação sem data de desatracação ou fora de {C.ANO_INICIAL}–{C.ANO_FINAL} é excluída. |",
             "| R3 | Tempo negativo é descartado (vira nulo). Tonelagem nunca é descartada. |",
             "| R4 | Tempo ausente na base (falta a data de chegada/início/fim de operação): fica nulo e é ignorado "
             "nas médias/medianas daquela métrica. |",
@@ -230,54 +230,115 @@ def data_quality(meta: dict) -> str:
     return "\n".join(out) + "\n"
 
 
+def _sql_conciliacao(r) -> str:
+    f = f"year(DataRef) = {r.ano}"
+    if r.periodo != "ano":
+        f += f" AND quarter(DataRef) = {int(r.periodo[0])}"
+    if r.indicador == "total":
+        return f"SELECT sum(Toneladas) FROM fCarga WHERE {f}"
+    if r.indicador == "navegacao":
+        return (f"SELECT sum(Toneladas) FROM fCarga JOIN dNavegacao USING (CodNavegacao) "
+                f"WHERE {f} AND Navegacao = '{r.recorte}'")
+    if r.indicador == "natureza":
+        return (f"SELECT sum(Toneladas) FROM fCarga JOIN dNaturezaCarga USING (CodNatureza) "
+                f"WHERE {f} AND NaturezaCarga = '{r.recorte}'")
+    if r.indicador == "regiao":
+        return (f"SELECT sum(Toneladas) FROM fCarga JOIN dInstalacao USING (IDInstalacao) "
+                f"WHERE {f} AND Regiao = '{r.recorte}'")
+    if r.indicador == "tipo":
+        return (f"SELECT sum(Toneladas) FROM fCarga JOIN dInstalacao USING (IDInstalacao) "
+                f"WHERE {f} AND TipoInstalacao = '{r.recorte}'")
+    if r.indicador == "instalacao":
+        return (f"SELECT sum(Toneladas) FROM fCarga JOIN dInstalacao USING (IDInstalacao) "
+                f"WHERE {f} AND (Instalacao = '{r.recorte}' OR PortoBenchmarkNE = '{r.recorte}')")
+    return (f"SELECT sum(Toneladas) FROM fCarga JOIN dMercadoria USING (CodMercadoria) "
+            f"WHERE {f} AND Mercadoria = '{r.recorte}'")
+
+
+def _sql_mesmo_periodo_ano_anterior(r) -> str:
+    sql = _sql_conciliacao(r)
+    return sql.replace(f"year(DataRef) = {r.ano}", f"year(DataRef) = {r.ano - 1}")
+
+
 def conciliacao(con) -> tuple[str, list[dict]]:
     ref = pd.read_csv(C.REF_DIR / "totais_oficiais_antaq.csv")
     res = []
     for r in ref.itertuples():
-        f = f"year(DataRef) = {r.ano}"
-        if r.indicador == "total":
-            sql = f"SELECT sum(Toneladas) FROM fCarga WHERE {f}"
-        elif r.indicador == "navegacao":
-            sql = (f"SELECT sum(Toneladas) FROM fCarga JOIN dNavegacao USING (CodNavegacao) "
-                   f"WHERE {f} AND Navegacao = '{r.recorte}'")
-        elif r.indicador == "regiao":
-            sql = (f"SELECT sum(Toneladas) FROM fCarga JOIN dInstalacao USING (IDInstalacao) "
-                   f"WHERE {f} AND Regiao = '{r.recorte}'")
-        elif r.indicador == "instalacao":
-            sql = (f"SELECT sum(Toneladas) FROM fCarga JOIN dInstalacao USING (IDInstalacao) "
-                   f"WHERE {f} AND (Instalacao = '{r.recorte}' OR PortoBenchmarkNE = '{r.recorte}')")
-        else:
-            sql = (f"SELECT sum(Toneladas) FROM fCarga JOIN dMercadoria USING (CodMercadoria) "
-                   f"WHERE {f} AND Mercadoria = '{r.recorte}'")
-        v = (con.sql(sql).fetchall()[0][0] or 0) / 1e6
-        res.append({"ano": r.ano, "indicador": r.indicador, "recorte": r.recorte, "pipeline": v,
-                    "oficial": r.valor_mt, "dif": v / r.valor_mt - 1, "fonte": r.fonte, "url": r.url})
+        v = (con.sql(_sql_conciliacao(r)).fetchall()[0][0] or 0) / 1e6
+        v_ant = (con.sql(_sql_mesmo_periodo_ano_anterior(r)).fetchall()[0][0] or 0) / 1e6
+        var_pipe = (v / v_ant - 1) if v_ant else None
+        res.append({"ano": r.ano, "periodo": r.periodo, "indicador": r.indicador, "recorte": r.recorte,
+                    "pipeline": v, "oficial": r.valor_mt, "dif": v / r.valor_mt - 1,
+                    "var_oficial": None if pd.isna(r.var_oficial) else r.var_oficial, "var_pipeline": var_pipe,
+                    "fonte": r.fonte, "url": r.url})
+    tot = {x["ano"]: x for x in res if x["indicador"] == "total"}
     out = ["# Conciliação com os totais oficiais da ANTAQ", "",
            "> Gerado automaticamente por `etl/04_documentar.py`. Critério de aceite: total nacional anual com "
            f"diferença de até ±{TOLERANCIA:.0%} (testado em `tests/test_conciliacao.py`).", "",
            "Regra de contagem usada: soma de `VLPesoCargaBruta` das linhas de Carga com "
            "`FlagMCOperacaoCarga = 1` (inclui transbordo e baldeação, como a ANTAQ), por ano da data de "
-           "desatracação.", "",
-           "## Total nacional por ano (critério de aceite)", "",
+           f"desatracação. Recorte: {C.ANO_INICIAL}–{C.ANO_FINAL}.", "",
+           "## 1. Total nacional por ano (critério de aceite)", "",
            "| Ano | Pipeline (Mt) | Oficial ANTAQ (Mt) | Diferença | Status | Fonte |", "|---|---:|---:|---:|---|---|"]
-    for r in [x for x in res if x["indicador"] == "total"]:
+    for r in tot.values():
         ok = "OK" if abs(r["dif"]) <= TOLERANCIA else "FORA DA TOLERÂNCIA"
         out.append(f"| {r['ano']} | {br(r['pipeline'], 1)} | {br(r['oficial'], 1)} | {br(r['dif'], 2, True)} | "
                    f"{ok} | [{r['fonte']}]({r['url']}) |")
-    out += ["", f"2026 não entra na conciliação: só há {K.ultimo_mes(con)[5:7]}/2026 na base e a ANTAQ ainda não "
-                "publicou o total anual.", "",
-            "## Quebras publicadas (informativo, sem critério de aceite)", "",
+
+    # ---- 5,9% x 6,1% ----
+    a, b = tot[C.ANO_FINAL], tot[C.ANO_FINAL - 1]
+    var_of = a["oficial"] / b["oficial"] - 1
+    var_pi = a["pipeline"] / b["pipeline"] - 1
+    so_num = a["pipeline"] / b["oficial"] - 1          # efeito de usar o 2025 do pipeline
+    efeito_num = so_num - var_of
+    efeito_den = var_pi - so_num
+    out += ["", f"## 2. Por que o painel mostra {br(var_pi, 1, True)} em {C.ANO_FINAL} e o Anuário {br(var_of, 1, True)}", "",
+            f"O Anuário \"Desempenho Aquaviário {C.ANO_FINAL}\" publica {br(a['oficial'], 1)} Mt em {C.ANO_FINAL} e "
+            f"{br(b['oficial'], 1)} Mt em {C.ANO_FINAL - 1}: variação de **{br(var_of, 2, True)}** (o Anuário "
+            f"arredonda para +6,1%). O pipeline tem {br(a['pipeline'], 1)} Mt e {br(b['pipeline'], 1)} Mt: "
+            f"variação de **{br(var_pi, 2, True)}**.", "",
+            "| Componente | Efeito na variação |", "|---|---:|",
+            f"| {C.ANO_FINAL} do pipeline {br(a['dif'], 2, True)} acima do oficial (numerador maior) | "
+            f"{br(efeito_num * 100, 2)} p.p. |",
+            f"| {C.ANO_FINAL - 1} do pipeline {br(b['dif'], 2, True)} acima do oficial (base maior) | "
+            f"{br(efeito_den * 100, 2)} p.p. |",
+            f"| **Total** | **{br((var_pi - var_of) * 100, 2)} p.p.** |", "",
+            f"Leitura: os dois totais estão dentro do critério de ±2%, mas a base de {C.ANO_FINAL - 1} do pipeline "
+            f"está {br((b['pipeline'] - b['oficial']), 1)} Mt acima do número do Anuário, enquanto {C.ANO_FINAL} "
+            f"está só {br((a['pipeline'] - a['oficial']), 1)} Mt acima. A base mais alta reduz a variação. "
+            f"Hipótese: o espelho foi gerado em 18/04/2026, depois do fechamento do Anuário, e incorpora "
+            f"retificações de {C.ANO_FINAL - 1} feitas pelos terminais no SDP (a ANTAQ revisa a base continuamente "
+            "— ver o caso de 2021 na seção 4). O painel mostra a variação calculada com a base que ele carrega; "
+            "nenhum número foi ajustado para bater com o Anuário."]
+
+    # ---- trimestres e quebras de 2025 ----
+    out += ["", f"## 3. Reforço {C.ANO_FINAL}: Anuário e Boletins Estatísticos trimestrais", "",
+            "| Período | Recorte | Pipeline (Mt) | Oficial (Mt) | Diferença | Var. pipeline | Var. oficial | Fonte |",
+            "|---|---|---:|---:|---:|---:|---:|---|"]
+    for r in [x for x in res if x["ano"] == C.ANO_FINAL and x["indicador"] != "total"]:
+        per = "ano" if r["periodo"] == "ano" else f"{r['periodo']}/{r['ano']}"
+        out.append(f"| {per} | {r['indicador']}: {r['recorte']} | {br(r['pipeline'], 1)} | {br(r['oficial'], 1)} | "
+                   f"{br(r['dif'], 1, True)} | {br(r['var_pipeline'], 1, True) if r['var_oficial'] is not None else '—'} | "
+                   f"{br(r['var_oficial'], 1, True) if r['var_oficial'] is not None else '—'} | "
+                   f"[{r['fonte']}]({r['url']}) |")
+    out += ["", "(*) As tabelas dos boletins do 1º e do 2º trimestre perdem o alinhamento na extração de texto do "
+            "PDF; os valores foram lidos na ordem de aparição e conferem com a do 3º trimestre, que é legível.",
+            "Var. = mesmo período do ano anterior. Brasil por trimestre = Porto Organizado + TUP.",
+            "Salvador, Aratu, Recife, Natal, Cabedelo e Maceió não aparecem nos rankings dos boletins (top 10), "
+            "por isso a conferência por porto usa Suape, Itaqui e Pecém."]
+
+    out += ["", "## 4. Quebras publicadas em anos anteriores (informativo)", "",
             "| Ano | Recorte | Pipeline (Mt) | Oficial (Mt) | Diferença | Fonte |", "|---|---|---:|---:|---:|---|"]
-    for r in [x for x in res if x["indicador"] != "total"]:
+    for r in [x for x in res if x["ano"] < C.ANO_FINAL and x["indicador"] != "total"]:
         out.append(f"| {r['ano']} | {r['indicador']}: {r['recorte']} | {br(r['pipeline'], 1)} | "
                    f"{br(r['oficial'], 1)} | {br(r['dif'], 1, True)} | [{r['fonte']}]({r['url']}) |")
-    out += ["", "## Leitura das diferenças", "",
+    out += ["", "## 5. Leitura das diferenças", "",
             "- Os totais oficiais são fotografias da data de publicação; a base do Estatístico é revisada depois "
             "(ex.: 2021 foi divulgado como 1.210 Mt em fev/2022 e citado como 1.214 Mt em fev/2023). "
             "Por isso usamos sempre o valor publicado mais recente.",
             "- Quebras por navegação e região diferem mais que o total: a ANTAQ classifica parte da carga de "
-            "interior/cabotagem e algumas instalações de fronteira de forma diferente da coluna `Tipo Navegação`, "
-            "e 0,2–0,3% da tonelagem está em instalação não identificada (sem região). O total não é afetado.",
+            "interior/cabotagem de forma diferente da coluna `Tipo Navegação`, e uma pequena parcela da tonelagem "
+            "está em instalação não identificada (sem região). O total não é afetado.",
             "- Nenhum ajuste manual foi feito para aproximar os números."]
     return "\n".join(out) + "\n", res
 

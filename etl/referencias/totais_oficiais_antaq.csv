@@ -1,25 +1,47 @@
-ano,indicador,recorte,valor_mt,fonte,url
-2021,total,Brasil,1214.0,"ANTAQ, notícia de 08/02/2023 (valor revisado de 2021, citado como recorde)",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
-2022,total,Brasil,1209.0,"ANTAQ, notícia de 08/02/2023 (Anuário Estatístico 2022)",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
-2023,total,Brasil,1303.0,"ANTAQ, notícia de 07/02/2024 (Desempenho Aquaviário 2023)",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2024/setor-aquaviario-movimenta-mais-de-1-3-bi-de-toneladas-em-2023-e-registra-recorde-historico
-2024,total,Brasil,1322.5,"ANTAQ, Desempenho Aquaviário 2025, p. 2 (valor de 2024 revisado)",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
-2025,total,Brasil,1403.1,"ANTAQ, Desempenho Aquaviário 2025, p. 2",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
-2021,navegacao,Longo Curso,853.4,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
-2021,navegacao,Cabotagem,288.3,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
-2021,navegacao,Interior,65.2,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
-2022,navegacao,Longo Curso,849.6,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
-2022,navegacao,Cabotagem,283.3,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
-2022,navegacao,Interior,73.1,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
-2021,regiao,Norte,122.5,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
-2021,regiao,Nordeste,330.6,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
-2021,regiao,Centro-Oeste,3.9,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
-2021,regiao,Sudeste,565.5,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
-2021,regiao,Sul,187.7,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
-2022,instalacao,Suape,24.7,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
-2022,instalacao,Itaqui,33.6,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
-2021,instalacao,Terminal Portuário do Pecém,21.9,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
-2024,mercadoria,Minério de ferro,398.8,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf
-2024,mercadoria,Petróleo bruto,203.4,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf
-2024,mercadoria,Contêineres,153.3,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf
-2024,mercadoria,Soja,122.5,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf
-2024,mercadoria,Milho,56.4,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf
+ano,periodo,indicador,recorte,valor_mt,var_oficial,fonte,url
+2021,ano,total,Brasil,1214.0,,"ANTAQ, notícia de 08/02/2023 (valor revisado de 2021, citado como recorde)",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
+2022,ano,total,Brasil,1209.0,,"ANTAQ, notícia de 08/02/2023 (Anuário Estatístico 2022)",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
+2023,ano,total,Brasil,1303.0,,"ANTAQ, notícia de 07/02/2024 (Desempenho Aquaviário 2023)",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2024/setor-aquaviario-movimenta-mais-de-1-3-bi-de-toneladas-em-2023-e-registra-recorde-historico
+2024,ano,total,Brasil,1322.5,,"ANTAQ, Desempenho Aquaviário 2025, p. 2 (valor de 2024 revisado)",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,total,Brasil,1403.1,0.061,"ANTAQ, Desempenho Aquaviário 2025, p. 2",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,natureza,Granel Sólido,839.7,,"ANTAQ, Desempenho Aquaviário 2025, p. 3",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,natureza,Granel Líquido e Gasoso,333.0,,"ANTAQ, Desempenho Aquaviário 2025, p. 3",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,natureza,Contêiner,164.6,,"ANTAQ, Desempenho Aquaviário 2025, p. 3",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,natureza,Carga Geral,65.8,,"ANTAQ, Desempenho Aquaviário 2025, p. 3 (carga geral solta)",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,regiao,Norte,163.3,0.10,"ANTAQ, Desempenho Aquaviário 2025, p. 4",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,regiao,Nordeste,329.7,0.00,"ANTAQ, Desempenho Aquaviário 2025, p. 4",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,regiao,Sudeste,699.8,0.08,"ANTAQ, Desempenho Aquaviário 2025, p. 4",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,regiao,Sul,199.7,0.05,"ANTAQ, Desempenho Aquaviário 2025, p. 4",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,ano,regiao,Centro-Oeste,10.6,1.47,"ANTAQ, Desempenho Aquaviário 2025, p. 4",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf
+2025,1T,tipo,Porto Organizado,108.6,,"ANTAQ, Boletim Estatístico Aquaviário 1º tri/2025, tabela 1",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/boletim-1o-trimestre-2025.pdf
+2025,1T,tipo,TUP (Terminal Autorizado),195.2,,"ANTAQ, Boletim Estatístico Aquaviário 1º tri/2025, tabela 2",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/boletim-1o-trimestre-2025.pdf
+2025,1T,instalacao,Suape,5.1,,"ANTAQ, Boletim Estatístico Aquaviário 1º tri/2025, tabela 1 (*)",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/boletim-1o-trimestre-2025.pdf
+2025,1T,instalacao,Itaqui,6.8,,"ANTAQ, Boletim Estatístico Aquaviário 1º tri/2025, tabela 1 (*)",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/boletim-1o-trimestre-2025.pdf
+2025,2T,tipo,Porto Organizado,122.3,,"ANTAQ, Boletim Estatístico Aquaviário 2º tri/2025, tabela 1",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/Boletim2Trimestre2025v1.2.pdf
+2025,2T,tipo,TUP (Terminal Autorizado),226.3,,"ANTAQ, Boletim Estatístico Aquaviário 2º tri/2025, tabela 2",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/Boletim2Trimestre2025v1.2.pdf
+2025,2T,instalacao,Suape,5.9,,"ANTAQ, Boletim Estatístico Aquaviário 2º tri/2025, tabela 1 (*)",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/Boletim2Trimestre2025v1.2.pdf
+2025,2T,instalacao,Itaqui,10.4,,"ANTAQ, Boletim Estatístico Aquaviário 2º tri/2025, tabela 1 (*)",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/Boletim2Trimestre2025v1.2.pdf
+2025,3T,tipo,Porto Organizado,135.3,0.032,"ANTAQ, Boletim Estatístico Aquaviário 3º tri/2025, tabela 1",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/BoletimEstatstico3T2025v1.0.pdf
+2025,3T,tipo,TUP (Terminal Autorizado),245.0,0.085,"ANTAQ, Boletim Estatístico Aquaviário 3º tri/2025, tabela 2",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/BoletimEstatstico3T2025v1.0.pdf
+2025,3T,instalacao,Suape,6.6,-0.050,"ANTAQ, Boletim Estatístico Aquaviário 3º tri/2025, tabela 1",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/BoletimEstatstico3T2025v1.0.pdf
+2025,3T,instalacao,Itaqui,11.1,0.061,"ANTAQ, Boletim Estatístico Aquaviário 3º tri/2025, tabela 1",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/BoletimEstatstico3T2025v1.0.pdf
+2025,3T,instalacao,Terminal Portuário do Pecém,4.9,0.021,"ANTAQ, Boletim Estatístico Aquaviário 3º tri/2025, tabela 2",https://www.gov.br/antaq/pt-br/central-de-conteudos/estudos-e-pesquisas-da-antaq-1/BoletimEstatstico3T2025v1.0.pdf
+2021,ano,navegacao,Longo Curso,853.4,,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
+2021,ano,navegacao,Cabotagem,288.3,,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
+2021,ano,navegacao,Interior,65.2,,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
+2022,ano,navegacao,Longo Curso,849.6,,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
+2022,ano,navegacao,Cabotagem,283.3,,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
+2022,ano,navegacao,Interior,73.1,,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
+2021,ano,regiao,Norte,122.5,,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
+2021,ano,regiao,Nordeste,330.6,,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
+2021,ano,regiao,Centro-Oeste,3.9,,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
+2021,ano,regiao,Sudeste,565.5,,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
+2021,ano,regiao,Sul,187.7,,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
+2022,ano,instalacao,Suape,24.7,0.12,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
+2022,ano,instalacao,Itaqui,33.6,0.082,"ANTAQ, notícia de 08/02/2023",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2023/setor-portuario-movimenta-mais-de-1-2-bilhao-de-toneladas-em-2022
+2021,ano,instalacao,Terminal Portuário do Pecém,21.9,,"ANTAQ, notícia de 02/02/2022",https://www.gov.br/antaq/pt-br/central-de-conteudos/noticias/2022/setor-portuario-movimenta-1-2-bilhao-de-toneladas-de-cargas-em-2021
+2024,ano,mercadoria,Minério de ferro,398.8,,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf
+2024,ano,mercadoria,Petróleo bruto,203.4,,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf
+2024,ano,mercadoria,Contêineres,153.3,,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf
+2024,ano,mercadoria,Soja,122.5,,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf
+2024,ano,mercadoria,Milho,56.4,,"ANTAQ, Anuário 2024, p. 5",https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anurio2024.pdf

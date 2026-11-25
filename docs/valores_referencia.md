@@ -1,7 +1,7 @@
 # Valores de referência dos KPIs
 
-> Gerado automaticamente por `etl/04_documentar.py` em 24/11/2026 17:44 a partir dos mesmos CSV de `data/processed/` que o Power BI lê.
-> Último mês com dado: **01/2026** — o ano de 2026 é **parcial** (e o [Toneladas AA] de 2026 compara só os mesmos meses de 2025).
+> Gerado automaticamente por `etl/04_documentar.py` em 24/11/2026 23:09 a partir dos mesmos CSV de `data/processed/` que o Power BI lê.
+> Recorte: anos completos **2021–2025** (jan/2026, o único mês de 2026 no espelho, fica fora do projeto — ver DECISOES.md, D18).
 
 Use estas tabelas para conferir o Power BI número a número: selecione o ano na segmentação de período (e, para Suape, filtre a instalação) e compare com o cartão/tabela correspondente. As definições das medidas estão em [kpis.md](kpis.md).
 
@@ -9,69 +9,52 @@ Convenções: toneladas = soma de `VLPesoCargaBruta` com `FlagMCOperacaoCarga = 
 
 ## 1. Brasil (todas as instalações)
 
-| Medida | Pasta | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
-|---|---|---:|---:|---:|---:|---:|---:|
-| [Toneladas] | Volume | 1.212.363.999 | 1.222.984.185 | 1.308.558.348 | 1.325.915.577 | 1.403.813.213 | 103.963.208 |
-| [Toneladas AA] | Volume | — | 1.212.363.999 | 1.222.984.185 | 1.308.558.348 | 1.325.915.577 | 92.173.340 |
-| [Var % Toneladas AA] | Volume | — | 0,9% | 7,0% | 1,3% | 5,9% | 12,8% |
-| [TEU] | Volume | 11.809.056 | 11.698.314 | 11.627.756 | 13.907.873 | 15.242.491 | 1.254.739 |
-| [Nº Atracações] | Volume | 66.484 | 70.763 | 76.482 | 83.822 | 94.118 | 6.759 |
-| [Toneladas por Atracação] | Volume | 18.235 | 17.283 | 17.109 | 15.818 | 14.915 | 15.381 |
-| [% Cabotagem] | Participação | 23,3% | 23,3% | 22,2% | 22,2% | 21,6% | 26,3% |
-| [% Longo Curso] | Participação | 70,6% | 69,9% | 70,8% | 71,6% | 71,7% | 68,2% |
-| [% Contêiner] | Participação | 11,0% | 10,5% | 9,8% | 11,6% | 11,7% | 12,7% |
-| [% do Total Brasil] | Participação | 100,0% | 100,0% | 100,0% | 100,0% | 100,0% | 100,0% |
-| [Espera Média (h)] | Eficiência | 42,3 | 46,7 | 47,8 | 39,5 | 39,0 | 39,7 |
-| [Espera Mediana (h)] | Eficiência | 1,9 | 1,8 | 1,9 | 1,3 | 1,4 | 1,9 |
-| [Tempo Atracado Médio (h)] | Eficiência | 31,1 | 31,0 | 30,0 | 28,3 | 26,8 | 27,7 |
-| [Tempo de Operação Médio (h)] | Eficiência | 22,7 | 22,1 | 21,8 | 20,4 | 19,4 | 20,6 |
-| [% Atracado em Operação] | Eficiência | 73,3% | 72,0% | 72,9% | 73,2% | 73,1% | 74,3% |
-| [Prancha Média Operacional (t/h)] | Eficiência | 803 | 777 | 779 | 770 | 765 | 747 |
-| [Prancha Média Geral (t/h)] | Eficiência | 583 | 555 | 564 | 556 | 553 | 552 |
-| [Horas Paralisadas] | Eficiência | 135.264 | 131.754 | 140.033 | 178.345 | 195.717 | 13.944 |
+| Medida | Pasta | 2021 | 2022 | 2023 | 2024 | 2025 |
+|---|---|---:|---:|---:|---:|---:|
+| [Toneladas] | Volume | 1.212.363.999 | 1.222.984.185 | 1.308.558.348 | 1.325.915.577 | 1.403.813.213 |
+| [Toneladas AA] | Volume | — | 1.212.363.999 | 1.222.984.185 | 1.308.558.348 | 1.325.915.577 |
+| [Var % Toneladas AA] | Volume | — | 0,9% | 7,0% | 1,3% | 5,9% |
+| [TEU] | Volume | 11.809.056 | 11.698.314 | 11.627.756 | 13.907.873 | 15.242.491 |
+| [Nº Atracações] | Volume | 66.484 | 70.763 | 76.482 | 83.822 | 94.118 |
+| [Toneladas por Atracação] | Volume | 18.235 | 17.283 | 17.109 | 15.818 | 14.915 |
+| [% Cabotagem] | Participação | 23,3% | 23,3% | 22,2% | 22,2% | 21,6% |
+| [% Longo Curso] | Participação | 70,6% | 69,9% | 70,8% | 71,6% | 71,7% |
+| [% Contêiner] | Participação | 11,0% | 10,5% | 9,8% | 11,6% | 11,7% |
+| [% do Total Brasil] | Participação | 100,0% | 100,0% | 100,0% | 100,0% | 100,0% |
+| [Espera Média (h)] | Eficiência | 42,3 | 46,7 | 47,8 | 39,5 | 39,0 |
+| [Espera Mediana (h)] | Eficiência | 1,9 | 1,8 | 1,9 | 1,3 | 1,4 |
+| [Tempo Atracado Médio (h)] | Eficiência | 31,1 | 31,0 | 30,0 | 28,3 | 26,8 |
+| [Tempo de Operação Médio (h)] | Eficiência | 22,7 | 22,1 | 21,8 | 20,4 | 19,4 |
+| [% Atracado em Operação] | Eficiência | 73,3% | 72,0% | 72,9% | 73,2% | 73,1% |
+| [Prancha Média Operacional (t/h)] | Eficiência | 803 | 777 | 779 | 770 | 765 |
+| [Prancha Média Geral (t/h)] | Eficiência | 583 | 555 | 564 | 556 | 553 |
+| [Horas Paralisadas] | Eficiência | 135.294 | 131.768 | 140.048 | 178.369 | 195.736 |
 
 ## 2. Suape (porto organizado, IDInstalacao = BRSUA)
 
-| Medida | Pasta | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
-|---|---|---:|---:|---:|---:|---:|---:|
-| [Toneladas] | Volume | 22.079.408 | 24.726.350 | 24.015.152 | 24.830.911 | 24.253.346 | 2.193.515 |
-| [Toneladas AA] | Volume | — | 22.079.408 | 24.726.350 | 24.015.152 | 24.830.911 | 1.582.901 |
-| [Var % Toneladas AA] | Volume | — | 12,0% | -2,9% | 3,4% | -2,3% | 38,6% |
-| [TEU] | Volume | 518.640 | 492.216 | 527.067 | 646.808 | 698.177 | 54.883 |
-| [Nº Atracações] | Volume | 1.451 | 1.506 | 1.510 | 1.626 | 1.566 | 135 |
-| [Toneladas por Atracação] | Volume | 15.217 | 16.419 | 15.904 | 15.271 | 15.487 | 16.248 |
-| [% Cabotagem] | Participação | 63,3% | 66,6% | 69,5% | 69,6% | 67,2% | 62,4% |
-| [% Longo Curso] | Participação | 36,7% | 33,4% | 30,1% | 29,9% | 32,2% | 36,3% |
-| [% Contêiner] | Participação | 26,7% | 22,8% | 24,2% | 28,3% | 31,2% | 26,5% |
-| [% do Total Brasil] | Participação | 1,8% | 2,0% | 1,8% | 1,9% | 1,7% | 2,1% |
-| [Espera Média (h)] | Eficiência | 23,0 | 25,1 | 30,2 | 28,3 | 34,7 | 32,9 |
-| [Espera Mediana (h)] | Eficiência | 1,0 | 1,0 | 1,1 | 5,9 | 4,3 | 4,2 |
-| [Tempo Atracado Médio (h)] | Eficiência | 33,3 | 34,4 | 33,2 | 34,6 | 33,7 | 35,9 |
-| [Tempo de Operação Médio (h)] | Eficiência | 24,7 | 24,9 | 23,8 | 25,9 | 24,7 | 26,4 |
-| [% Atracado em Operação] | Eficiência | 73,1% | 72,4% | 73,1% | 75,0% | 74,5% | 75,9% |
-| [Prancha Média Operacional (t/h)] | Eficiência | 614 | 658 | 657 | 584 | 618 | 591 |
-| [Prancha Média Geral (t/h)] | Eficiência | 454 | 477 | 473 | 438 | 456 | 442 |
-| [Horas Paralisadas] | Eficiência | 2.152 | 3.475 | 4.255 | 4.047 | 3.299 | 267 |
-| [Ranking Porto] (entre todas as instalações) | Participação | 14º | 11º | 14º | 13º | 13º | 10º |
+| Medida | Pasta | 2021 | 2022 | 2023 | 2024 | 2025 |
+|---|---|---:|---:|---:|---:|---:|
+| [Toneladas] | Volume | 22.079.408 | 24.726.350 | 24.015.152 | 24.830.911 | 24.253.346 |
+| [Toneladas AA] | Volume | — | 22.079.408 | 24.726.350 | 24.015.152 | 24.830.911 |
+| [Var % Toneladas AA] | Volume | — | 12,0% | -2,9% | 3,4% | -2,3% |
+| [TEU] | Volume | 518.640 | 492.216 | 527.067 | 646.808 | 698.177 |
+| [Nº Atracações] | Volume | 1.451 | 1.506 | 1.510 | 1.626 | 1.566 |
+| [Toneladas por Atracação] | Volume | 15.217 | 16.419 | 15.904 | 15.271 | 15.487 |
+| [% Cabotagem] | Participação | 63,3% | 66,6% | 69,5% | 69,6% | 67,2% |
+| [% Longo Curso] | Participação | 36,7% | 33,4% | 30,1% | 29,9% | 32,2% |
+| [% Contêiner] | Participação | 26,7% | 22,8% | 24,2% | 28,3% | 31,2% |
+| [% do Total Brasil] | Participação | 1,8% | 2,0% | 1,8% | 1,9% | 1,7% |
+| [Espera Média (h)] | Eficiência | 23,0 | 25,1 | 30,2 | 28,3 | 34,7 |
+| [Espera Mediana (h)] | Eficiência | 1,0 | 1,0 | 1,1 | 5,9 | 4,3 |
+| [Tempo Atracado Médio (h)] | Eficiência | 33,3 | 34,4 | 33,2 | 34,6 | 33,7 |
+| [Tempo de Operação Médio (h)] | Eficiência | 24,7 | 24,9 | 23,8 | 25,9 | 24,7 |
+| [% Atracado em Operação] | Eficiência | 73,1% | 72,4% | 73,1% | 75,0% | 74,5% |
+| [Prancha Média Operacional (t/h)] | Eficiência | 614 | 658 | 657 | 584 | 618 |
+| [Prancha Média Geral (t/h)] | Eficiência | 454 | 477 | 473 | 438 | 456 |
+| [Horas Paralisadas] | Eficiência | 2.153 | 3.475 | 4.255 | 4.047 | 3.299 |
+| [Ranking Porto] (entre todas as instalações) | Participação | 14º | 11º | 14º | 13º | 13º |
 
 ## 3. Benchmark Nordeste (página "Nordeste & Suape")
-
-### 2026
-
-| Porto | Toneladas | Var % AA | Espera mediana (h) | Prancha operacional (t/h) | % Contêiner | % Atracado em operação | Nº atracações | Ranking entre os 9 |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Suape | 2.193.515 | 38,6% | 4,2 | 591 | 26,5% | 75,9% | 135 | 1º |
-| Pecém | 1.525.226 | 0,3% | 19,1 | 530 | 39,2% | 87,7% | 70 | 3º |
-| Itaqui | 2.088.595 | 44,3% | 112,9 | 483 | 0,0% | 86,3% | 63 | 2º |
-| Salvador | 503.584 | -5,2% | 1,7 | 594 | 91,0% | 84,8% | 44 | 4º |
-| Aratu | 465.899 | -12,5% | 14,9 | 260 | 0,0% | 76,2% | 31 | 5º |
-| Recife | 105.878 | -40,5% | 0,4 | 40 | 0,0% | 89,0% | 29 | 8º |
-| Natal | 63.912 | 93,4% | 0,2 | 51 | 18,5% | 90,1% | 24 | 9º |
-| Cabedelo | 139.626 | 182,0% | 3,7 | 297 | 0,0% | 80,9% | 8 | 7º |
-| Maceió | 191.438 | -26,5% | 6,7 | 289 | 0,0% | 80,1% | 11 | 6º |
-
-- [Espera Mediana Média Pares (h)] 2026 = **20,0 h** (média simples das medianas dos 8 pares).
-- [Espera Mediana Suape (h)] 2026 = **4,2 h**; [Diferença Espera Suape vs Pares (h)] = **-15,8 h**.
 
 ### 2025
 
@@ -89,6 +72,23 @@ Convenções: toneladas = soma de `VLPesoCargaBruta` com `FlagMCOperacaoCarga = 
 
 - [Espera Mediana Média Pares (h)] 2025 = **26,4 h** (média simples das medianas dos 8 pares).
 - [Espera Mediana Suape (h)] 2025 = **4,3 h**; [Diferença Espera Suape vs Pares (h)] = **-22,1 h**.
+
+### 2024
+
+| Porto | Toneladas | Var % AA | Espera mediana (h) | Prancha operacional (t/h) | % Contêiner | % Atracado em operação | Nº atracações | Ranking entre os 9 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Suape | 24.830.911 | 3,4% | 5,9 | 584 | 28,3% | 75,0% | 1.626 | 2º |
+| Pecém | 19.042.334 | 11,6% | 8,7 | 611 | 34,5% | 88,3% | 749 | 3º |
+| Itaqui | 33.884.494 | -6,7% | 113,8 | 621 | 0,0% | 85,2% | 968 | 1º |
+| Salvador | 6.603.213 | 41,2% | 2,2 | 393 | 78,4% | 85,0% | 557 | 4º |
+| Aratu | 6.561.102 | -1,9% | 37,8 | 282 | 0,0% | 78,5% | 513 | 5º |
+| Recife | 1.706.847 | 19,6% | 0,4 | 42 | 0,0% | 86,5% | 363 | 7º |
+| Natal | 408.729 | -8,1% | 0,2 | 47 | 5,2% | 87,1% | 145 | 9º |
+| Cabedelo | 1.384.792 | 3,6% | 10,0 | 275 | 0,0% | 75,4% | 105 | 8º |
+| Maceió | 2.672.144 | 1,2% | 3,9 | 279 | 0,0% | 82,8% | 152 | 6º |
+
+- [Espera Mediana Média Pares (h)] 2024 = **22,1 h** (média simples das medianas dos 8 pares).
+- [Espera Mediana Suape (h)] 2024 = **5,9 h**; [Diferença Espera Suape vs Pares (h)] = **-16,2 h**.
 
 ## 4. Números citados no README, no roteiro do vídeo e no post
 

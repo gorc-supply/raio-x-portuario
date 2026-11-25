@@ -80,7 +80,7 @@ CHAVES = {
 
 
 def arquivos(tabela: str) -> list[str]:
-    return [p.as_posix() for p in sorted((C.RAW_ESPELHO_DIR / tabela).glob("*.parquet"))]
+    return [p.as_posix() for p in sorted((C.RAW_ESPELHO_DIR / tabela).glob("*.parquet")) if int(p.stem) in C.ANOS]
 
 
 def main() -> int:
@@ -103,8 +103,8 @@ def main() -> int:
            "- **Layout dos TXT oficiais** (aceitos pelo pipeline se colocados em `data/raw/antaq_oficial/`): "
            "separador `;`, cabeçalho na 1ª linha, vírgula decimal, datas `dd/mm/aaaa hh:mm:ss`. O leitor detecta "
            "UTF-8 ou Latin-1. **Não pôde ser conferido com arquivo oficial real** (pendência registrada).",
-           "- **Recorte**: 2021 até o último mês disponível. O espelho foi gerado em 18/04/2026 e só contém "
-           "**janeiro/2026** — é o último mês disponível neste projeto.", ""]
+           f"- **Recorte**: anos completos {C.ANO_INICIAL}–{C.ANO_FINAL}. O espelho (gerado em 18/04/2026) também traz "
+           "janeiro/2026, que fica fora do projeto por ser um ano incompleto (DECISOES.md, D18).", ""]
 
     out += ["## 2. Colunas reais de cada arquivo e colunas usadas", ""]
     for tab, usadas in USADAS.items():
@@ -149,7 +149,7 @@ def main() -> int:
         out.append(f"| {r[0]} | {r[1]:,} | {r[2]:,} | {r[3]:,} | {r[4]:,} |")
     out.append("")
 
-    out += ["## 5. % de nulos nas colunas-chave (base bruta, 2021–2026)", "",
+    out += [f"## 5. % de nulos nas colunas-chave (base bruta, {C.ANO_INICIAL}–{C.ANO_FINAL})", "",
             "| Tabela | Coluna | % nulos |", "|---|---|---:|"]
     for tab, cols in CHAVES.items():
         sel = ", ".join(f"avg(CASE WHEN \"{c}\" IS NULL OR trim(CAST(\"{c}\" AS VARCHAR)) = '' THEN 1 ELSE 0 END)"
@@ -188,9 +188,9 @@ def main() -> int:
 
     out += ["## 7. Regra de contagem da movimentação", "",
             "| Tipo Operação da Carga | FlagMCOperacaoCarga | Registros | Toneladas (Mt) |", "|---|---:|---:|---:|"]
-    for r in con.sql("""SELECT tipo_operacao_carga, flag_mc, count(*), sum(peso) / 1e6
+    for r in con.sql(f"""SELECT tipo_operacao_carga, flag_mc, count(*), sum(peso) / 1e6
                         FROM stg_carga c JOIN stg_atracacao a USING (id_atracacao)
-                        WHERE year(dt_desatracacao) BETWEEN 2021 AND 2026 GROUP BY 1, 2 ORDER BY 2 DESC, 4 DESC""").fetchall():
+                        WHERE year(dt_desatracacao) BETWEEN {C.ANO_INICIAL} AND {C.ANO_FINAL} GROUP BY 1, 2 ORDER BY 2 DESC, 4 DESC""").fetchall():
         out.append(f"| {r[0]} | {r[1]} | {r[2]:,} | {r[3]:,.1f} |")
     out += ["", "Somar só `FlagMCOperacaoCarga = 1` (inclui baldeação/transbordo) reproduz o total oficial "
             "dentro de ±1,2% em todos os anos — ver [conciliacao_antaq.md](conciliacao_antaq.md)."]

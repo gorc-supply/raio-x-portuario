@@ -74,6 +74,33 @@
         {
           "properties": {}
         }
+      ],
+      "mapControls": [
+        {
+          "properties": {
+            "zoom": {
+              "expr": {
+                "Literal": {
+                  "Value": "2.5D"
+                }
+              }
+            },
+            "centerLatitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "-16.69679523072581D"
+                }
+              }
+            },
+            "centerLongitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "-49.35435104370117D"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {

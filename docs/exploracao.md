@@ -1,6 +1,6 @@
 # Exploração dos dados
 
-> Gerado por `etl/explorar.py` em 24/11/2026 17:44.
+> Gerado por `etl/explorar.py` em 24/11/2026 23:09.
 
 ## 1. Fonte e layout
 
@@ -8,7 +8,7 @@
 - **Fonte usada**: espelho público `vinicius-souza/antaq` no Hugging Face (licença CC-BY-4.0, revisão `ff0349f` de 18/04/2026), com os arquivos TXT oficiais convertidos 1:1 para Parquet. Os **nomes das colunas são os originais da ANTAQ** (com acentos e espaços).
 - **Layout do espelho**: Parquet por tabela e ano. Datas da Atracação como texto `dd/mm/aaaa hh:mm:ss`; datas da Paralisação como texto `aaaa-mm-dd hh:mm:ss.ffffff`; números como DOUBLE (ponto decimal); parte dos textos com acentuação corrompida (UTF-8 lido como Latin-1, ex.: `BaldeaÃ§Ã£o`) — corrigido no tratamento (regra R7).
 - **Layout dos TXT oficiais** (aceitos pelo pipeline se colocados em `data/raw/antaq_oficial/`): separador `;`, cabeçalho na 1ª linha, vírgula decimal, datas `dd/mm/aaaa hh:mm:ss`. O leitor detecta UTF-8 ou Latin-1. **Não pôde ser conferido com arquivo oficial real** (pendência registrada).
-- **Recorte**: 2021 até o último mês disponível. O espelho foi gerado em 18/04/2026 e só contém **janeiro/2026** — é o último mês disponível neste projeto.
+- **Recorte**: anos completos 2021–2025. O espelho (gerado em 18/04/2026) também traz janeiro/2026, que fica fora do projeto por ser um ano incompleto (DECISOES.md, D18).
 
 ## 2. Colunas reais de cada arquivo e colunas usadas
 
@@ -89,9 +89,9 @@ Atracacao (CDTUP)           N ──── 1 instalação portuária (dInstalaca
 Carga (CDMercadoria)        N ──── 1 mercadoria (dMercadoria no modelo)
 ```
 
-- Atracacao: 489,751 linhas, 489,751 IDAtracacao distintos (chave única).
-- TemposAtracacao: 489,751 linhas; 0 sem atracação; 0 atracações sem tempos.
-- Carga: 11,925,690 linhas, 11,925,690 IDCarga distintos; 0 órfãs.
+- Atracacao: 481,304 linhas, 481,304 IDAtracacao distintos (chave única).
+- TemposAtracacao: 481,304 linhas; 0 sem atracação; 0 atracações sem tempos.
+- Carga: 11,733,251 linhas, 11,733,251 IDCarga distintos; 0 órfãs.
 - Paralisações órfãs: 0.
 
 ## 4. Linhas por ano (ano da data de desatracação)
@@ -103,9 +103,8 @@ Carga (CDMercadoria)        N ──── 1 mercadoria (dMercadoria no modelo)
 | 2023 | 93,918 | 2,200,645 | 123,567 | 76,482 |
 | 2024 | 106,834 | 2,439,611 | 225,160 | 83,822 |
 | 2025 | 116,222 | 2,464,613 | 228,077 | 94,118 |
-| 2026 | 8,447 | 192,439 | 15,757 | 6,759 |
 
-## 5. % de nulos nas colunas-chave (base bruta, 2021–2026)
+## 5. % de nulos nas colunas-chave (base bruta, 2021–2025)
 
 | Tabela | Coluna | % nulos |
 |---|---|---:|
@@ -114,22 +113,22 @@ Carga (CDMercadoria)        N ──── 1 mercadoria (dMercadoria no modelo)
 | Atracacao | `Data Atracação` | 0.10% |
 | Atracacao | `Data Desatracação` | 0.00% |
 | Atracacao | `Data Chegada` | 0.10% |
-| Atracacao | `Data Início Operação` | 5.76% |
-| Atracacao | `Data Término Operação` | 5.76% |
+| Atracacao | `Data Início Operação` | 5.75% |
+| Atracacao | `Data Término Operação` | 5.74% |
 | Atracacao | `Tipo de Navegação da Atracação` | 0.10% |
 | Carga | `IDCarga` | 0.00% |
 | Carga | `IDAtracacao` | 0.00% |
-| Carga | `CDMercadoria` | 35.20% |
+| Carga | `CDMercadoria` | 35.78% |
 | Carga | `FlagMCOperacaoCarga` | 0.00% |
 | Carga | `Natureza da Carga` | 0.00% |
 | Carga | `Sentido` | 0.00% |
 | Carga | `VLPesoCargaBruta` | 0.00% |
 | Carga | `Tipo Navegação` | 0.00% |
 | TemposAtracacao | `IDAtracacao` | 0.00% |
-| TemposAtracacao | `TEsperaAtracacao` | 9.86% |
-| TemposAtracacao | `TOperacao` | 7.79% |
-| TemposAtracacao | `TAtracado` | 2.08% |
-| TemposAtracacao | `TEstadia` | 2.54% |
+| TemposAtracacao | `TEsperaAtracacao` | 9.98% |
+| TemposAtracacao | `TOperacao` | 7.76% |
+| TemposAtracacao | `TAtracado` | 2.07% |
+| TemposAtracacao | `TEstadia` | 2.52% |
 | TemposAtracacaoParalisacao | `IDAtracacao` | 0.00% |
 | TemposAtracacaoParalisacao | `DescricaoTempoDesconto` | 0.00% |
 | TemposAtracacaoParalisacao | `DTInicio` | 0.00% |
@@ -148,12 +147,12 @@ A ANTAQ já entrega os tempos calculados (tabela TemposAtracacao, em **horas**).
 
 | Métrica | Linhas | Negativos | Nulos | Mediana (h) | P99,5 (h) | Máximo (h) | > 30 dias |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| t_espera_atracacao | 489,751 | 0 | 48,267 | 1.1 | 663.9 | 18,251.4 | 1,661 |
-| t_espera_inicio_op | 489,751 | 0 | 42,464 | 0.5 | 65.9 | 2,141.9 | 97 |
-| t_operacao | 489,751 | 0 | 38,154 | 7.5 | 202.5 | 2,377.0 | 55 |
-| t_espera_desatracacao | 489,751 | 0 | 37,448 | 1.1 | 47.2 | 721.2 | 1 |
-| t_atracado | 489,751 | 0 | 10,175 | 12.2 | 284.5 | 4,633.5 | 357 |
-| t_estadia | 489,751 | 0 | 12,429 | 22.0 | 747.3 | 18,869.0 | 2,839 |
+| t_espera_atracacao | 481,304 | 0 | 48,046 | 1.1 | 667.1 | 18,251.4 | 1,644 |
+| t_espera_inicio_op | 481,304 | 0 | 41,740 | 0.5 | 65.7 | 2,141.9 | 97 |
+| t_operacao | 481,304 | 0 | 37,342 | 7.5 | 202.8 | 2,377.0 | 55 |
+| t_espera_desatracacao | 481,304 | 0 | 36,793 | 1.1 | 47.0 | 721.2 | 1 |
+| t_atracado | 481,304 | 0 | 9,967 | 12.2 | 285.6 | 4,633.5 | 357 |
+| t_estadia | 481,304 | 0 | 12,140 | 22.0 | 748.9 | 18,869.0 | 2,814 |
 
 Leitura: não há tempos negativos na base; há valores absurdos (esperas de mais de 2 anos, atracações de meses) — por isso a limitação no P99,5 por natureza de carga (regra R5). A espera média é muito maior que a mediana (cauda longa): o painel destaca a **mediana**.
 
@@ -161,19 +160,19 @@ Leitura: não há tempos negativos na base; há valores absurdos (esperas de mai
 
 | Tipo Operação da Carga | FlagMCOperacaoCarga | Registros | Toneladas (Mt) |
 |---|---:|---:|---:|
-| Longo Curso Exportação | 1 | 2,968,169 | 3,748.8 |
-| Cabotagem | 1 | 1,499,642 | 1,383.2 |
-| Longo Curso Importação | 1 | 3,730,601 | 870.2 |
-| Interior | 1 | 1,117,911 | 392.4 |
-| Baldeação de Carga Estrangeira de Passagem | 1 | 547,677 | 69.3 |
-| Baldeação de Carga Nacional | 1 | 110,139 | 41.4 |
-| Longo Curso Importação com Baldeação de Carga Estrangeira | 1 | 392,143 | 32.2 |
-| Longo Curso Exportação com Baldeação de Carga Estrangeira | 1 | 263,777 | 23.3 |
-| Apoio | 1 | 568,744 | 16.9 |
-| Safamento | 0 | 673,529 | 30.5 |
-| Operação Intermediária | 0 | 10,980 | 12.2 |
-| Abastecimento | 0 | 4,744 | 12.1 |
-| Transferência Interna | 0 | 17,368 | 6.2 |
-| Remoção a bordo | 0 | 20,266 | 5.3 |
+| Longo Curso Exportação | 1 | 2,914,342 | 3,694.1 |
+| Cabotagem | 1 | 1,475,232 | 1,357.7 |
+| Longo Curso Importação | 1 | 3,677,746 | 855.0 |
+| Interior | 1 | 1,104,861 | 387.3 |
+| Baldeação de Carga Estrangeira de Passagem | 1 | 537,925 | 67.8 |
+| Baldeação de Carga Nacional | 1 | 108,973 | 41.0 |
+| Longo Curso Importação com Baldeação de Carga Estrangeira | 1 | 387,149 | 31.5 |
+| Longo Curso Exportação com Baldeação de Carga Estrangeira | 1 | 256,830 | 22.8 |
+| Apoio | 1 | 555,927 | 16.6 |
+| Safamento | 0 | 661,561 | 30.0 |
+| Operação Intermediária | 0 | 10,950 | 12.1 |
+| Abastecimento | 0 | 4,664 | 11.8 |
+| Transferência Interna | 0 | 17,346 | 6.2 |
+| Remoção a bordo | 0 | 19,745 | 5.1 |
 
 Somar só `FlagMCOperacaoCarga = 1` (inclui baldeação/transbordo) reproduz o total oficial dentro de ±1,2% em todos os anos — ver [conciliacao_antaq.md](conciliacao_antaq.md).
