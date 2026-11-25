@@ -1,20 +1,24 @@
 ## Raio-X Portuário no portfólio
 
-Adiciona o card do novo projeto **Raio-X Portuário** (painel Power BI sobre os portos brasileiros com foco em Suape), no mesmo padrão dos cards existentes:
+Adiciona o projeto **Raio-X Portuário** (painel Power BI sobre os portos brasileiros com foco em Suape, dados abertos da ANTAQ de 2021 a 2025) e reorganiza a grade de Projetos.
 
-- card na grade de Projetos (coluna lateral), com título, descrição, selo "Em publicação" e botões *Ver detalhes*, *Ver código* e *Abrir painel*;
-- traduções EN/ES das chaves `rpph`, `rppd`, `rppa`;
-- entrada `rpp` do modal de detalhes (pergunta, 5 destaques com números conferidos, stack e links);
-- subtítulo da seção Projetos e `og:description` atualizados para mencionar o painel;
-- imagem provisória `img/raio-x-portuario-t.svg`.
+### O que muda
 
-### Antes do merge (placeholders)
+- **Grade de Projetos:** a linha 1 volta ao desenho original (card grande do Supply OPME + 2 cards laterais), que estava desequilibrada com 3 cards na coluna lateral. O Raio-X Portuário ganha uma **linha 2 em card largo**, com o vídeo alinhado à coluna do card grande e o texto alinhado à coluna lateral. No celular, tudo vira uma coluna.
+- **Card:** título, descrição curta, tags (Power BI, DAX, Python, DuckDB, Dados abertos), vídeo em loop com pôster (como os demais) e botões *Ver detalhes*, *GitHub* e *PDF*. O botão **"Ver painel ao vivo"** já está pronto, mas comentado com o marcador `LINK_PUBLICO` (no card, nas traduções EN/ES e no modal) até o painel ser publicado na web.
+- **Modal de detalhes:** vídeo de 78 s + as 5 páginas do painel em miniatura (com ampliação), 5 destaques no recorte 2021–2025, stack e links.
+- **Mídias:** `video/raio-x-portuario-tour.mp4` (2,7 MB, 1920×1080), pôster `img/raio-x-portuario-t.webp` e `img/rpp-*.webp` (miniatura 960 px + imagem cheia). Removida a imagem provisória `img/raio-x-portuario-t.svg`.
+- **Modal (todos os projetos):** vídeo com `object-fit: contain`. Para os outros vídeos (16:10) não muda nada; o novo (16:9) deixa de ser cortado nas bordas.
+- Traduções EN/ES do card e do modal; selo "Concluído" no padrão dos demais.
 
-- [ ] Trocar as 5 ocorrências de `LINK_PUBLICO` pelo link do "Publicar na Web".
-- [ ] Gravar o vídeo (roteiro em `raio-x-portuario/docs/roteiro_video.md`) e adicionar `video/raio-x-portuario-tour.mp4` (< 10 MB) e o pôster `img/raio-x-portuario-t.webp`.
-- [ ] No card, trocar o `<img>` provisório pelo `<video>` (o comentário TODO no HTML tem a tag pronta) e, no objeto `rpp`, apontar o pôster para o `.webp`.
-- [ ] Trocar o selo "Em publicação" por "No ar" (`<span class="pill">`) nas 3 línguas.
-- [ ] Conferir o card em PT/EN/ES, no desktop e no celular.
+### Conferência
+
+- Capturas com navegador sem interface em 1440 px e 390 px, em PT/EN/ES, do card e do modal: sem rolagem horizontal; vídeo e texto do card largo com a mesma altura (335 px) no desktop.
+- Nenhum marcador visível para o visitante: os 5 `LINK_PUBLICO` estão em comentários HTML/JS.
+
+### Depois de publicar o painel
+
+Procurar `LINK_PUBLICO` no `index.html`, tirar o comentário e trocar pelo link do "Publicar na Web" (passo a passo em `raio-x-portuario/docs/PUBLICAR.md`, seção 4).
 
 Código do projeto: https://github.com/gorc-supply/raio-x-portuario
 
