@@ -1,0 +1,50 @@
+{
+  "area": [
+    2099,
+    143,
+    1498,
+    842
+  ],
+  "cenas": [
+    {
+      "t": 0.84,
+      "legenda": "abertura"
+    },
+    {
+      "t": 3.84,
+      "legenda": "kpis"
+    },
+    {
+      "t": 6.96,
+      "legenda": "linha"
+    },
+    {
+      "t": 12.09,
+      "legenda": "mapa_suape"
+    },
+    {
+      "t": 17.7,
+      "legenda": "filtro_nordeste"
+    },
+    {
+      "t": 29.49,
+      "legenda": "nordeste_suape"
+    },
+    {
+      "t": 44.29,
+      "legenda": "eficiencia"
+    },
+    {
+      "t": 54.98,
+      "legenda": "perfil"
+    },
+    {
+      "t": 65.37,
+      "legenda": "sobre"
+    },
+    {
+      "t": 72.64,
+      "legenda": "fim"
+    }
+  ]
+}
