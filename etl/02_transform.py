@@ -286,6 +286,18 @@ def dim_instalacao(con) -> None:
     con.sql("ALTER TABLE dInstalacao ADD COLUMN LongitudeComplexo DOUBLE")
     con.sql("""UPDATE dInstalacao SET LatitudeComplexo = c.lat_cx, LongitudeComplexo = c.lon_cx
                 FROM _coord_cx c WHERE dInstalacao.ComplexoPortuario = c.ComplexoPortuario""")
+    # Posição do rótulo no mapa: o ponto do complexo + deslocamento fixo para os complexos do litoral
+    # Sudeste/Sul/Suape, onde os nomes se sobrepõem (etl/referencias/rotulos_mapa.csv).
+    desloc = pd.read_csv(C.REF_DIR / "rotulos_mapa.csv")
+    con.register("_desloc", desloc)
+    con.sql("ALTER TABLE dInstalacao ADD COLUMN LatitudeRotulo DOUBLE")
+    con.sql("ALTER TABLE dInstalacao ADD COLUMN LongitudeRotulo DOUBLE")
+    con.sql("""UPDATE dInstalacao SET LatitudeRotulo = round(LatitudeComplexo + coalesce(d.dLat, 0), 6),
+                                      LongitudeRotulo = round(LongitudeComplexo + coalesce(d.dLon, 0), 6)
+                FROM (SELECT DISTINCT i.ComplexoPortuario, x.dLat, x.dLon FROM dInstalacao i
+                      LEFT JOIN _desloc x ON x.ComplexoPortuario = i.ComplexoPortuario) d
+                WHERE dInstalacao.ComplexoPortuario = d.ComplexoPortuario""")
+    con.unregister("_desloc")
 
 
 def dim_mercadoria(con) -> None:
@@ -525,6 +537,17 @@ def fatos(con, log: list) -> None:
                round(sum(horas::DECIMAL(24, 6)), 3)::DOUBLE AS HorasParalisadas, count(*) AS NumOcorrencias
         FROM paral GROUP BY ALL ORDER BY 1, 2, 3
     """)
+    # nome curto do motivo (rótulo de eixo legível); motivo sem nome curto mantém o texto da ANTAQ
+    curtos = pd.read_csv(C.REF_DIR / "motivos_paralisacao_curto.csv", dtype=str)
+    con.register("_curtos", curtos)
+    con.sql("""
+        CREATE OR REPLACE TABLE fParalisacao AS
+        SELECT p.DataRef, p.IDInstalacao, coalesce(c.MotivoCurto, p.MotivoParalisacao) AS MotivoCurto,
+               p.MotivoParalisacao, p.HorasParalisadas, p.NumOcorrencias
+        FROM fParalisacao p LEFT JOIN _curtos c USING (MotivoParalisacao)
+        ORDER BY 1, 2, 4
+    """)
+    con.unregister("_curtos")
 
 
 def main() -> int:

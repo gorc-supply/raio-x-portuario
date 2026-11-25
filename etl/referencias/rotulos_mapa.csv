@@ -1,0 +1,13 @@
+ComplexoPortuario,dLat,dLon,Motivo
+Itaqui,0.6,-4.6,"rótulo a oeste, sobre o continente (contraste com a bolha)"
+Santos,-3.3,1.0,"rótulo ao sul, no mar, fora das bolhas do litoral SP/PR"
+Itaguaí,-3.3,3.6,"rótulo a sudeste, no mar"
+Angra dos Reis,-3.8,0.6,"rótulo ao sul, no mar"
+Rio de Janeiro - Niterói,-1.4,4.4,"rótulo a leste, no mar"
+São Sebastião,-3.6,-1.2,"rótulo ao sul, no mar"
+São João da Barra,-3.0,3.4,"rótulo a sudeste, no mar, sem passar da borda direita"
+Vitória,0.9,4.2,"rótulo a nordeste, no mar"
+Suape - Recife,-1.6,-3.6,"rótulo a sudoeste (sobre PE/AL), longe da borda direita"
+Paranaguá - Antonina,-1.8,-3.0,"rótulo a sudoeste"
+São Francisco do Sul,-1.4,3.0,"rótulo a sudeste, no mar"
+Vila do Conde - Belém,1.4,-2.0,"rótulo a noroeste"
