@@ -98,3 +98,59 @@ Cada decisão: **contexto → decisão → alternativas → motivo**. Ordem cron
 
 - **Decisão:** Top 10 (instalações, mercadorias, motivos de paralisação) feito por medida (`IF([Ranking] <= 10, ...)`) em vez de filtro Top N do visual; cores condicionais por medida que devolve hexadecimal (mapa de calor com faixas fixas de 2 h, 6 h, 24 h e 72 h).
 - **Motivo:** filtros e regras de gradiente em JSON PBIR são a parte menos documentada do formato; medida é mais simples de validar e de explicar.
+
+
+---
+
+# Rodada 2 (revisão visual e publicação)
+
+## D18 — Recorte de anos completos: 2021–2025
+
+- **Contexto:** o espelho só tem janeiro de 2026; o painel mostrava 2026 como ano, com variação de +12,8% sobre jan/2025 e um ano "inteiro" de um mês.
+- **Decisão:** `ANO_FINAL = 2025` em `etl/config.py`. Janeiro de 2026 fica fora do modelo, das segmentações, dos textos e dos números de referência. O calendário vai de 01/01/2021 a 31/12/2025. Ano padrão nas segmentações: 2025 (seleção única).
+- **Motivo:** pedido explícito; evita comparar mês isolado com ano cheio.
+
+## D19 — Reforço da conciliação de 2025 (Anuário + Boletins trimestrais)
+
+- **Decisão:** além do total, conferir 2025 por natureza da carga e por região (Anuário "Desempenho Aquaviário 2025", p. 3 e 4) e por trimestre (Boletins Estatísticos do 1º, 2º e 3º trimestres de 2025: total de portos organizados e de TUPs, Suape, Itaqui e Pecém). Não há boletim do 4º trimestre de 2025 publicado. As tabelas dos boletins do 1º e 2º trimestres perdem o alinhamento na extração do PDF; os valores foram lidos na ordem de aparição e conferem com o layout do 3º trimestre, que é legível. Todos ficam a menos de 2% do pipeline.
+- **Alternativas:** usar só o total anual (já aprovado).
+- **Motivo:** pedido explícito (Brasil, Suape e 2 pares).
+
+## D20 — 5,9% (painel) x 6,1% (Anuário): explicar, não forçar
+
+- **Decisão:** manter a variação calculada pelo painel (+5,88%) e documentar a decomposição: 2025 do pipeline +0,05% acima do oficial (+0,05 p.p.) e 2024 +0,26% acima (−0,27 p.p.), total −0,22 p.p. Hipótese: o espelho (18/04/2026) incorpora retificações de 2024 posteriores ao fechamento do Anuário. Nota curta no README e na página Sobre; conta completa em `docs/conciliacao_antaq.md`, seção 2.
+- **Alternativa descartada:** substituir o total de 2024 pelo do Anuário (o painel deixaria de ser a soma da base).
+
+## D21 — Coordenada e rótulo por complexo portuário
+
+- **Decisão:** o mapa agrega por **Complexo Portuário** (complexo oficial da ANTAQ; terminais isolados viram o próprio complexo). Coordenada do complexo = média das coordenadas oficiais das instalações (coluna `Coordenadas` da ANTAQ) **ponderada pelas toneladas 2021–2025**, para o ponto cair perto do terminal que mais movimenta. O rótulo de Suape e dos 5 maiores complexos usa um deslocamento fixo por complexo (`etl/referencias/rotulos_mapa.csv`), só para os complexos do litoral onde os nomes se sobrepunham.
+- **Consequência:** Suape aparece no mapa como "Suape - Recife" (o complexo oficial); nas demais páginas, Suape continua sendo o porto organizado (D07).
+
+## D22 — Mapa: dispersão sobre a malha do IBGE (opção 2) venceu o Azure Maps (opção 1)
+
+- **Contexto:** as duas opções foram construídas e capturadas no Desktop (`docs/img/mapa_opcoes.png`, `docs/img/qa/c5_*`).
+- **Opção 1 (Azure Maps ajustado):** estilo Escala de cinza (Escuro), sem seletor de estilo nem controles de navegação, zoom fixo, bolhas 2–18 px com 40% de transparência e borda branca, Suape em dourado. Os nomes reais das propriedades (`defaultStyle`, `showStylePicker`, `showNavigationControls`, `maxRadius`, `mapTransparency`) foram lidos de um visual salvo pelo próprio Desktop depois de ajustado pelo painel de formatação — os nomes "adivinhados" eram descartados em silêncio.
+- **Opção 2 (escolhida):** duas dispersões sobrepostas com eixos fixos na extensão exata da imagem (lon −74,5 a −33,5; lat −34,5 a 5,9), sobre um visual de imagem com a malha do IBGE em projeção equiretangular; a camada de baixo tem só os rótulos (Suape + 5 maiores) e a de cima, as bolhas com dica de ferramenta.
+- **Critérios, na ordem pedida:** (a) identificar Suape e os 5 maiores sem sobreposição: só a opção 2 — o Azure Maps não permite rótulo seletivo (é tudo ou nada) e as bolhas do Sudeste se sobrepõem; (b) tema escuro: as duas atendem; (c) pontos no lugar certo: as duas atendem (conferido em Itaqui, Santos, Suape e Manaus); (d) sem login ou configuração do administrador: só a opção 2.
+- **Consequência:** nenhuma página usa Azure Maps. O código da opção 1 continua no gerador (`etl/gerar_pbip.py --mapa azure`) se um dia for preferível.
+
+## D23 — Rótulos de cartão em texto e formatos com unidade
+
+- **Decisão:** cartões usam medidas de texto (`Rótulo ...`) que formatam o número com a unidade ("1.403,8 Mi t", "1,4 h", "765 t/h", "+5,9%", "−2,3%"), porque o cartão clássico aplica unidades automáticas ("1 Bi", "94 Mil"). Eixos e rótulos de gráfico usam medidas em milhões com format string `#,0.0" Mi t"` e unidade de exibição "nenhuma".
+- **Motivo:** é o caminho mais robusto (o texto aparece igual em qualquer visual e no serviço).
+
+## D24 — Nomes com acento no modelo
+
+- **Decisão:** colunas visíveis renomeadas no TMDL (Região, Instalação, Complexo Portuário, Navegação, Natureza da Carga, Mês, Motivo da Paralisação...), mantendo o nome ASCII do CSV em `sourceColumn`. Nomes de tabela continuam sem acento. Motivos de paralisação ganharam um nome curto (`etl/referencias/motivos_paralisacao_curto.csv`), com o texto original da ANTAQ numa coluna separada.
+
+## D25 — Barras sem rolagem: Top 8 nos motivos de paralisação
+
+- **Contexto:** a altura mínima de cada barra é em pixels de tela; com 10 motivos, o gráfico de paralisação rolava no zoom real do Desktop mesmo cabendo nas capturas.
+- **Decisão:** Top 10 nas instalações e mercadorias (com altura folgada) e **Top 8** nos motivos de paralisação (que respondem por 79% das horas paralisadas em 2025). Filtro "não está em branco" nas segmentações de Região e Instalação (a lista mostrava "(Em branco)").
+- **Alternativa:** reduzir a fonte do eixo (testado, insuficiente).
+
+## D26 — Vídeo e entregáveis gerados em Python
+
+- **Contexto:** o `ffmpeg.exe` instalado via winget (Gyan.FFmpeg) foi bloqueado pela política de Controle de Aplicativo do Windows; não houve tentativa de contornar. O pacote foi desinstalado em seguida.
+- **Decisão:** captura de tela com `mss` e codificação H.264 com PyAV/libx264 dentro do `.venv` (30 fps, recorte só na área do relatório); legendas e cartelas desenhadas com Pillow; `+faststart` via opção do muxer. Capa, GIF e PDF também com Pillow (`ferramentas/entregaveis.py`).
+- **Ciclos de QA:** 6 ciclos de captura (`docs/img/qa/c1b_*` a `c6_*`) + a sessão final que gerou as capturas definitivas, o vídeo e salvou o PBIP (`ferramentas/sessao_final.py`). A navegação no Desktop é feita por nome de controle (UI Automation) e nunca toca em Publicar, Entrar, Sair ou Compartilhar.

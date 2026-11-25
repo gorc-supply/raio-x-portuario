@@ -1,20 +1,23 @@
-# Roteiro do vídeo (gravação de tela, ~80 s)
+# Roteiro do vídeo (gravação de tela, 78 s)
 
-No estilo dos tours do portfólio (`raio-x-opme-tour.mp4`, `kit-estoque-tour.mp4`): gravação de tela muda, em loop, com legenda curta queimada no vídeo, cortes secos e mouse visível. Formato 16:9, 1920×1080 (o painel em tela cheia no navegador, modo "Publicar na Web"), exportar em MP4 (H.264) com menos de 10 MB para caber no site.
+Vídeo final: [docs/video/raio-x-portuario.mp4](video/raio-x-portuario.mp4) (1920×1080, H.264, 30 fps, 2,7 MB) · pôster: [docs/video/poster.jpg](video/poster.jpg).
 
-**Antes de gravar:** segmentação de Ano em **2025**, Região em branco, zoom do navegador em 100%, cursor grande. Todos os números abaixo estão em [valores_referencia.md](valores_referencia.md) (seção 4) — confira no painel antes de gravar.
+No estilo dos tours do portfólio: gravação de tela muda, legenda curta embutida no rodapé (faixa semitransparente), cortes secos, cursor visível e lento. Gravado no Power BI Desktop por `ferramentas/sessao_final.py` (navegação automatizada, recorte só na área do relatório, ano 2025) e editado por `ferramentas/entregaveis.py` (cartelas e legendas). Os tempos de cada cena ficam em `docs/video/cenas.json`. Todos os números estão em [valores_referencia.md](valores_referencia.md) (seção 4) ou em [conciliacao_antaq.md](conciliacao_antaq.md).
 
-| # | Tempo | O que aparece | O que clicar | Achado em destaque | Legenda (texto na tela) |
+| # | Tempo | O que aparece | Ação | Achado em destaque | Legenda (texto na tela) |
 |---|---|---|---|---|---|
-| 1 | 0–6 s | Página **Visão Geral Brasil** inteira | Nada (cursor parado) | Título dinâmico com o recorde | "Raio-X Portuário: 5 anos de dados abertos da ANTAQ" |
-| 2 | 6–16 s | Cartões de KPI e linha mensal | Passar o mouse no cartão Toneladas e num ponto da linha (tooltip) | 1.403,8 milhões de t em 2025, 5,9% acima de 2024 | "2025: recorde de 1.403,8 milhões de t" |
-| 3 | 16–24 s | Top 10 instalações e mapa | Passar o mouse numa bolha do mapa (Ponta da Madeira) | Quem lidera o país | "Ponta da Madeira, Santos e Tubarão no topo" |
-| 4 | 24–30 s | Botão **Nordeste & Suape** | Clicar no botão | — | "E o Nordeste?" |
-| 5 | 30–42 s | Tabela de benchmark (Suape em dourado) e barras de crescimento | Passar o mouse na linha de Suape | Suape é a 13ª do Brasil, com 24,3 milhões de t | "Suape: 13ª instalação do país" |
-| 6 | 42–52 s | Cartões de Suape (TEU, % contêiner) | Mudar o Ano para **2021** e voltar para **2025** | 519 mil TEU → 698 mil TEU; contêiner de 26,7% para 31,2% | "Tonelagem estável, contêiner +34,6% desde 2021" |
-| 7 | 52–60 s | Linha Suape x média dos pares | Passar o mouse em 2–3 meses | Espera mediana 4,3 h x 26,4 h dos pares | "Suape espera 22,1 h a menos que a média dos pares" |
-| 8 | 60–70 s | Página **Eficiência e Gargalos**: mapa de calor | Clicar no botão; passar o mouse na linha de Itaqui | Itaqui: 143,9 h de espera mediana | "O gargalo do Nordeste está no granel: Itaqui" |
-| 9 | 70–76 s | Barras de paralisação por motivo | Passar o mouse em "Chuva" | Chuva = 32,1% das horas paralisadas | "Chuva: 32,1% das horas paradas no Brasil" |
-| 10 | 76–82 s | Página **Sobre** | Clicar no botão; rolar até o link do GitHub | Fonte e método abertos | "Pipeline e conciliação abertos no GitHub" |
+| 1 | 0–2 s | Cartela de abertura | — | Título e recorte | "Raio-X Portuário · Dados abertos da ANTAQ, 2021–2025" |
+| 2 | 2–6 s | Página **Visão Geral** inteira | Cursor parado | Página de entrada | "Visão Geral · ano de 2025" |
+| 3 | 6–9 s | Cartões de KPI | Cursor passa pelos cartões | Recorde de 2025 | "1.403,8 milhões de t em 2025, 5,9% acima de 2024" |
+| 4 | 9–14 s | Linha mensal | Passar o mouse em agosto (dica de ferramenta) | 2025 x 2024 mês a mês | "Mês a mês, 2025 fica acima de 2024 a partir de março" |
+| 5 | 14–20 s | Mapa (malha do IBGE) | Passar o mouse na bolha de Suape (dica: UF, toneladas, var %, espera, prancha) | Suape no mapa | "Mapa com malha do IBGE: Suape em dourado" |
+| 6 | 20–32 s | Segmentação **Região** | Abrir a lista, marcar "Nordeste", fechar | O painel inteiro passa a mostrar o Nordeste | "Filtro Região = Nordeste: 329,7 milhões de t" |
+| 7 | 32–46 s | Página **Nordeste & Suape** | Ctrl+clique no botão; passar o mouse na linha de Suape da tabela e na linha mensal | Suape x pares | "Suape espera 4,3 h (mediana); a média dos pares, 26,4 h" |
+| 8 | 46–57 s | Página **Eficiência e Gargalos** | Ctrl+clique; passar o mouse no mapa de calor | Fila em Itaqui | "Itaqui concentra a fila: 143,9 h de espera mediana" |
+| 9 | 57–67 s | Página **Perfil de Carga** | Ctrl+clique; passar o mouse no top de mercadorias | O que cada porto movimenta | "Perfil de carga: o que cada porto movimenta" |
+| 10 | 67–75 s | Página **Sobre** | Ctrl+clique | Método e conferência | "Total conferido com a ANTAQ: diferença máxima de 1,16% ao ano" |
+| 11 | 75–78 s | Cartela de encerramento | — | Links | "github.com/gorc-supply/raio-x-portuario · gorc-supply.github.io" |
 
-**Pós-produção:** cortar pausas de carregamento; legendas em Onest ou Segoe UI branca com fundo preto 60%, canto inferior esquerdo, 2–3 s cada; sem áudio (o site toca o vídeo mudo e em loop). Salvar como `raio-x-portuario-tour.mp4` e um frame do passo 5 como pôster (`raio-x-portuario-t.webp`, ~800 px de largura).
+**Revisão:** um quadro a cada 5 s em `docs/video/quadros/` (conferidos: nenhum clique errado, lista suspensa fecha logo após a seleção, legendas legíveis).
+
+**Para regravar** (depois de mudar o relatório): `.venv\Scripts\python ferramentas\sessao_final.py` e depois `.venv\Scripts\python ferramentas\entregaveis.py`. Não mexa no mouse durante a gravação (~6 min com a atualização dos dados).

@@ -21,9 +21,18 @@ SUM ( fCarga[Toneladas] )
 ```
 Formato: `#,0` · Pasta: `Volume`
 
+### [Toneladas (Mi t)]
+
+**Definição:** Toneladas em milhões, para eixos e rótulos de gráfico.
+
+```dax
+DIVIDE ( [Toneladas], 1000000 )
+```
+Formato: `#,0.0" Mi t"` · Pasta: `Volume`
+
 ### [Toneladas AA]
 
-**Definição:** Toneladas do mesmo período do ano anterior, considerando só os meses que têm dado no período atual (ex.: 2026 parcial compara jan/2026 com jan/2025).
+**Definição:** Toneladas do mesmo período do ano anterior, só nos meses que têm dado no período atual.
 
 **Na operação do porto:** Base de comparação para separar crescimento real de sazonalidade.
 
@@ -32,9 +41,9 @@ Formato: `#,0` · Pasta: `Volume`
 **Exemplo (2025):** Brasil: **1.325.915.577** · Suape: **24.830.911**.
 
 ```dax
-// meses do contexto atual que já têm dado publicado
+// meses do contexto atual que têm dado publicado
 VAR DatasComDado =
-    CALCULATETABLE ( VALUES ( dCalendario[Data] ), dCalendario[MesComDado] = TRUE () )
+    CALCULATETABLE ( VALUES ( dCalendario[Data] ), dCalendario[Mês com Dado] = TRUE () )
 RETURN
     IF (
         NOT ISEMPTY ( DatasComDado ),
@@ -42,6 +51,15 @@ RETURN
     )
 ```
 Formato: `#,0` · Pasta: `Volume`
+
+### [Toneladas AA (Mi t)]
+
+**Definição:** Toneladas do ano anterior em milhões.
+
+```dax
+DIVIDE ( [Toneladas AA], 1000000 )
+```
+Formato: `#,0.0" Mi t"` · Pasta: `Volume`
 
 ### [Var % Toneladas AA]
 
@@ -59,7 +77,7 @@ VAR AnoAnterior = [Toneladas AA]
 RETURN
     IF ( NOT ISBLANK ( AnoAnterior ), DIVIDE ( Atual - AnoAnterior, AnoAnterior ) )
 ```
-Formato: `+0.0%;-0.0%;0.0%` · Pasta: `Volume`
+Formato: `+0.0%;"−"0.0%;0.0%` · Pasta: `Volume`
 
 ### [TEU]
 
@@ -135,7 +153,7 @@ Formato: `0.0%` · Pasta: `Participação`
 
 ```dax
 DIVIDE (
-    CALCULATE ( [Toneladas], dNavegacao[Navegacao] = "Cabotagem" ),
+    CALCULATE ( [Toneladas], dNavegacao[Navegação] = "Cabotagem" ),
     CALCULATE ( [Toneladas], REMOVEFILTERS ( dNavegacao ) )
 )
 ```
@@ -153,7 +171,7 @@ Formato: `0.0%` · Pasta: `Participação`
 
 ```dax
 DIVIDE (
-    CALCULATE ( [Toneladas], dNavegacao[Navegacao] = "Longo Curso" ),
+    CALCULATE ( [Toneladas], dNavegacao[Navegação] = "Longo Curso" ),
     CALCULATE ( [Toneladas], REMOVEFILTERS ( dNavegacao ) )
 )
 ```
@@ -161,7 +179,7 @@ Formato: `0.0%` · Pasta: `Participação`
 
 ### [% Contêiner]
 
-**Definição:** Fatia das toneladas movimentada em contêiner.
+**Definição:** Fatia das toneladas movimentada em contêiner (0% quando o porto não movimenta contêiner).
 
 **Na operação do porto:** Quanto da carga é conteinerizada — perfil de porto concentrador de carga geral de maior valor.
 
@@ -170,9 +188,12 @@ Formato: `0.0%` · Pasta: `Participação`
 **Exemplo (2025):** Brasil: **11,7%** · Suape: **31,2%**.
 
 ```dax
-DIVIDE (
-    CALCULATE ( [Toneladas], dNaturezaCarga[NaturezaCarga] = "Contêiner" ),
-    CALCULATE ( [Toneladas], REMOVEFILTERS ( dNaturezaCarga ) )
+IF (
+    NOT ISBLANK ( [Toneladas] ),
+    DIVIDE (
+        CALCULATE ( [Toneladas], dNaturezaCarga[Natureza da Carga] = "Contêiner" ),
+        CALCULATE ( [Toneladas], REMOVEFILTERS ( dNaturezaCarga ) )
+    ) + 0
 )
 ```
 Formato: `0.0%` · Pasta: `Participação`
@@ -193,16 +214,19 @@ RETURN
     SWITCH (
         TRUE (),
         ISBLANK ( T ), BLANK (),
-        ISINSCOPE ( dInstalacao[Instalacao] ) || ISINSCOPE ( dInstalacao[PortoBenchmarkNE] ),
+        // a coluna Porto é ordenada por OrdemBenchmark: o visual agrupa pelas duas, então o RANKX itera o par
+        ISINSCOPE ( dInstalacao[Porto (benchmark NE)] ),
             RANKX (
-                ALLSELECTED ( dInstalacao[Instalacao], dInstalacao[PortoBenchmarkNE] ),
+                ALLSELECTED ( dInstalacao[Porto (benchmark NE)], dInstalacao[OrdemBenchmark] ),
                 [Toneladas], , DESC, DENSE
             ),
-        ISINSCOPE ( dInstalacao[ComplexoPortuario] ),
-            RANKX ( ALLSELECTED ( dInstalacao[ComplexoPortuario] ), [Toneladas], , DESC, DENSE )
+        ISINSCOPE ( dInstalacao[Instalação] ),
+            RANKX ( ALLSELECTED ( dInstalacao[Instalação] ), [Toneladas], , DESC, DENSE ),
+        ISINSCOPE ( dInstalacao[Complexo Portuário] ),
+            RANKX ( ALLSELECTED ( dInstalacao[Complexo Portuário] ), [Toneladas], , DESC, DENSE )
     )
 ```
-Formato: `0` · Pasta: `Participação`
+Formato: `#,0` · Pasta: `Participação`
 
 ### [Ranking Suape Brasil]
 
@@ -219,13 +243,13 @@ VAR ToneladasSuape =
     CALCULATE ( [Toneladas], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 )
 VAR Todas =
     CALCULATETABLE (
-        ADDCOLUMNS ( VALUES ( dInstalacao[Instalacao] ), "@t", [Toneladas] ),
+        ADDCOLUMNS ( VALUES ( dInstalacao[Instalação] ), "@t", [Toneladas] ),
         REMOVEFILTERS ( dInstalacao )
     )
 RETURN
     IF ( NOT ISBLANK ( ToneladasSuape ), COUNTROWS ( FILTER ( Todas, [@t] > ToneladasSuape ) ) + 1 )
 ```
-Formato: `0` · Pasta: `Participação`
+Formato: `#,0` · Pasta: `Participação`
 
 ## Eficiência
 
@@ -242,11 +266,11 @@ Formato: `0` · Pasta: `Participação`
 ```dax
 AVERAGE ( fAtracacao[EsperaAtracacao_h] )
 ```
-Formato: `#,0.0` · Pasta: `Eficiência`
+Formato: `#,0.0" h"` · Pasta: `Eficiência`
 
 ### [Espera Mediana (h)]
 
-**Definição:** Mediana das horas entre chegada e atracação: a espera do navio 'típico', sem distorção das filas extremas.
+**Definição:** Mediana das horas entre chegada e atracação: a espera do navio típico, sem distorção das filas extremas.
 
 **Na operação do porto:** A espera do navio típico. É o indicador de gargalo usado no painel.
 
@@ -257,7 +281,7 @@ Formato: `#,0.0` · Pasta: `Eficiência`
 ```dax
 MEDIAN ( fAtracacao[EsperaAtracacao_h] )
 ```
-Formato: `#,0.0` · Pasta: `Eficiência`
+Formato: `#,0.0" h"` · Pasta: `Eficiência`
 
 ### [Tempo Atracado Médio (h)]
 
@@ -272,7 +296,7 @@ Formato: `#,0.0` · Pasta: `Eficiência`
 ```dax
 AVERAGE ( fAtracacao[Atracado_h] )
 ```
-Formato: `#,0.0` · Pasta: `Eficiência`
+Formato: `#,0.0" h"` · Pasta: `Eficiência`
 
 ### [Tempo de Operação Médio (h)]
 
@@ -287,11 +311,11 @@ Formato: `#,0.0` · Pasta: `Eficiência`
 ```dax
 AVERAGE ( fAtracacao[Operacao_h] )
 ```
-Formato: `#,0.0` · Pasta: `Eficiência`
+Formato: `#,0.0" h"` · Pasta: `Eficiência`
 
 ### [% Atracado em Operação]
 
-**Definição:** Horas de operação ÷ horas atracado (só atracações com os dois tempos). Quanto do tempo no berço é operação de fato.
+**Definição:** Horas de operação ÷ horas atracado (só atracações com os dois tempos): quanto do tempo no berço é operação.
 
 **Na operação do porto:** Eficiência do uso do berço: o restante do tempo atracado é espera de início, paralisações, documentação e espera de desatracação.
 
@@ -333,7 +357,7 @@ DIVIDE (
     CALCULATE ( SUM ( fAtracacao[Operacao_h] ), KEEPFILTERS ( fAtracacao[Operacao_h] > 0 ) )
 )
 ```
-Formato: `#,0` · Pasta: `Eficiência`
+Formato: `#,0" t/h"` · Pasta: `Eficiência`
 
 ### [Prancha Média Geral (t/h)]
 
@@ -351,7 +375,7 @@ DIVIDE (
     CALCULATE ( SUM ( fAtracacao[Atracado_h] ), KEEPFILTERS ( fAtracacao[Atracado_h] > 0 ) )
 )
 ```
-Formato: `#,0` · Pasta: `Eficiência`
+Formato: `#,0" t/h"` · Pasta: `Eficiência`
 
 ### [Horas Paralisadas]
 
@@ -366,7 +390,7 @@ Formato: `#,0` · Pasta: `Eficiência`
 ```dax
 SUM ( fParalisacao[HorasParalisadas] )
 ```
-Formato: `#,0` · Pasta: `Eficiência`
+Formato: `#,0" h"` · Pasta: `Eficiência`
 
 ### [Espera Mediana Suape (h)]
 
@@ -381,7 +405,7 @@ Formato: `#,0` · Pasta: `Eficiência`
 ```dax
 CALCULATE ( [Espera Mediana (h)], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 )
 ```
-Formato: `#,0.0` · Pasta: `Eficiência\Benchmark Nordeste`
+Formato: `#,0.0" h"` · Pasta: `Eficiência\Benchmark Nordeste`
 
 ### [Espera Mediana Média Pares (h)]
 
@@ -396,23 +420,23 @@ Formato: `#,0.0` · Pasta: `Eficiência\Benchmark Nordeste`
 ```dax
 VAR Pares =
     CALCULATETABLE (
-        VALUES ( dInstalacao[PortoBenchmarkNE] ),
+        VALUES ( dInstalacao[Porto (benchmark NE)] ),
         REMOVEFILTERS ( dInstalacao ),
-        dInstalacao[GrupoBenchmark] = "Pares do Nordeste"
+        dInstalacao[Grupo do Benchmark] = "Pares do Nordeste"
     )
 RETURN
     AVERAGEX (
         Pares,
-        VAR Porto = dInstalacao[PortoBenchmarkNE]
+        VAR Porto = dInstalacao[Porto (benchmark NE)]
         RETURN
             CALCULATE (
                 [Espera Mediana (h)],
                 REMOVEFILTERS ( dInstalacao ),
-                dInstalacao[PortoBenchmarkNE] = Porto
+                dInstalacao[Porto (benchmark NE)] = Porto
             )
     )
 ```
-Formato: `#,0.0` · Pasta: `Eficiência\Benchmark Nordeste`
+Formato: `#,0.0" h"` · Pasta: `Eficiência\Benchmark Nordeste`
 
 ### [Diferença Espera Suape vs Pares (h)]
 
@@ -427,7 +451,7 @@ Formato: `#,0.0` · Pasta: `Eficiência\Benchmark Nordeste`
 ```dax
 [Espera Mediana Suape (h)] - [Espera Mediana Média Pares (h)]
 ```
-Formato: `+#,0.0;-#,0.0;0.0` · Pasta: `Eficiência\Benchmark Nordeste`
+Formato: `+#,0.0" h";"−"#,0.0" h";0.0" h"` · Pasta: `Eficiência\Benchmark Nordeste`
 
 ## Volume
 
@@ -474,7 +498,7 @@ Formato: `#,0` · Pasta: `Volume\Suape`
 ```dax
 CALCULATE ( [Var % Toneladas AA], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 )
 ```
-Formato: `+0.0%;-0.0%;0.0%` · Pasta: `Volume\Suape`
+Formato: `+0.0%;"−"0.0%;0.0%` · Pasta: `Volume\Suape`
 
 ## Participação
 
@@ -495,23 +519,276 @@ Formato: `0.0%` · Pasta: `Participação`
 
 ## Auxiliares
 
-### [Última Atualização]
+### [Latitude do Complexo]
 
-**Definição:** Texto com o último mês de dado da ANTAQ e a data de processamento do pipeline.
+**Definição:** Latitude do complexo portuário (média das coordenadas oficiais ponderada por toneladas).
 
 ```dax
-"Dados ANTAQ até " & FORMAT ( MAX ( Meta[UltimoMesDisponivel] ), "mm/yyyy" )
-    & " · processado em " & FORMAT ( MAX ( Meta[DataProcessamento] ), "dd/mm/yyyy" )
+MAX ( dInstalacao[Latitude do Complexo] )
+```
+Formato: `0.000` · Pasta: `Auxiliares\Mapa`
+
+### [Longitude do Complexo]
+
+**Definição:** Longitude do complexo portuário (média das coordenadas oficiais ponderada por toneladas).
+
+```dax
+MAX ( dInstalacao[Longitude do Complexo] )
+```
+Formato: `0.000` · Pasta: `Auxiliares\Mapa`
+
+### [Destaque no Mapa]
+
+**Definição:** 1 para Suape e para os 5 complexos com mais toneladas no contexto (os que recebem rótulo no mapa).
+
+```dax
+VAR Posicao =
+    IF (
+        ISINSCOPE ( dInstalacao[Complexo Portuário] ),
+        RANKX ( ALLSELECTED ( dInstalacao[Complexo Portuário] ), [Toneladas], , DESC, DENSE )
+    )
+RETURN
+    IF ( NOT ISBLANK ( [Toneladas] ) && ( Posicao <= 5 || MAX ( dInstalacao[EhSuape] ) = 1 ), 1 )
+```
+Formato: `#,0` · Pasta: `Auxiliares\Mapa`
+
+### [Latitude (rótulo)]
+
+**Definição:** Latitude só dos complexos destacados (camada de rótulos).
+
+```dax
+IF ( [Destaque no Mapa] = 1, MAX ( dInstalacao[Latitude do Rótulo] ) )
+```
+Formato: `0.000` · Pasta: `Auxiliares\Mapa`
+
+### [Longitude (rótulo)]
+
+**Definição:** Longitude só dos complexos destacados (camada de rótulos).
+
+```dax
+IF ( [Destaque no Mapa] = 1, MAX ( dInstalacao[Longitude do Rótulo] ) )
+```
+Formato: `0.000` · Pasta: `Auxiliares\Mapa`
+
+### [UF do Complexo]
+
+**Definição:** UF(s) do complexo portuário (dica de ferramenta).
+
+```dax
+CONCATENATEX ( VALUES ( dInstalacao[UF] ), dInstalacao[UF], "/" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Mapa`
+
+### [Rótulo Toneladas]
+
+**Definição:** Toneladas em milhões com unidade (cartão).
+
+```dax
+VAR v = [Toneladas (Mi t)]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "#,0.0" ) & " Mi t" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo Var % AA]
+
+**Definição:** Variação vs. ano anterior com sinal (cartão).
+
+```dax
+VAR v = [Var % Toneladas AA]
+RETURN
+    IF (
+        NOT ISBLANK ( v ),
+        IF ( v >= 0, "+", "−" ) & FORMAT ( ABS ( v ), "0.0%" )
+    )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo Atracações]
+
+**Definição:** Nº de atracações com separador de milhar (cartão).
+
+```dax
+VAR v = [Nº Atracações]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "#,0" ) )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo Espera Mediana]
+
+**Definição:** Espera mediana com 1 casa e unidade (cartão).
+
+```dax
+VAR v = [Espera Mediana (h)]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "#,0.0" ) & " h" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo Prancha Operacional]
+
+**Definição:** Prancha operacional inteira com unidade (cartão).
+
+```dax
+VAR v = [Prancha Média Operacional (t/h)]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "#,0" ) & " t/h" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo Tempo Atracado]
+
+**Definição:** Tempo atracado médio (cartão).
+
+```dax
+VAR v = [Tempo Atracado Médio (h)]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "#,0.0" ) & " h" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo % Atracado em Operação]
+
+**Definição:** % do tempo atracado em operação (cartão).
+
+```dax
+VAR v = [% Atracado em Operação]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "0.0%" ) )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo Horas Paralisadas]
+
+**Definição:** Horas paralisadas em milhares (cartão).
+
+```dax
+VAR v = DIVIDE ( [Horas Paralisadas], 1000 )
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "#,0.0" ) & " mil h" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo TEU]
+
+**Definição:** TEU em milhares (cartão).
+
+```dax
+VAR v = DIVIDE ( [TEU], 1000 )
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "#,0" ) & " mil TEU" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo % Contêiner]
+
+**Definição:** % contêiner (cartão).
+
+```dax
+VAR v = [% Contêiner]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "0.0%" ) )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo % Longo Curso]
+
+**Definição:** % longo curso (cartão).
+
+```dax
+VAR v = [% Longo Curso]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "0.0%" ) )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo % Cabotagem]
+
+**Definição:** % cabotagem (cartão).
+
+```dax
+VAR v = [% Cabotagem]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "0.0%" ) )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo Toneladas Suape]
+
+**Definição:** Toneladas de Suape em milhões (cartão).
+
+```dax
+VAR v = DIVIDE ( [Toneladas Suape], 1000000 )
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "#,0.0" ) & " Mi t" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo Var % Suape]
+
+**Definição:** Variação de Suape vs. ano anterior (cartão).
+
+```dax
+VAR v = [Var % Toneladas Suape AA]
+RETURN
+    IF (
+        NOT ISBLANK ( v ),
+        IF ( v >= 0, "+", "−" ) & FORMAT ( ABS ( v ), "0.0%" )
+    )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo TEU Suape]
+
+**Definição:** TEU de Suape em milhares (cartão).
+
+```dax
+VAR v = DIVIDE ( [TEU Suape], 1000 )
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "#,0" ) & " mil TEU" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo % Contêiner Suape]
+
+**Definição:** % contêiner de Suape (cartão).
+
+```dax
+VAR v = [% Contêiner Suape]
+RETURN
+    IF ( NOT ISBLANK ( v ), FORMAT ( v, "0.0%" ) )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Rótulo Ranking Suape]
+
+**Definição:** Posição de Suape no Brasil (cartão).
+
+```dax
+VAR r = [Ranking Suape Brasil]
+RETURN
+    IF ( NOT ISBLANK ( r ), r & "ª do Brasil" )
+```
+Formato: `texto` · Pasta: `Auxiliares\Rótulos`
+
+### [Última Atualização]
+
+**Definição:** Texto com o recorte e a data de processamento do pipeline.
+
+```dax
+"Dados ANTAQ 2021–2025 (anos completos) · processado em "
+    & FORMAT ( MAX ( Meta[Data de Processamento] ), "dd/mm/yyyy" )
 ```
 Formato: `texto` · Pasta: `Auxiliares`
 
 ### [Título Dinâmico Período]
 
-**Definição:** Texto do período filtrado com dado (ex.: 'em 2025', 'de 2021 a 2025', 'em jan/2026').
+**Definição:** Texto do período filtrado (ex.: 'em 2025', 'de 2021 a 2025').
 
 ```dax
-VAR DataIni = CALCULATE ( MIN ( dCalendario[Data] ), dCalendario[MesComDado] = TRUE () )
-VAR DataFim = CALCULATE ( MAX ( dCalendario[Data] ), dCalendario[MesComDado] = TRUE () )
+VAR DataIni = CALCULATE ( MIN ( dCalendario[Data] ), dCalendario[Mês com Dado] = TRUE () )
+VAR DataFim = CALCULATE ( MAX ( dCalendario[Data] ), dCalendario[Mês com Dado] = TRUE () )
 VAR AnoIni = YEAR ( DataIni )
 VAR AnoFim = YEAR ( DataFim )
 VAR AnoCompleto = MONTH ( DataIni ) = 1 && MONTH ( DataFim ) = 12
@@ -522,23 +799,23 @@ RETURN
         AnoIni = AnoFim && AnoCompleto, "em " & AnoIni,
         AnoIni = AnoFim && MONTH ( DataIni ) = MONTH ( DataFim ), "em " & FORMAT ( DataFim, "mmm/yyyy" ),
         AnoIni = AnoFim, "de " & FORMAT ( DataIni, "mmm" ) & " a " & FORMAT ( DataFim, "mmm/yyyy" ),
-        "de " & AnoIni & " a " & FORMAT ( DataFim, IF ( MONTH ( DataFim ) = 12, "yyyy", "mmm/yyyy" ) )
+        "de " & AnoIni & " a " & AnoFim
     )
 ```
 Formato: `texto` · Pasta: `Auxiliares`
 
-### [Toneladas (Top 10)]
+### [Toneladas (Top 10) (Mi t)]
 
-**Definição:** Toneladas só das 10 maiores instalações visíveis (para o gráfico de ranking).
+**Definição:** Toneladas (Mi t) só das 10 maiores instalações visíveis (ranking sem barra de rolagem).
 
 ```dax
-IF ( [Ranking Porto] <= 10, [Toneladas] )
+IF ( [Ranking Porto] <= 10, [Toneladas (Mi t)] )
 ```
-Formato: `#,0` · Pasta: `Auxiliares`
+Formato: `#,0.0" Mi t"` · Pasta: `Auxiliares`
 
-### [Toneladas (Top 10 mercadorias)]
+### [Toneladas (Top 10 mercadorias) (Mi t)]
 
-**Definição:** Toneladas só das 10 maiores mercadorias visíveis.
+**Definição:** Toneladas (Mi t) só das 10 maiores mercadorias visíveis.
 
 ```dax
 VAR Posicao =
@@ -547,31 +824,31 @@ VAR Posicao =
         RANKX ( ALLSELECTED ( dMercadoria[Mercadoria] ), [Toneladas], , DESC, DENSE )
     )
 RETURN
-    IF ( Posicao <= 10, [Toneladas] )
+    IF ( Posicao <= 10, [Toneladas (Mi t)] )
 ```
-Formato: `#,0` · Pasta: `Auxiliares`
+Formato: `#,0.0" Mi t"` · Pasta: `Auxiliares`
 
-### [Horas Paralisadas (Top 10 motivos)]
+### [Horas Paralisadas (Top 8 motivos)]
 
-**Definição:** Horas paralisadas só dos 10 motivos com mais horas no contexto.
+**Definição:** Horas paralisadas só dos 8 motivos com mais horas no contexto (cabe sem rolagem em qualquer zoom).
 
 ```dax
 VAR Posicao =
     IF (
-        ISINSCOPE ( fParalisacao[MotivoParalisacao] ),
-        RANKX ( ALLSELECTED ( fParalisacao[MotivoParalisacao] ), [Horas Paralisadas], , DESC, DENSE )
+        ISINSCOPE ( fParalisacao[Motivo da Paralisação] ),
+        RANKX ( ALLSELECTED ( fParalisacao[Motivo da Paralisação] ), [Horas Paralisadas], , DESC, DENSE )
     )
 RETURN
-    IF ( Posicao <= 10, [Horas Paralisadas] )
+    IF ( Posicao <= 8, [Horas Paralisadas] )
 ```
-Formato: `#,0` · Pasta: `Auxiliares`
+Formato: `#,0" h"` · Pasta: `Auxiliares`
 
 ### [Cor Destaque Suape]
 
-**Definição:** Cor das barras/pontos: dourado para Suape, azul para as demais (formatação condicional por valor de campo).
+**Definição:** Cor das barras/pontos: dourado para Suape (ou o complexo que contém Suape), azul para as demais.
 
 ```dax
-IF ( SELECTEDVALUE ( dInstalacao[EhSuape], 0 ) = 1, "#C9A96E", "#8FB4D9" )
+IF ( MAX ( dInstalacao[EhSuape] ) = 1, "#C9A96E", "#8FB4D9" )
 ```
 Formato: `texto` · Pasta: `Auxiliares`
 
@@ -580,7 +857,7 @@ Formato: `texto` · Pasta: `Auxiliares`
 **Definição:** Cor do texto: dourado na linha de Suape, branco nas demais.
 
 ```dax
-IF ( SELECTEDVALUE ( dInstalacao[EhSuape], 0 ) = 1, "#C9A96E", "#FFFFFF" )
+IF ( MAX ( dInstalacao[EhSuape] ) = 1, "#C9A96E", "#FFFFFF" )
 ```
 Formato: `texto` · Pasta: `Auxiliares`
 
@@ -596,9 +873,9 @@ RETURN
         ISBLANK ( Espera ), BLANK (),
         Espera <= 2, "#1E3A2F",
         Espera <= 6, "#2F5D46",
-        Espera <= 24, "#7A6A3A",
-        Espera <= 72, "#A0522D",
-        "#8B1E2D"
+        Espera <= 24, "#6E5F33",
+        Espera <= 72, "#8F4A28",
+        "#7A1C2A"
     )
 ```
 Formato: `texto` · Pasta: `Auxiliares`
@@ -612,21 +889,24 @@ VAR Espera = [Espera Mediana (h)]
 RETURN
     IF (
         NOT ISBLANK ( Espera ),
-        IF ( Espera <= [Espera Mediana Média Pares (h)], "#1E3A2F", "#4A1C14" )
+        IF ( Espera <= [Espera Mediana Média Pares (h)], "#1E3A2F", "#5A2318" )
     )
 ```
 Formato: `texto` · Pasta: `Auxiliares`
 
 ### [Título KPI Brasil]
 
-**Definição:** Título da página Visão Geral.
+**Definição:** Manchete da página Visão Geral.
 
 ```dax
 VAR Mt = [Toneladas] / 1000000
 VAR Variacao = [Var % Toneladas AA]
 RETURN
-    "Portos brasileiros movimentaram " & FORMAT ( Mt, "#,0.0" ) & " milhões de t " & [Título Dinâmico Período]
-        & IF ( NOT ISBLANK ( Variacao ), " (" & FORMAT ( Variacao, "+0.0%;-0.0%" ) & " vs. ano anterior)" )
+    "Portos brasileiros movimentaram " & FORMAT ( Mt, "#,0.0" ) & " Mi t " & [Título Dinâmico Período]
+        & IF (
+            NOT ISBLANK ( Variacao ),
+            " (" & IF ( Variacao >= 0, "+", "−" ) & FORMAT ( ABS ( Variacao ), "0.0%" ) & " vs. ano anterior)"
+        )
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
@@ -635,7 +915,7 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título do gráfico de linha mensal.
 
 ```dax
-"Toneladas por mês " & [Título Dinâmico Período] & " x mesmo mês do ano anterior"
+"Toneladas por mês " & [Título Dinâmico Período] & " (cinza = ano anterior)"
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
@@ -644,12 +924,11 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título do gráfico por região.
 
 ```dax
-VAR Top =
-    TOPN ( 1, ADDCOLUMNS ( VALUES ( dInstalacao[Regiao] ), "@t", [Toneladas] ), [@t], DESC )
-VAR Nome = MAXX ( Top, dInstalacao[Regiao] )
-VAR Fatia = DIVIDE ( MAXX ( Top, [@t] ), [Toneladas] )
+VAR Lider =
+    TOPN ( 1, ADDCOLUMNS ( VALUES ( dInstalacao[Região] ), "@t", [Toneladas] ), [@t], DESC )
 RETURN
-    Nome & " concentra " & FORMAT ( Fatia, "0%" ) & " da carga " & [Título Dinâmico Período]
+    MAXX ( Lider, dInstalacao[Região] ) & " concentra " & FORMAT ( DIVIDE ( MAXX ( Lider, [@t] ), [Toneladas] ), "0%" )
+        & " da carga"
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
@@ -658,17 +937,26 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título do ranking de instalações.
 
 ```dax
-VAR Top =
-    TOPN ( 1, ADDCOLUMNS ( VALUES ( dInstalacao[Instalacao] ), "@t", [Toneladas] ), [@t], DESC )
+VAR Lider =
+    TOPN ( 1, ADDCOLUMNS ( VALUES ( dInstalacao[Instalação] ), "@t", [Toneladas] ), [@t], DESC )
 RETURN
-    MAXX ( Top, dInstalacao[Instalacao] ) & " lidera com " & FORMAT ( MAXX ( Top, [@t] ) / 1000000, "#,0.0" )
-        & " milhões de t " & [Título Dinâmico Período]
+    "Top 10 instalações: " & MAXX ( Lider, dInstalacao[Instalação] ) & " lidera com "
+        & FORMAT ( MAXX ( Lider, [@t] ) / 1000000, "#,0.0" ) & " Mi t " & [Título Dinâmico Período]
+```
+Formato: `texto` · Pasta: `Auxiliares\Títulos`
+
+### [Título Mapa]
+
+**Definição:** Título do mapa.
+
+```dax
+"Complexos portuários " & [Título Dinâmico Período] & " (tamanho = toneladas)"
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
 ### [Título Benchmark Espera]
 
-**Definição:** Título da página Nordeste & Suape: conclusão sobre a espera de Suape vs. pares.
+**Definição:** Manchete da página Nordeste & Suape: espera de Suape vs. pares.
 
 ```dax
 VAR Dif = [Diferença Espera Suape vs Pares (h)]
@@ -681,6 +969,15 @@ RETURN
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
+### [Título Tabela Benchmark]
+
+**Definição:** Título da tabela de benchmark.
+
+```dax
+"Suape x pares " & [Título Dinâmico Período] & " · verde = espera mediana até a média dos pares"
+```
+Formato: `texto` · Pasta: `Auxiliares\Títulos`
+
 ### [Título Crescimento Pares]
 
 **Definição:** Título das barras de crescimento.
@@ -688,25 +985,36 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 ```dax
 VAR Pares =
     CALCULATETABLE (
-        ADDCOLUMNS ( VALUES ( dInstalacao[PortoBenchmarkNE] ), "@v", [Var % Toneladas AA] ),
-        NOT ISBLANK ( dInstalacao[PortoBenchmarkNE] )
+        ADDCOLUMNS ( VALUES ( dInstalacao[Porto (benchmark NE)] ), "@v", [Var % Toneladas AA] ),
+        NOT ISBLANK ( dInstalacao[Porto (benchmark NE)] )
     )
-VAR Top = TOPN ( 1, FILTER ( Pares, NOT ISBLANK ( [@v] ) ), [@v], DESC )
+VAR Lider = TOPN ( 1, FILTER ( Pares, NOT ISBLANK ( [@v] ) ), [@v], DESC )
+VAR v = MAXX ( Lider, [@v] )
 RETURN
     IF (
-        ISEMPTY ( Top ), "Crescimento vs. ano anterior",
-        "Maior crescimento " & [Título Dinâmico Período] & ": " & MAXX ( Top, dInstalacao[PortoBenchmarkNE] )
-            & " (" & FORMAT ( MAXX ( Top, [@v] ), "+0.0%;-0.0%" ) & ")"
+        ISEMPTY ( Lider ), "Crescimento vs. ano anterior",
+        "Maior alta " & [Título Dinâmico Período] & ": " & MAXX ( Lider, dInstalacao[Porto (benchmark NE)] )
+            & " (" & IF ( v >= 0, "+", "−" ) & FORMAT ( ABS ( v ), "0.0%" ) & ")"
     )
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
-### [Título Ranking Suape]
+### [Título Linha Suape Pares]
 
-**Definição:** Texto do cartão de ranking de Suape.
+**Definição:** Título da linha Suape x pares.
 
 ```dax
-"Suape é a " & [Ranking Suape Brasil] & "ª maior instalação do Brasil " & [Título Dinâmico Período]
+"Espera mediana por mês " & [Título Dinâmico Período] & ": Suape (dourado) x média dos pares (cinza)"
+```
+Formato: `texto` · Pasta: `Auxiliares\Títulos`
+
+### [Título Eficiência]
+
+**Definição:** Manchete da página Eficiência e Gargalos.
+
+```dax
+"Navio típico esperou " & FORMAT ( [Espera Mediana (h)], "#,0.0" ) & " h para atracar " & [Título Dinâmico Período]
+    & "; prancha operacional de " & FORMAT ( [Prancha Média Operacional (t/h)], "#,0" ) & " t/h"
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
@@ -715,18 +1023,18 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título do mapa de calor.
 
 ```dax
-VAR Top =
+VAR Lider =
     TOPN (
         1,
         CALCULATETABLE (
-            ADDCOLUMNS ( VALUES ( dInstalacao[PortoBenchmarkNE] ), "@e", [Espera Mediana (h)] ),
-            NOT ISBLANK ( dInstalacao[PortoBenchmarkNE] )
+            ADDCOLUMNS ( VALUES ( dInstalacao[Porto (benchmark NE)] ), "@e", [Espera Mediana (h)] ),
+            NOT ISBLANK ( dInstalacao[Porto (benchmark NE)] )
         ),
         [@e], DESC
     )
 RETURN
-    "Maior espera mediana entre os pares " & [Título Dinâmico Período] & ": " & MAXX ( Top, dInstalacao[PortoBenchmarkNE] )
-        & " (" & FORMAT ( MAXX ( Top, [@e] ), "#,0" ) & " h)"
+    "Espera mediana (h) por mês " & [Título Dinâmico Período] & " · maior: " & MAXX ( Lider, dInstalacao[Porto (benchmark NE)] )
+        & " (" & FORMAT ( MAXX ( Lider, [@e] ), "#,0" ) & " h)"
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
@@ -735,8 +1043,8 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título das barras de % atracado em operação.
 
 ```dax
-"Suape usa " & FORMAT ( CALCULATE ( [% Atracado em Operação], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 ), "0%" )
-    & " do tempo atracado operando " & [Título Dinâmico Período]
+"Suape opera " & FORMAT ( CALCULATE ( [% Atracado em Operação], REMOVEFILTERS ( dInstalacao ), dInstalacao[EhSuape] = 1 ), "0%" )
+    & " do tempo atracado " & [Título Dinâmico Período]
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
@@ -745,13 +1053,13 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título das horas paralisadas por motivo.
 
 ```dax
-VAR Top =
-    TOPN ( 1, ADDCOLUMNS ( VALUES ( fParalisacao[MotivoParalisacao] ), "@h", [Horas Paralisadas] ), [@h], DESC )
+VAR Lider =
+    TOPN ( 1, ADDCOLUMNS ( VALUES ( fParalisacao[Motivo da Paralisação] ), "@h", [Horas Paralisadas] ), [@h], DESC )
 RETURN
     IF (
-        ISEMPTY ( Top ), "Horas paralisadas por motivo",
-        "Principal causa de paralisação: " & MAXX ( Top, fParalisacao[MotivoParalisacao] ) & " ("
-            & FORMAT ( DIVIDE ( MAXX ( Top, [@h] ), [Horas Paralisadas] ), "0%" ) & " das horas)"
+        ISEMPTY ( Lider ), "Horas paralisadas por motivo",
+        "Top 8 motivos de paralisação · maior: " & MAXX ( Lider, fParalisacao[Motivo da Paralisação] ) & " ("
+            & FORMAT ( DIVIDE ( MAXX ( Lider, [@h] ), [Horas Paralisadas] ), "0%" ) & ")"
     )
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
@@ -761,7 +1069,22 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título da dispersão espera x prancha.
 
 ```dax
-"Portos públicos " & [Título Dinâmico Período] & ": espera mediana (h) x prancha operacional (t/h)"
+"Portos públicos " & [Título Dinâmico Período] & ": espera (h) x prancha (t/h)"
+```
+Formato: `texto` · Pasta: `Auxiliares\Títulos`
+
+### [Título Perfil]
+
+**Definição:** Manchete da página Perfil de Carga.
+
+```dax
+VAR Selecao =
+    IF (
+        HASONEVALUE ( dInstalacao[Instalação] ), SELECTEDVALUE ( dInstalacao[Instalação] ),
+        IF ( ISFILTERED ( dInstalacao ), "Instalações selecionadas", "Brasil" )
+    )
+RETURN
+    Selecao & " " & [Título Dinâmico Período] & ": " & FORMAT ( [Toneladas] / 1000000, "#,0.0" ) & " Mi t movimentadas"
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
@@ -770,11 +1093,11 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título da composição por natureza de carga.
 
 ```dax
-VAR Top =
-    TOPN ( 1, ADDCOLUMNS ( VALUES ( dNaturezaCarga[NaturezaCarga] ), "@t", [Toneladas] ), [@t], DESC )
+VAR Lider =
+    TOPN ( 1, ADDCOLUMNS ( VALUES ( dNaturezaCarga[Natureza da Carga] ), "@t", [Toneladas] ), [@t], DESC )
 RETURN
-    MAXX ( Top, dNaturezaCarga[NaturezaCarga] ) & " responde por " & FORMAT ( DIVIDE ( MAXX ( Top, [@t] ), [Toneladas] ), "0%" )
-        & " da carga " & [Título Dinâmico Período]
+    "Por mês · " & MAXX ( Lider, dNaturezaCarga[Natureza da Carga] ) & " responde por "
+        & FORMAT ( DIVIDE ( MAXX ( Lider, [@t] ), [Toneladas] ), "0%" ) & " da carga"
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
@@ -783,11 +1106,11 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título do top mercadorias.
 
 ```dax
-VAR Top =
+VAR Lider =
     TOPN ( 1, ADDCOLUMNS ( VALUES ( dMercadoria[Mercadoria] ), "@t", [Toneladas] ), [@t], DESC )
 RETURN
-    MAXX ( Top, dMercadoria[Mercadoria] ) & " é a principal mercadoria: " & FORMAT ( DIVIDE ( MAXX ( Top, [@t] ), [Toneladas] ), "0%" )
-        & " das toneladas"
+    "Top 10 mercadorias · " & MAXX ( Lider, dMercadoria[Mercadoria] ) & ": "
+        & FORMAT ( DIVIDE ( MAXX ( Lider, [@t] ), [Toneladas] ), "0%" ) & " das toneladas"
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 
@@ -807,8 +1130,7 @@ Formato: `texto` · Pasta: `Auxiliares\Títulos`
 **Definição:** Título da movimentação por navegação.
 
 ```dax
-"Longo curso: " & FORMAT ( [% Longo Curso], "0%" ) & " · cabotagem: " & FORMAT ( [% Cabotagem], "0%" )
-    & " das toneladas"
+"Por navegação · longo curso " & FORMAT ( [% Longo Curso], "0%" ) & ", cabotagem " & FORMAT ( [% Cabotagem], "0%" )
 ```
 Formato: `texto` · Pasta: `Auxiliares\Títulos`
 

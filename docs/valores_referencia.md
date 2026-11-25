@@ -1,6 +1,6 @@
 # Valores de referência dos KPIs
 
-> Gerado automaticamente por `etl/04_documentar.py` em 24/11/2026 23:09 a partir dos mesmos CSV de `data/processed/` que o Power BI lê.
+> Gerado automaticamente por `etl/04_documentar.py` em 25/11/2026 00:32 a partir dos mesmos CSV de `data/processed/` que o Power BI lê.
 > Recorte: anos completos **2021–2025** (jan/2026, o único mês de 2026 no espelho, fica fora do projeto — ver DECISOES.md, D18).
 
 Use estas tabelas para conferir o Power BI número a número: selecione o ano na segmentação de período (e, para Suape, filtre a instalação) e compare com o cartão/tabela correspondente. As definições das medidas estão em [kpis.md](kpis.md).
@@ -98,6 +98,7 @@ Fonte única dos números de texto. `tests/test_documentacao.py` confere que o R
 |---|---:|---|---|
 | brasil_t | 1.403,8 milhões de t | [Toneladas] | Ano = 2025 |
 | brasil_var | 5,9% | [Var % Toneladas AA] | Ano = 2025 |
+| nordeste_t | 329,7 milhões de t | [Toneladas] | Ano = 2025; Região = Nordeste |
 | suape_t | 24,3 milhões de t | [Toneladas] | Ano = 2025; Instalação = Suape |
 | suape_var | -2,3% | [Var % Toneladas AA] | Ano = 2025; Instalação = Suape |
 | suape_rank | 13ª | [Ranking Suape Brasil] | Ano = 2025 |

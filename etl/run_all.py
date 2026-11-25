@@ -18,6 +18,7 @@ ETAPAS = [
     ("Download", "01_download.py"),
     ("Tratamento", "02_transform.py"),
     ("Exportação CSV", "03_export.py"),
+    ("Malha do IBGE para o mapa (docs/img/mapa_brasil_ibge.png)", "mapa_base.py"),
     ("Exploração (docs/exploracao.md)", "explorar.py"),
     ("Documentação numérica (valores de referência, qualidade, conciliação)", "04_documentar.py"),
     ("Dicionário de KPIs (docs/kpis.md)", "kpis_doc.py"),

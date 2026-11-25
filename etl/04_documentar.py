@@ -61,6 +61,7 @@ def tabela_kpis(con, anos, inst=None, id_rank=None) -> str:
 
 def numeros_citados(con, ano: int) -> list[tuple[str, str, str, str]]:
     """(id, valor formatado, medida, filtro) de cada número citado no README, roteiro e post."""
+    q = lambda sql: con.sql(sql).fetchall()[0][0]  # noqa: E731
     b, s, s0 = K.kpis(con, ano), K.kpis(con, ano, "'BRSUA'"), K.kpis(con, C.ANO_INICIAL, "'BRSUA'")
     s_ant = K.kpis(con, ano - 1, "'BRSUA'")
     iq = K.kpis(con, ano, "'BRIQI'")
@@ -78,6 +79,9 @@ def numeros_citados(con, ano: int) -> list[tuple[str, str, str, str]]:
     return [
         ("brasil_t", br(b["Toneladas"] / 1e6, 1) + " milhões de t", "[Toneladas]", fa),
         ("brasil_var", br(b["Var % Toneladas AA"], 1, True), "[Var % Toneladas AA]", fa),
+        ("nordeste_t", br(q(f"""SELECT sum(Toneladas) FROM fCarga JOIN dInstalacao USING (IDInstalacao)
+                                WHERE year(DataRef) = {ano} AND Regiao = 'Nordeste'""") / 1e6, 1) + " milhões de t",
+         "[Toneladas]", f"Ano = {ano}; Região = Nordeste"),
         ("suape_t", br(s["Toneladas"] / 1e6, 1) + " milhões de t", "[Toneladas]", fs),
         ("suape_var", br(s["Var % Toneladas AA"], 1, True), "[Var % Toneladas AA]", fs),
         ("suape_rank", f"{K.ranking(con, ano, 'BRSUA')}ª", "[Ranking Suape Brasil]", fa),
