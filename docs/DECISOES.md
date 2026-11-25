@@ -112,7 +112,7 @@ Cada decisão: **contexto → decisão → alternativas → motivo**. Ordem cron
 
 ## D19 — Reforço da conciliação de 2025 (Anuário + Boletins trimestrais)
 
-- **Decisão:** além do total, conferir 2025 por natureza da carga e por região (Anuário "Desempenho Aquaviário 2025", p. 3 e 4) e por trimestre (Boletins Estatísticos do 1º, 2º e 3º trimestres de 2025: total de portos organizados e de TUPs, Suape, Itaqui e Pecém). Não há boletim do 4º trimestre de 2025 publicado. As tabelas dos boletins do 1º e 2º trimestres perdem o alinhamento na extração do PDF; os valores foram lidos na ordem de aparição e conferem com o layout do 3º trimestre, que é legível. Todos ficam a menos de 2% do pipeline.
+- **Decisão:** além do total, conferir 2025 por natureza da carga e por região (Anuário "Desempenho Aquaviário 2025", p. 3 e 4) e por trimestre (Boletins Estatísticos do 1º, 2º e 3º trimestres de 2025: total de portos organizados e de TUPs, Suape, Itaqui e Pecém). Não há boletim do 4º trimestre de 2025 publicado. As tabelas dos boletins do 1º e 2º trimestres perdem o alinhamento na extração do PDF; os valores foram lidos na ordem de aparição e conferem com o layout do 3º trimestre, que é legível. Todos ficam a menos de 2% do pipeline, exceto o Terminal Portuário do Pecém no 3º trimestre (+3,1%; a variação anual também diverge: +4,8% no pipeline x +2,1% no boletim). A diferença não foi investigada a fundo; o total de TUPs do mesmo trimestre bate (+0,1%).
 - **Alternativas:** usar só o total anual (já aprovado).
 - **Motivo:** pedido explícito (Brasil, Suape e 2 pares).
 
