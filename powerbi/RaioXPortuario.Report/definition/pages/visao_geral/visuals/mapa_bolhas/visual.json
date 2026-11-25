@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "mapa_bolhas",
   "position": {
     "x": 952,
@@ -72,19 +72,7 @@
     "objects": {
       "bubbleLayer": [
         {
-          "properties": {
-            "bubbleColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#8FB4D9'"
-                    }
-                  }
-                }
-              }
-            }
-          }
+          "properties": {}
         }
       ]
     },

@@ -1,7 +1,7 @@
 /// Calendário diário de 01/01/2021 a 31/12/2026 (Power Query), marcado como tabela de datas. MesComDado = mês até o último mês disponível na base.
 table dCalendario
-	dataCategory: Time
 	lineageTag: 79615692-f523-55c9-aafa-6e0362558f19
+	dataCategory: Time
 
 	column Data
 		dataType: dateTime
@@ -123,3 +123,4 @@ table dCalendario
 				    Final
 
 	annotation PBI_ResultType = Table
+

@@ -82,3 +82,4 @@ table dMercadoria
 				    Tipos
 
 	annotation PBI_ResultType = Table
+

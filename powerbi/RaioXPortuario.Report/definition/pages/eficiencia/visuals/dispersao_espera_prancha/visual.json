@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "dispersao_espera_prancha",
   "position": {
     "x": 16,
@@ -32,6 +32,24 @@
             }
           ]
         },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Toneladas"
+                }
+              },
+              "queryRef": "_Medidas.Toneladas",
+              "nativeQueryRef": "Toneladas"
+            }
+          ]
+        },
         "X": {
           "projections": [
             {
@@ -46,7 +64,8 @@
                 }
               },
               "queryRef": "_Medidas.Espera Mediana (h)",
-              "nativeQueryRef": "Espera Mediana (h)"
+              "nativeQueryRef": "Espera Mediana (h)",
+              "active": true
             }
           ]
         },
@@ -65,24 +84,6 @@
               },
               "queryRef": "_Medidas.Prancha Média Operacional (t/h)",
               "nativeQueryRef": "Prancha Média Operacional (t/h)"
-            }
-          ]
-        },
-        "Size": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Medidas"
-                    }
-                  },
-                  "Property": "Toneladas"
-                }
-              },
-              "queryRef": "_Medidas.Toneladas",
-              "nativeQueryRef": "Toneladas"
             }
           ]
         }

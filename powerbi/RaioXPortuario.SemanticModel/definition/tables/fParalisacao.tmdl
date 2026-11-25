@@ -63,3 +63,4 @@ table fParalisacao
 				    Tipos
 
 	annotation PBI_ResultType = Table
+

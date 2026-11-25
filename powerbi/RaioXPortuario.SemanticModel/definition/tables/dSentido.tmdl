@@ -51,3 +51,4 @@ table dSentido
 				    Tipos
 
 	annotation PBI_ResultType = Table
+

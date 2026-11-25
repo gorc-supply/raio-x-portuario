@@ -11,6 +11,8 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_QueryOrder = ["CaminhoDados", "fCarga", "fAtracacao", "fParalisacao", "dInstalacao", "dMercadoria", "dNavegacao", "dNaturezaCarga", "dSentido", "Meta", "dCalendario", "_Medidas"]
 
+annotation PBI_ProTooling = ["DevMode"]
+
 ref table fCarga
 ref table fAtracacao
 ref table fParalisacao
@@ -21,5 +23,7 @@ ref table dNaturezaCarga
 ref table dSentido
 ref table Meta
 ref table dCalendario
-ref table '_Medidas'
+ref table _Medidas
+
+ref cultureInfo pt-BR
 

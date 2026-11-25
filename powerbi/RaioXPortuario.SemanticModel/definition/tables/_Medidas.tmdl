@@ -1,5 +1,5 @@
 /// Tabela só de medidas, organizadas em pastas.
-table '_Medidas'
+table _Medidas
 	lineageTag: 4059890c-060c-57bb-a418-46fddf2102d7
 
 	/// Toneladas movimentadas (peso bruto) — soma de VLPesoCargaBruta com FlagMCOperacaoCarga = 1 (regra ANTAQ).
@@ -500,7 +500,7 @@ table '_Medidas'
 
 		annotation SummarizationSetBy = Automatic
 
-	partition '_Medidas' = m
+	partition _Medidas = m
 		mode: import
 		source =
 				let
@@ -509,3 +509,4 @@ table '_Medidas'
 				    Fonte
 
 	annotation PBI_ResultType = Table
+
