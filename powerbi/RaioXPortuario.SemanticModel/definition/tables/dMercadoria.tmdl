@@ -19,7 +19,7 @@ table dMercadoria
 
 		annotation SummarizationSetBy = Automatic
 
-	column DescricaoSH4
+	column 'Descrição SH4'
 		dataType: string
 		lineageTag: 6e71adfa-dd1e-52ec-af89-d913f6182a61
 		summarizeBy: none
@@ -27,7 +27,7 @@ table dMercadoria
 
 		annotation SummarizationSetBy = Automatic
 
-	column CapituloSH2
+	column 'Capítulo SH2'
 		dataType: string
 		lineageTag: 35e2fa2c-8642-5405-a01f-a5da8adfe0d8
 		summarizeBy: none
@@ -35,7 +35,7 @@ table dMercadoria
 
 		annotation SummarizationSetBy = Automatic
 
-	column DescricaoCapituloSH2
+	column 'Descrição do Capítulo SH2'
 		dataType: string
 		lineageTag: c75a97e6-5204-5e77-a241-4ab2211ea90b
 		summarizeBy: none
@@ -43,7 +43,7 @@ table dMercadoria
 
 		annotation SummarizationSetBy = Automatic
 
-	column GrupoMercadoria
+	column 'Grupo de Mercadoria'
 		dataType: string
 		lineageTag: 2c1dbfc3-fd78-5efe-b217-d4fc2f941cc3
 		summarizeBy: none
@@ -62,7 +62,7 @@ table dMercadoria
 
 		annotation SummarizationSetBy = Automatic
 
-	column FonteDescricao
+	column 'Fonte da Descrição'
 		dataType: string
 		lineageTag: 2634fcf6-4252-5b63-a8d6-0d26964f94d7
 		summarizeBy: none

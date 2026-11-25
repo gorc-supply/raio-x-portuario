@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "card_ranking_texto",
+  "name": "manchete",
   "position": {
-    "x": 784,
-    "y": 618,
-    "z": 2700,
-    "height": 94,
-    "width": 480,
-    "tabOrder": 2700
+    "x": 410,
+    "y": 92,
+    "z": 1900,
+    "height": 44,
+    "width": 854,
+    "tabOrder": 1900
   },
   "visual": {
     "visualType": "card",
@@ -23,11 +23,11 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Título Ranking Suape"
+                  "Property": "Título Eficiência"
                 }
               },
-              "queryRef": "_Medidas.Título Ranking Suape",
-              "nativeQueryRef": "Título Ranking Suape"
+              "queryRef": "_Medidas.Título Eficiência",
+              "nativeQueryRef": "Título Eficiência"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "13D"
                 }
               }
             },
@@ -49,7 +49,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#C9A96E'"
+                      "Value": "'#FFFFFF'"
                     }
                   }
                 }
@@ -70,10 +70,62 @@
             }
           }
         }
+      ],
+      "wordWrap": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
       "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
         {
           "properties": {
             "show": {

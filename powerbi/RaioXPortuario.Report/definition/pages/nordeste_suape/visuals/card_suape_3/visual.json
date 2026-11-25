@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "card_suape_3",
   "position": {
-    "x": 784,
-    "y": 518,
-    "z": 2500,
-    "height": 92,
-    "width": 236,
-    "tabOrder": 2500
+    "x": 520,
+    "y": 156,
+    "z": 2200,
+    "height": 68,
+    "width": 240,
+    "tabOrder": 2200
   },
   "visual": {
     "visualType": "card",
@@ -23,12 +23,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "% Contêiner Suape"
+                  "Property": "Rótulo TEU Suape"
                 }
               },
-              "queryRef": "_Medidas.% Contêiner Suape",
-              "nativeQueryRef": "% Contêiner Suape",
-              "displayName": "% contêiner em Suape"
+              "queryRef": "_Medidas.Rótulo TEU Suape",
+              "nativeQueryRef": "Rótulo TEU Suape",
+              "displayName": "Contêineres em Suape"
             }
           ]
         }
@@ -41,7 +41,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "20D"
+                  "Value": "17D"
                 }
               }
             },
@@ -50,9 +50,16 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#FFFFFF'"
+                      "Value": "'#C9A96E'"
                     }
                   }
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }
@@ -72,7 +79,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "9D"
                 }
               }
             },
@@ -89,6 +96,19 @@
             }
           }
         }
+      ],
+      "wordWrap": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -99,6 +119,40 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
                 }
               }
             }

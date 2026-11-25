@@ -1,9 +1,9 @@
-/// Metadados do processamento (data e último mês com dado).
+/// Metadados do processamento.
 table Meta
 	isHidden
 	lineageTag: 8101f64c-b636-5b03-ad6d-a032b50cccab
 
-	column DataProcessamento
+	column 'Data de Processamento'
 		dataType: dateTime
 		formatString: dd/mm/yyyy hh:nn
 		lineageTag: db99d620-17ca-5e5e-a8d1-d8654e38d500
@@ -12,7 +12,7 @@ table Meta
 
 		annotation SummarizationSetBy = Automatic
 
-	column UltimoMesDisponivel
+	column 'Último Mês Disponível'
 		dataType: dateTime
 		formatString: mm/yyyy
 		lineageTag: 61a44b2b-ceba-5e93-8113-14a1b305e91a
@@ -23,7 +23,7 @@ table Meta
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column AnoInicial
+	column 'Ano Inicial'
 		dataType: int64
 		formatString: 0
 		lineageTag: c2dfaf88-dfa2-58dd-8f2d-5e146185f37c
@@ -32,7 +32,7 @@ table Meta
 
 		annotation SummarizationSetBy = Automatic
 
-	column AnoFinal
+	column 'Ano Final'
 		dataType: int64
 		formatString: 0
 		lineageTag: af9fd1b2-1b5b-5f2e-a5ff-460a267f1c2a
@@ -41,7 +41,7 @@ table Meta
 
 		annotation SummarizationSetBy = Automatic
 
-	column OrigemDados
+	column 'Origem dos Dados'
 		dataType: string
 		lineageTag: de297d41-adb8-5df3-aaf8-ebb94f9acb0e
 		summarizeBy: none

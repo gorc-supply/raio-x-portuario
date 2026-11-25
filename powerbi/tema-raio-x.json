@@ -2,13 +2,13 @@
   "name": "Raio-X Portuário (identidade gorc-supply)",
   "dataColors": [
     "#8FB4D9",
-    "#C9A96E",
     "#7DB592",
     "#D98A86",
     "#D9A87A",
     "#8A8F98",
     "#5B7A99",
-    "#E0C48F"
+    "#B39DDB",
+    "#4DB6AC"
   ],
   "background": "#0C0D10",
   "foreground": "#FFFFFF",
@@ -16,27 +16,27 @@
   "good": "#7DB592",
   "neutral": "#D9A87A",
   "bad": "#D98A86",
-  "maximum": "#8B1E2D",
-  "center": "#7A6A3A",
+  "maximum": "#7A1C2A",
+  "center": "#6E5F33",
   "minimum": "#1E3A2F",
   "textClasses": {
     "callout": {
-      "fontSize": 22,
+      "fontSize": 20,
       "fontFace": "Segoe UI Semibold",
       "color": "#FFFFFF"
     },
     "title": {
-      "fontSize": 12,
-      "fontFace": "Segoe UI Semibold",
-      "color": "#FFFFFF"
-    },
-    "header": {
       "fontSize": 11,
       "fontFace": "Segoe UI Semibold",
       "color": "#FFFFFF"
     },
-    "label": {
+    "header": {
       "fontSize": 10,
+      "fontFace": "Segoe UI Semibold",
+      "color": "#FFFFFF"
+    },
+    "label": {
+      "fontSize": 9,
       "fontFace": "Segoe UI",
       "color": "#C9CDD3"
     }
@@ -98,7 +98,8 @@
                 "color": "#FFFFFF"
               }
             },
-            "fontSize": 12
+            "fontSize": 11,
+            "titleWrap": false
           }
         ],
         "categoryAxis": [
@@ -117,7 +118,8 @@
               "solid": {
                 "color": "#1D2127"
               }
-            }
+            },
+            "showAxisTitle": false
           }
         ],
         "valueAxis": [
@@ -136,7 +138,8 @@
               "solid": {
                 "color": "#1D2127"
               }
-            }
+            },
+            "showAxisTitle": false
           }
         ],
         "legend": [
@@ -172,6 +175,25 @@
             "background": {
               "solid": {
                 "color": "#121419"
+              }
+            }
+          }
+        ],
+        "visualHeader": [
+          {
+            "background": {
+              "solid": {
+                "color": "#0C0D10"
+              }
+            },
+            "foreground": {
+              "solid": {
+                "color": "#C9CDD3"
+              }
+            },
+            "border": {
+              "solid": {
+                "color": "#0C0D10"
               }
             }
           }

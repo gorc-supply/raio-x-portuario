@@ -21,7 +21,7 @@ table dSentido
 
 		annotation SummarizationSetBy = Automatic
 
-	column SentidoANTAQ
+	column 'Sentido (ANTAQ)'
 		dataType: string
 		lineageTag: b2938e7b-0717-5912-a75a-3fd98eeb3f75
 		summarizeBy: none

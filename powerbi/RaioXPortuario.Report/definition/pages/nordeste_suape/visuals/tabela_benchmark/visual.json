@@ -3,11 +3,11 @@
   "name": "tabela_benchmark",
   "position": {
     "x": 16,
-    "y": 110,
-    "z": 2000,
-    "height": 300,
-    "width": 760,
-    "tabOrder": 2000
+    "y": 236,
+    "z": 2500,
+    "height": 270,
+    "width": 824,
+    "tabOrder": 2500
   },
   "visual": {
     "visualType": "tableEx",
@@ -23,11 +23,11 @@
                       "Entity": "dInstalacao"
                     }
                   },
-                  "Property": "PortoBenchmarkNE"
+                  "Property": "Porto (benchmark NE)"
                 }
               },
-              "queryRef": "dInstalacao.PortoBenchmarkNE",
-              "nativeQueryRef": "PortoBenchmarkNE",
+              "queryRef": "dInstalacao.Porto (benchmark NE)",
+              "nativeQueryRef": "Porto (benchmark NE)",
               "displayName": "Porto"
             },
             {
@@ -38,11 +38,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Toneladas"
+                  "Property": "Toneladas (Mi t)"
                 }
               },
-              "queryRef": "_Medidas.Toneladas",
-              "nativeQueryRef": "Toneladas"
+              "queryRef": "_Medidas.Toneladas (Mi t)",
+              "nativeQueryRef": "Toneladas (Mi t)",
+              "displayName": "Toneladas"
             },
             {
               "field": {
@@ -57,7 +58,7 @@
               },
               "queryRef": "_Medidas.Var % Toneladas AA",
               "nativeQueryRef": "Var % Toneladas AA",
-              "displayName": "Var. % AA"
+              "displayName": "Var. AA"
             },
             {
               "field": {
@@ -72,7 +73,7 @@
               },
               "queryRef": "_Medidas.Espera Mediana (h)",
               "nativeQueryRef": "Espera Mediana (h)",
-              "displayName": "Espera mediana (h)"
+              "displayName": "Espera mediana"
             },
             {
               "field": {
@@ -87,7 +88,7 @@
               },
               "queryRef": "_Medidas.Prancha Média Operacional (t/h)",
               "nativeQueryRef": "Prancha Média Operacional (t/h)",
-              "displayName": "Prancha op. (t/h)"
+              "displayName": "Prancha op."
             },
             {
               "field": {
@@ -101,7 +102,8 @@
                 }
               },
               "queryRef": "_Medidas.% Contêiner",
-              "nativeQueryRef": "% Contêiner"
+              "nativeQueryRef": "% Contêiner",
+              "displayName": "% contêiner"
             },
             {
               "field": {
@@ -131,7 +133,7 @@
                     "Entity": "_Medidas"
                   }
                 },
-                "Property": "Toneladas"
+                "Property": "Toneladas (Mi t)"
               }
             },
             "direction": "Descending"
@@ -141,6 +143,28 @@
     },
     "objects": {
       "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "fontColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9CDD3'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         {
           "properties": {
             "backColor": {
@@ -198,7 +222,7 @@
                 }
               }
             ],
-            "metadata": "dInstalacao.PortoBenchmarkNE"
+            "metadata": "dInstalacao.Porto (benchmark NE)"
           }
         }
       ],
@@ -211,7 +235,138 @@
                   "Value": "10D"
                 }
               }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "96D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dInstalacao.Porto (benchmark NE)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "116D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.Toneladas (Mi t)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "116D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.Var % Toneladas AA"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "116D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.Espera Mediana (h)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "116D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.Prancha Média Operacional (t/h)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "116D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.% Contêiner"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "116D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Medidas.Ranking Porto"
           }
         }
       ],
@@ -243,7 +398,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -261,14 +416,60 @@
             "titleWrap": {
               "expr": {
                 "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
                   "Value": "true"
                 }
               }
             },
             "text": {
               "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Título Tabela Benchmark"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
                 "Literal": {
-                  "Value": "'Benchmark: Suape x pares do Nordeste (verde = espera menor ou igual à média dos pares)'"
+                  "Value": "6D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
                 }
               }
             }

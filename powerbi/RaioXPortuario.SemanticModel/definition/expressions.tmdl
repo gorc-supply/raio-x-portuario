@@ -4,5 +4,3 @@ expression CaminhoDados = "C:\projetos\raio-x-portuario\data\processed\" meta [I
 
 	annotation PBI_ResultType = Text
 
-	annotation PBI_NavigationStepName = Navegação
-

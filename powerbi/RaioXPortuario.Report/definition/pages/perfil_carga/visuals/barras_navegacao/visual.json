@@ -3,11 +3,11 @@
   "name": "barras_navegacao",
   "position": {
     "x": 16,
-    "y": 418,
-    "z": 2300,
-    "height": 294,
-    "width": 620,
-    "tabOrder": 2300
+    "y": 528,
+    "z": 2800,
+    "height": 176,
+    "width": 618,
+    "tabOrder": 2800
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -23,11 +23,11 @@
                       "Entity": "dNavegacao"
                     }
                   },
-                  "Property": "Navegacao"
+                  "Property": "Navegação"
                 }
               },
-              "queryRef": "dNavegacao.Navegacao",
-              "nativeQueryRef": "Navegacao",
+              "queryRef": "dNavegacao.Navegação",
+              "nativeQueryRef": "Navegação",
               "active": true
             }
           ]
@@ -42,11 +42,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Toneladas"
+                  "Property": "Toneladas (Mi t)"
                 }
               },
-              "queryRef": "_Medidas.Toneladas",
-              "nativeQueryRef": "Toneladas"
+              "queryRef": "_Medidas.Toneladas (Mi t)",
+              "nativeQueryRef": "Toneladas (Mi t)",
+              "displayName": "Toneladas"
             }
           ]
         }
@@ -61,7 +62,7 @@
                     "Entity": "_Medidas"
                   }
                 },
-                "Property": "Toneladas"
+                "Property": "Toneladas (Mi t)"
               }
             },
             "direction": "Descending"
@@ -97,6 +98,27 @@
                   "Value": "9D"
                 }
               }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'OutsideEnd'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "enableBackground": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
@@ -117,6 +139,38 @@
                   "Value": "9D"
                 }
               }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9CDD3'"
+                    }
+                  }
+                }
+              }
+            },
+            "maxMarginFactor": {
+              "expr": {
+                "Literal": {
+                  "Value": "45D"
+                }
+              }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "12L"
+                }
+              }
             }
           }
         }
@@ -125,6 +179,34 @@
         {
           "properties": {
             "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "gridlineShow": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -166,7 +248,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -184,6 +266,13 @@
             "titleWrap": {
               "expr": {
                 "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
                   "Value": "true"
                 }
               }
@@ -197,6 +286,40 @@
                     }
                   },
                   "Property": "Título Navegação"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
                 }
               }
             }

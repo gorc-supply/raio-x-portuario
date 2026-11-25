@@ -5,17 +5,206 @@ cultureInfo pt-BR
 			  "Version": "2.0.0",
 			  "Language": "en-US",
 			  "Entities": {
-			    "table_medidas.toneladas": {
+			    "table_medidas.toneladas_mi_t": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "Toneladas"
+			          "ConceptualProperty": "Toneladas (Mi t)"
 			        }
 			      },
 			      "State": "Generated",
 			      "Terms": [
 			        {
 			          "Toneladas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo_toneladas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo Toneladas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Toneladas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo_var__aa": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo Var % AA"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Variação vs. ano anterior": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo_atracações": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo Atracações"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Atracações com carga": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo_espera_mediana": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo Espera Mediana"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Espera mediana para atracar": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo_prancha_operacional": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo Prancha Operacional"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Prancha operacional": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.toneladas_aa_mi_t": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Toneladas AA (Mi t)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ano anterior": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.longitude_do_complexo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Longitude do Complexo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Longitude": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.latitude_do_complexo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Latitude do Complexo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Latitude": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.uf_do_complexo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "UF do Complexo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "UF": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -46,28 +235,7 @@ cultureInfo pt-BR
 			          }
 			        },
 			        {
-			          "Var. % AA": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
-			    },
-			    "table_medidas.n_atracações": {
-			      "Definition": {
-			        "Binding": {
-			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "Nº Atracações"
-			        }
-			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Atracações com carga": {
+			          "Var. AA": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -88,17 +256,7 @@ cultureInfo pt-BR
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Espera mediana p/ atracar (h)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Espera mediana (h)": {
+			          "Espera mediana": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -119,7 +277,7 @@ cultureInfo pt-BR
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Prancha operacional (t/h)": {
+			          "Prancha operacional": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -129,7 +287,7 @@ cultureInfo pt-BR
 			          }
 			        },
 			        {
-			          "Prancha op. (t/h)": {
+			          "Prancha op.": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -140,32 +298,11 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "table_medidas.toneladas_aa": {
+			    "table_medidas.toneladas_top_10_mi_t": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "Toneladas AA"
-			        }
-			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Ano anterior": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
-			    },
-			    "table_medidas.toneladas_top_10": {
-			      "Definition": {
-			        "Binding": {
-			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "Toneladas (Top 10)"
+			          "ConceptualProperty": "Toneladas (Top 10) (Mi t)"
 			        }
 			      },
 			      "State": "Generated",
@@ -182,11 +319,11 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "table_medidas.toneladas_suape": {
+			    "table_medidas.rótulo_toneladas_suape": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "Toneladas Suape"
+			          "ConceptualProperty": "Rótulo Toneladas Suape"
 			        }
 			      },
 			      "State": "Generated",
@@ -203,17 +340,17 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "table_medidas.teu_suape": {
+			    "table_medidas.rótulo_var__suape": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "TEU Suape"
+			          "ConceptualProperty": "Rótulo Var % Suape"
 			        }
 			      },
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "TEU de Suape": {
+			          "Variação de Suape": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -224,17 +361,17 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "table_medidas.contêiner_suape": {
+			    "table_medidas.rótulo_teu_suape": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "% Contêiner Suape"
+			          "ConceptualProperty": "Rótulo TEU Suape"
 			        }
 			      },
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "% contêiner em Suape": {
+			          "Contêineres em Suape": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -245,17 +382,38 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "table_medidas.ranking_suape_brasil": {
+			    "table_medidas.rótulo__contêiner_suape": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "Ranking Suape Brasil"
+			          "ConceptualProperty": "Rótulo % Contêiner Suape"
 			        }
 			      },
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Posição de Suape no Brasil": {
+			          "Fatia de contêiner": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo_ranking_suape": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo Ranking Suape"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Posição de Suape": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -308,6 +466,27 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
+			    "table_medidas.contêiner": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "% Contêiner"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% contêiner": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
 			    "table_medidas.ranking_porto": {
 			      "Definition": {
 			        "Binding": {
@@ -329,11 +508,11 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "table_medidas.horas_paralisadas_top_10_motivos": {
+			    "table_medidas.horas_paralisadas_top_8_motivos": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "Horas Paralisadas (Top 10 motivos)"
+			          "ConceptualProperty": "Horas Paralisadas (Top 8 motivos)"
 			        }
 			      },
 			      "State": "Generated",
@@ -350,11 +529,158 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "table_medidas.toneladas_top_10_mercadorias": {
+			    "table_medidas.rótulo_tempo_atracado": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "_Medidas",
-			          "ConceptualProperty": "Toneladas (Top 10 mercadorias)"
+			          "ConceptualProperty": "Rótulo Tempo Atracado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tempo atracado médio": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo__atracado_em_operação": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo % Atracado em Operação"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tempo atracado em operação": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo_horas_paralisadas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo Horas Paralisadas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Horas paralisadas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo_teu": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo TEU"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Contêineres (TEU)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo__longo_curso": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo % Longo Curso"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Longo curso": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo__cabotagem": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo % Cabotagem"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cabotagem": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.rótulo__contêiner": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Rótulo % Contêiner"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Contêiner": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "table_medidas.toneladas_top_10_mercadorias_mi_t": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Medidas",
+			          "ConceptualProperty": "Toneladas (Top 10 mercadorias) (Mi t)"
 			        }
 			      },
 			      "State": "Generated",
@@ -371,11 +697,11 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "dinstalacao.portobenchmarkne": {
+			    "dinstalacao.porto_benchmark_ne": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "dInstalacao",
-			          "ConceptualProperty": "PortoBenchmarkNE"
+			          "ConceptualProperty": "Porto (benchmark NE)"
 			        }
 			      },
 			      "State": "Generated",
@@ -392,11 +718,11 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "dcalendario.mesabrev": {
+			    "dcalendario.mês_abrev_": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "dCalendario",
-			          "ConceptualProperty": "MesAbrev"
+			          "ConceptualProperty": "Mês (abrev.)"
 			        }
 			      },
 			      "State": "Generated",

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "mapa_calor_espera",
   "position": {
-    "x": 644,
-    "y": 110,
-    "z": 2100,
-    "height": 300,
-    "width": 620,
-    "tabOrder": 2100
+    "x": 528,
+    "y": 236,
+    "z": 2600,
+    "height": 196,
+    "width": 736,
+    "tabOrder": 2600
   },
   "visual": {
     "visualType": "pivotTable",
@@ -23,11 +23,11 @@
                       "Entity": "dInstalacao"
                     }
                   },
-                  "Property": "PortoBenchmarkNE"
+                  "Property": "Porto (benchmark NE)"
                 }
               },
-              "queryRef": "dInstalacao.PortoBenchmarkNE",
-              "nativeQueryRef": "PortoBenchmarkNE",
+              "queryRef": "dInstalacao.Porto (benchmark NE)",
+              "nativeQueryRef": "Porto (benchmark NE)",
               "active": true,
               "displayName": "Porto"
             }
@@ -43,11 +43,11 @@
                       "Entity": "dCalendario"
                     }
                   },
-                  "Property": "MesAbrev"
+                  "Property": "Mês (abrev.)"
                 }
               },
-              "queryRef": "dCalendario.MesAbrev",
-              "nativeQueryRef": "MesAbrev",
+              "queryRef": "dCalendario.Mês (abrev.)",
+              "nativeQueryRef": "Mês (abrev.)",
               "active": true,
               "displayName": "Mês"
             }
@@ -68,7 +68,7 @@
               },
               "queryRef": "_Medidas.Espera Mediana (h)",
               "nativeQueryRef": "Espera Mediana (h)",
-              "displayName": "Espera mediana (h)"
+              "displayName": "Espera mediana"
             }
           ]
         }
@@ -76,6 +76,17 @@
     },
     "objects": {
       "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        },
         {
           "properties": {
             "backColor": {
@@ -89,6 +100,17 @@
                         }
                       },
                       "Property": "Cor Calor Espera"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
                     }
                   }
                 }
@@ -133,7 +155,55 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "8D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }
@@ -155,7 +225,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -171,6 +241,13 @@
               }
             },
             "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "bold": {
               "expr": {
                 "Literal": {
                   "Value": "true"
@@ -191,6 +268,40 @@
             }
           }
         }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -206,7 +317,7 @@
                 "Entity": "dInstalacao"
               }
             },
-            "Property": "GrupoBenchmark"
+            "Property": "Grupo do Benchmark"
           }
         },
         "type": "Categorical",
@@ -231,7 +342,7 @@
                             "Source": "f"
                           }
                         },
-                        "Property": "GrupoBenchmark"
+                        "Property": "Grupo do Benchmark"
                       }
                     }
                   ],

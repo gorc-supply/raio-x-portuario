@@ -16,7 +16,7 @@
                 "Entity": "dInstalacao"
               }
             },
-            "Property": "GrupoBenchmark"
+            "Property": "Grupo do Benchmark"
           }
         },
         "type": "Categorical",
@@ -41,7 +41,7 @@
                             "Source": "f"
                           }
                         },
-                        "Property": "GrupoBenchmark"
+                        "Property": "Grupo do Benchmark"
                       }
                     }
                   ],

@@ -3,11 +3,11 @@
   "name": "linha_mensal",
   "position": {
     "x": 16,
-    "y": 234,
-    "z": 2600,
-    "height": 236,
-    "width": 620,
-    "tabOrder": 2600
+    "y": 236,
+    "z": 2500,
+    "height": 168,
+    "width": 506,
+    "tabOrder": 2500
   },
   "visual": {
     "visualType": "lineChart",
@@ -23,11 +23,11 @@
                       "Entity": "dCalendario"
                     }
                   },
-                  "Property": "AnoMes"
+                  "Property": "Mês (abrev.)"
                 }
               },
-              "queryRef": "dCalendario.AnoMes",
-              "nativeQueryRef": "AnoMes",
+              "queryRef": "dCalendario.Mês (abrev.)",
+              "nativeQueryRef": "Mês (abrev.)",
               "active": true
             }
           ]
@@ -42,11 +42,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Toneladas"
+                  "Property": "Toneladas (Mi t)"
                 }
               },
-              "queryRef": "_Medidas.Toneladas",
-              "nativeQueryRef": "Toneladas"
+              "queryRef": "_Medidas.Toneladas (Mi t)",
+              "nativeQueryRef": "Toneladas (Mi t)",
+              "displayName": "Toneladas"
             },
             {
               "field": {
@@ -56,11 +57,11 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Toneladas AA"
+                  "Property": "Toneladas AA (Mi t)"
                 }
               },
-              "queryRef": "_Medidas.Toneladas AA",
-              "nativeQueryRef": "Toneladas AA",
+              "queryRef": "_Medidas.Toneladas AA (Mi t)",
+              "nativeQueryRef": "Toneladas AA (Mi t)",
               "displayName": "Ano anterior"
             }
           ]
@@ -76,7 +77,7 @@
                     "Entity": "dCalendario"
                   }
                 },
-                "Property": "AnoMes"
+                "Property": "Mês (abrev.)"
               }
             },
             "direction": "Ascending"
@@ -101,7 +102,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.Toneladas"
+            "metadata": "_Medidas.Toneladas (Mi t)"
           }
         },
         {
@@ -111,7 +112,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#5B6470'"
+                      "Value": "'#6B7380'"
                     }
                   }
                 }
@@ -119,7 +120,7 @@
             }
           },
           "selector": {
-            "metadata": "_Medidas.Toneladas AA"
+            "metadata": "_Medidas.Toneladas AA (Mi t)"
           }
         }
       ],
@@ -139,24 +140,29 @@
                   "Value": "'Top'"
                 }
               }
-            }
-          }
-        }
-      ],
-      "valueAxis": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
                   "Value": "9D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9CDD3'"
+                    }
+                  }
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -173,10 +179,100 @@
                 }
               }
             },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
             "fontSize": {
               "expr": {
                 "Literal": {
                   "Value": "9D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9CDD3'"
+                    }
+                  }
+                }
+              }
+            },
+            "concatenateLabels": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9CDD3'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "strokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            },
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -198,7 +294,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -216,6 +312,13 @@
             "titleWrap": {
               "expr": {
                 "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
                   "Value": "true"
                 }
               }
@@ -229,6 +332,40 @@
                     }
                   },
                   "Property": "Título Linha Mensal"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
                 }
               }
             }

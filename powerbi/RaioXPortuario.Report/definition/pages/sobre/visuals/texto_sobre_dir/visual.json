@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "texto_sobre_dir",
   "position": {
-    "x": 648,
-    "y": 112,
+    "x": 646,
+    "y": 156,
     "z": 2100,
-    "height": 520,
-    "width": 616,
+    "height": 548,
+    "width": 618,
     "tabOrder": 2100
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "Como ler as métricas",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#C9A96E",
                       "fontWeight": "bold"
                     }
@@ -56,7 +56,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "% atracado em operação = horas operando ÷ horas no berço.",
+                    "value": "% do tempo atracado em operação = horas operando ÷ horas no berço.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",
@@ -68,7 +68,32 @@
               {
                 "textRuns": [
                   {
-                    "value": "Prancha operacional = toneladas ÷ horas de operação; prancha geral = toneladas ÷ horas atracado (sempre razão de somas).",
+                    "value": "Prancha operacional = toneladas ÷ horas de operação (sempre razão de somas). Mi t = milhões de toneladas.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "10pt",
+                      "color": "#C9CDD3"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Créditos",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "12pt",
+                      "color": "#C9A96E",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Dados: ANTAQ. Nomenclatura de mercadorias: Comex Stat/MDIC. Malha do mapa: IBGE.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",
@@ -83,7 +108,7 @@
                     "value": "Projeto",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#C9A96E",
                       "fontWeight": "bold"
                     }
@@ -93,7 +118,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Código, dados tratados e documentação: ",
+                    "value": "Código, dados tratados e método: ",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",

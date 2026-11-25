@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "barras_paralisacao",
   "position": {
-    "x": 644,
-    "y": 418,
-    "z": 2300,
-    "height": 294,
-    "width": 620,
-    "tabOrder": 2300
+    "x": 528,
+    "y": 444,
+    "z": 2800,
+    "height": 260,
+    "width": 736,
+    "tabOrder": 2800
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -23,11 +23,11 @@
                       "Entity": "fParalisacao"
                     }
                   },
-                  "Property": "MotivoParalisacao"
+                  "Property": "Motivo da Paralisação"
                 }
               },
-              "queryRef": "fParalisacao.MotivoParalisacao",
-              "nativeQueryRef": "MotivoParalisacao",
+              "queryRef": "fParalisacao.Motivo da Paralisação",
+              "nativeQueryRef": "Motivo da Paralisação",
               "active": true
             }
           ]
@@ -42,11 +42,11 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Horas Paralisadas (Top 10 motivos)"
+                  "Property": "Horas Paralisadas (Top 8 motivos)"
                 }
               },
-              "queryRef": "_Medidas.Horas Paralisadas (Top 10 motivos)",
-              "nativeQueryRef": "Horas Paralisadas (Top 10 motivos)",
+              "queryRef": "_Medidas.Horas Paralisadas (Top 8 motivos)",
+              "nativeQueryRef": "Horas Paralisadas (Top 8 motivos)",
               "displayName": "Horas"
             }
           ]
@@ -62,7 +62,7 @@
                     "Entity": "_Medidas"
                   }
                 },
-                "Property": "Horas Paralisadas (Top 10 motivos)"
+                "Property": "Horas Paralisadas (Top 8 motivos)"
               }
             },
             "direction": "Descending"
@@ -95,7 +95,28 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'OutsideEnd'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "enableBackground": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -115,7 +136,39 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "8D"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9CDD3'"
+                    }
+                  }
+                }
+              }
+            },
+            "maxMarginFactor": {
+              "expr": {
+                "Literal": {
+                  "Value": "45D"
+                }
+              }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "12L"
                 }
               }
             }
@@ -126,6 +179,34 @@
         {
           "properties": {
             "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "gridlineShow": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -167,7 +248,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -185,6 +266,13 @@
             "titleWrap": {
               "expr": {
                 "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
                   "Value": "true"
                 }
               }
@@ -198,6 +286,40 @@
                     }
                   },
                   "Property": "Título Paralisação"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
                 }
               }
             }

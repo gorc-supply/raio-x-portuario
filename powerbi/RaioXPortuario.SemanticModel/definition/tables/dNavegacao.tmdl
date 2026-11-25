@@ -12,7 +12,7 @@ table dNavegacao
 
 		annotation SummarizationSetBy = Automatic
 
-	column Navegacao
+	column Navegação
 		dataType: string
 		lineageTag: 170a8ffc-e39a-5fd2-b166-629505bc2cb1
 		summarizeBy: none
@@ -21,7 +21,7 @@ table dNavegacao
 
 		annotation SummarizationSetBy = Automatic
 
-	column GrupoNavegacao
+	column 'Grupo de Navegação'
 		dataType: string
 		lineageTag: e8dda25d-e211-5f38-86d0-86cd0ec3913a
 		summarizeBy: none

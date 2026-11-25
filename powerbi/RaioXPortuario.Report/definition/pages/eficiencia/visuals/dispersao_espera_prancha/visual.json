@@ -3,11 +3,11 @@
   "name": "dispersao_espera_prancha",
   "position": {
     "x": 16,
-    "y": 110,
-    "z": 2000,
-    "height": 300,
-    "width": 620,
-    "tabOrder": 2000
+    "y": 236,
+    "z": 2500,
+    "height": 196,
+    "width": 500,
+    "tabOrder": 2500
   },
   "visual": {
     "visualType": "scatterChart",
@@ -23,11 +23,11 @@
                       "Entity": "dInstalacao"
                     }
                   },
-                  "Property": "Instalacao"
+                  "Property": "Instalação"
                 }
               },
-              "queryRef": "dInstalacao.Instalacao",
-              "nativeQueryRef": "Instalacao",
+              "queryRef": "dInstalacao.Instalação",
+              "nativeQueryRef": "Instalação",
               "active": true
             }
           ]
@@ -42,11 +42,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Toneladas"
+                  "Property": "Toneladas (Mi t)"
                 }
               },
-              "queryRef": "_Medidas.Toneladas",
-              "nativeQueryRef": "Toneladas"
+              "queryRef": "_Medidas.Toneladas (Mi t)",
+              "nativeQueryRef": "Toneladas (Mi t)",
+              "displayName": "Toneladas"
             }
           ]
         },
@@ -65,7 +66,8 @@
               },
               "queryRef": "_Medidas.Espera Mediana (h)",
               "nativeQueryRef": "Espera Mediana (h)",
-              "active": true
+              "active": true,
+              "displayName": "Espera mediana"
             }
           ]
         },
@@ -83,7 +85,8 @@
                 }
               },
               "queryRef": "_Medidas.Prancha Média Operacional (t/h)",
-              "nativeQueryRef": "Prancha Média Operacional (t/h)"
+              "nativeQueryRef": "Prancha Média Operacional (t/h)",
+              "displayName": "Prancha operacional"
             }
           ]
         }
@@ -147,7 +150,21 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }
@@ -167,7 +184,21 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }
@@ -189,7 +220,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -205,6 +236,13 @@
               }
             },
             "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "bold": {
               "expr": {
                 "Literal": {
                   "Value": "true"
@@ -225,6 +263,40 @@
             }
           }
         }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -240,7 +312,7 @@
                 "Entity": "dInstalacao"
               }
             },
-            "Property": "TipoInstalacao"
+            "Property": "Tipo de Instalação"
           }
         },
         "type": "Categorical",
@@ -265,7 +337,7 @@
                             "Source": "f"
                           }
                         },
-                        "Property": "TipoInstalacao"
+                        "Property": "Tipo de Instalação"
                       }
                     }
                   ],

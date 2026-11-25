@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "card_atualizacao_sobre",
+  "name": "mapa_titulo",
   "position": {
-    "x": 648,
-    "y": 640,
-    "z": 2200,
-    "height": 72,
-    "width": 616,
-    "tabOrder": 2200
+    "x": 854,
+    "y": 238,
+    "z": 9000,
+    "height": 30,
+    "width": 408,
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "card",
@@ -23,11 +23,11 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Última Atualização"
+                  "Property": "Título Mapa"
                 }
               },
-              "queryRef": "_Medidas.Última Atualização",
-              "nativeQueryRef": "Última Atualização"
+              "queryRef": "_Medidas.Título Mapa",
+              "nativeQueryRef": "Título Mapa"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "10D"
                 }
               }
             },
@@ -49,7 +49,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#C9A96E'"
+                      "Value": "'#FFFFFF'"
                     }
                   }
                 }
@@ -70,10 +70,62 @@
             }
           }
         }
+      ],
+      "wordWrap": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
       "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
         {
           "properties": {
             "show": {

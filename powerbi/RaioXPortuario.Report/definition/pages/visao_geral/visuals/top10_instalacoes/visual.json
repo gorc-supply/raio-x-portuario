@@ -3,11 +3,11 @@
   "name": "top10_instalacoes",
   "position": {
     "x": 16,
-    "y": 478,
-    "z": 2900,
-    "height": 234,
-    "width": 928,
-    "tabOrder": 2900
+    "y": 416,
+    "z": 2700,
+    "height": 288,
+    "width": 824,
+    "tabOrder": 2700
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -23,11 +23,11 @@
                       "Entity": "dInstalacao"
                     }
                   },
-                  "Property": "Instalacao"
+                  "Property": "Instalação"
                 }
               },
-              "queryRef": "dInstalacao.Instalacao",
-              "nativeQueryRef": "Instalacao",
+              "queryRef": "dInstalacao.Instalação",
+              "nativeQueryRef": "Instalação",
               "active": true
             }
           ]
@@ -42,11 +42,11 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Toneladas (Top 10)"
+                  "Property": "Toneladas (Top 10) (Mi t)"
                 }
               },
-              "queryRef": "_Medidas.Toneladas (Top 10)",
-              "nativeQueryRef": "Toneladas (Top 10)",
+              "queryRef": "_Medidas.Toneladas (Top 10) (Mi t)",
+              "nativeQueryRef": "Toneladas (Top 10) (Mi t)",
               "displayName": "Toneladas"
             }
           ]
@@ -62,7 +62,7 @@
                     "Entity": "_Medidas"
                   }
                 },
-                "Property": "Toneladas (Top 10)"
+                "Property": "Toneladas (Top 10) (Mi t)"
               }
             },
             "direction": "Descending"
@@ -98,6 +98,27 @@
                   "Value": "9D"
                 }
               }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'OutsideEnd'"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "enableBackground": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
@@ -118,6 +139,38 @@
                   "Value": "9D"
                 }
               }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9CDD3'"
+                    }
+                  }
+                }
+              }
+            },
+            "maxMarginFactor": {
+              "expr": {
+                "Literal": {
+                  "Value": "45D"
+                }
+              }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "12L"
+                }
+              }
             }
           }
         }
@@ -126,6 +179,34 @@
         {
           "properties": {
             "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "gridlineShow": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -181,7 +262,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -199,6 +280,13 @@
             "titleWrap": {
               "expr": {
                 "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
                   "Value": "true"
                 }
               }
@@ -212,6 +300,40 @@
                     }
                   },
                   "Property": "Título Top 10"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
                 }
               }
             }

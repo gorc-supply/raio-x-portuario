@@ -3,10 +3,10 @@
   "name": "texto_sobre_esq",
   "position": {
     "x": 16,
-    "y": 112,
+    "y": 156,
     "z": 2000,
-    "height": 600,
-    "width": 616,
+    "height": 548,
+    "width": 618,
     "tabOrder": 2000
   },
   "visual": {
@@ -22,7 +22,7 @@
                     "value": "O que é",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#C9A96E",
                       "fontWeight": "bold"
                     }
@@ -32,7 +32,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Painel sobre o desempenho dos portos brasileiros, com foco em Suape e nos pares do Nordeste: quanto se movimenta, onde estão os gargalos e o que cada porto movimenta.",
+                    "value": "Painel sobre o desempenho dos portos brasileiros com foco em Suape e nos pares do Nordeste: quanto se movimenta, onde estão os gargalos e o que cada porto movimenta.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",
@@ -44,10 +44,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "Fonte",
+                    "value": "Fonte e recorte",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#C9A96E",
                       "fontWeight": "bold"
                     }
@@ -57,7 +57,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "ANTAQ — Estatístico Aquaviário (dados abertos), tabelas Atracação, Carga, Tempos de Atracação e Paralisações. ",
+                    "value": "ANTAQ — Estatístico Aquaviário (dados abertos): Atracação, Carga, Tempos de Atracação e Paralisações. ",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",
@@ -78,7 +78,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Com o portal de download da ANTAQ fora do ar desde jun/2026, os arquivos oficiais vieram de um espelho público (Hugging Face, CC-BY-4.0). O total anual bate com o publicado pela ANTAQ (diferença de −0,1% a +1,2% entre 2021 e 2025).",
+                    "value": "Anos completos 2021–2025; período = mês da desatracação, como na ANTAQ. Com o portal de download da ANTAQ fora do ar desde jun/2026, os arquivos oficiais vieram de um espelho público (Hugging Face, CC-BY-4.0, versão fixada).",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",
@@ -90,10 +90,22 @@
               {
                 "textRuns": [
                   {
-                    "value": "Recorte",
+                    "value": "Suape = porto organizado de Suape; pares = Pecém, Itaqui, Salvador, Aratu, Recife, Natal, Cabedelo e Maceió. No mapa, os pontos são complexos portuários (ANTAQ); Suape aparece no complexo Suape - Recife.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "13pt",
+                      "fontSize": "10pt",
+                      "color": "#C9CDD3"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Conferência com a ANTAQ",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "12pt",
                       "color": "#C9A96E",
                       "fontWeight": "bold"
                     }
@@ -103,7 +115,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "2021 até o último mês disponível (jan/2026). Período = mês da desatracação, como na ANTAQ. Suape = porto organizado de Suape; pares = Pecém, Itaqui, Salvador, Aratu, Recife, Natal, Cabedelo e Maceió.",
+                    "value": "O total anual do painel difere do publicado pela ANTAQ entre −0,13% e +1,16% (2021–2025). Nota: o painel mostra +5,9% em 2025 x 2024; o Anuário publica +6,1%. Os totais de 2025 batem (+0,05%), mas a base de 2024 do painel está 0,26% acima da do Anuário (dados revisados depois da publicação), o que reduz a variação em 0,2 ponto. O número não foi forçado a bater.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",
@@ -118,7 +130,7 @@
                     "value": "Regras de limpeza",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "13pt",
+                      "fontSize": "12pt",
                       "color": "#C9A96E",
                       "fontWeight": "bold"
                     }

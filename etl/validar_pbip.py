@@ -241,8 +241,15 @@ def checar_relatorio(mod: dict) -> int:
                 erro(f"{rel}: visual não nativo ou não previsto: {vt}")
             for papel in v.get("query", {}).get("queryState", {}).values():
                 for p in papel.get("projections", []):
-                    k = "Column" if "Column" in p["field"] else "Measure"
-                    esperado = f"{p['field'][k]['Expression']['SourceRef']['Entity']}.{p['field'][k]['Property']}"
+                    f = p["field"]
+                    prefixo = ""
+                    if "Aggregation" in f:
+                        prefixo = {0: "Sum", 1: "Avg", 2: "Count", 3: "Min", 4: "Max"}.get(f["Aggregation"]["Function"], "")
+                        f = f["Aggregation"]["Expression"]
+                    k = "Column" if "Column" in f else "Measure"
+                    esperado = f"{f[k]['Expression']['SourceRef']['Entity']}.{f[k]['Property']}"
+                    if prefixo:
+                        esperado = f"{prefixo}({esperado})"
                     if p.get("queryRef") != esperado:
                         erro(f"{rel}: queryRef {p.get('queryRef')} != {esperado}")
             for link in v.get("visualContainerObjects", {}).get("visualLink", []):

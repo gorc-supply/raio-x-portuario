@@ -23,7 +23,7 @@ table fParalisacao
 
 		annotation SummarizationSetBy = Automatic
 
-	column MotivoParalisacao
+	column 'Motivo da Paralisação (texto ANTAQ)'
 		dataType: string
 		lineageTag: 895e306b-3ede-54f5-86d3-9beddf74130f
 		summarizeBy: none
@@ -51,6 +51,14 @@ table fParalisacao
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Motivo da Paralisação'
+		dataType: string
+		lineageTag: f89815df-4ed3-55ca-bf63-9749ea412e4c
+		summarizeBy: none
+		sourceColumn: MotivoCurto
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fParalisacao = m
 		mode: import
 		source =
@@ -58,7 +66,7 @@ table fParalisacao
 				    Fonte = Csv.Document(File.Contents(CaminhoDados & "fParalisacao.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars = true]),
 				    SemVazios = Table.TransformColumns(Cabecalhos, {}, each if _ = "" then null else _),
-				    Tipos = Table.TransformColumnTypes(SemVazios, {{"DataRef", type date}, {"IDInstalacao", type text}, {"MotivoParalisacao", type text}, {"HorasParalisadas", type number}, {"NumOcorrencias", Int64.Type}}, "en-US")
+				    Tipos = Table.TransformColumnTypes(SemVazios, {{"DataRef", type date}, {"IDInstalacao", type text}, {"MotivoCurto", type text}, {"MotivoParalisacao", type text}, {"HorasParalisadas", type number}, {"NumOcorrencias", Int64.Type}}, "en-US")
 				in
 				    Tipos
 

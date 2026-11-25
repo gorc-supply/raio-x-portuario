@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
   "name": "empilhado_natureza",
   "position": {
     "x": 16,
-    "y": 110,
-    "z": 2100,
-    "height": 300,
-    "width": 620,
-    "tabOrder": 2100
+    "y": 236,
+    "z": 2600,
+    "height": 280,
+    "width": 618,
+    "tabOrder": 2600
   },
   "visual": {
     "visualType": "columnChart",
@@ -23,11 +23,11 @@
                       "Entity": "dCalendario"
                     }
                   },
-                  "Property": "AnoMes"
+                  "Property": "Mês (abrev.)"
                 }
               },
-              "queryRef": "dCalendario.AnoMes",
-              "nativeQueryRef": "AnoMes",
+              "queryRef": "dCalendario.Mês (abrev.)",
+              "nativeQueryRef": "Mês (abrev.)",
               "active": true
             }
           ]
@@ -42,11 +42,11 @@
                       "Entity": "dNaturezaCarga"
                     }
                   },
-                  "Property": "NaturezaCarga"
+                  "Property": "Natureza da Carga"
                 }
               },
-              "queryRef": "dNaturezaCarga.NaturezaCarga",
-              "nativeQueryRef": "NaturezaCarga"
+              "queryRef": "dNaturezaCarga.Natureza da Carga",
+              "nativeQueryRef": "Natureza da Carga"
             }
           ]
         },
@@ -60,11 +60,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Toneladas"
+                  "Property": "Toneladas (Mi t)"
                 }
               },
-              "queryRef": "_Medidas.Toneladas",
-              "nativeQueryRef": "Toneladas"
+              "queryRef": "_Medidas.Toneladas (Mi t)",
+              "nativeQueryRef": "Toneladas (Mi t)",
+              "displayName": "Toneladas"
             }
           ]
         }
@@ -79,7 +80,7 @@
                     "Entity": "dCalendario"
                   }
                 },
-                "Property": "AnoMes"
+                "Property": "Mês (abrev.)"
               }
             },
             "direction": "Ascending"
@@ -104,6 +105,83 @@
                   "Value": "'Top'"
                 }
               }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9CDD3'"
+                    }
+                  }
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "labelColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9CDD3'"
+                    }
+                  }
+                }
+              }
+            },
+            "maxMarginFactor": {
+              "expr": {
+                "Literal": {
+                  "Value": "45D"
+                }
+              }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "12L"
+                }
+              }
             }
           }
         }
@@ -118,10 +196,31 @@
                 }
               }
             },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
             "fontSize": {
               "expr": {
                 "Literal": {
                   "Value": "9D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -143,7 +242,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -161,6 +260,13 @@
             "titleWrap": {
               "expr": {
                 "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
                   "Value": "true"
                 }
               }
@@ -174,6 +280,40 @@
                     }
                   },
                   "Property": "Título Natureza"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
                 }
               }
             }

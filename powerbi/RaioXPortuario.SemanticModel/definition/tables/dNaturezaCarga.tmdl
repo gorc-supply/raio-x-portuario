@@ -12,7 +12,7 @@ table dNaturezaCarga
 
 		annotation SummarizationSetBy = Automatic
 
-	column NaturezaCarga
+	column 'Natureza da Carga'
 		dataType: string
 		lineageTag: 1e623ba9-fd6f-58d7-b574-768ca7c2ceca
 		summarizeBy: none
@@ -21,7 +21,7 @@ table dNaturezaCarga
 
 		annotation SummarizationSetBy = Automatic
 
-	column NaturezaCargaANTAQ
+	column 'Natureza da Carga (ANTAQ)'
 		dataType: string
 		lineageTag: 48affa05-3199-5c17-894d-c4f84dfc9454
 		summarizeBy: none

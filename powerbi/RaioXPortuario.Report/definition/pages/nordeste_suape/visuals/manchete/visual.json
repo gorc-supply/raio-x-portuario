@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "titulo_pagina",
+  "name": "manchete",
   "position": {
-    "x": 16,
-    "y": 108,
-    "z": 2000,
-    "height": 30,
-    "width": 1248,
-    "tabOrder": 2000
+    "x": 410,
+    "y": 92,
+    "z": 1900,
+    "height": 44,
+    "width": 854,
+    "tabOrder": 1900
   },
   "visual": {
     "visualType": "card",
@@ -23,11 +23,11 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Título KPI Brasil"
+                  "Property": "Título Benchmark Espera"
                 }
               },
-              "queryRef": "_Medidas.Título KPI Brasil",
-              "nativeQueryRef": "Título KPI Brasil"
+              "queryRef": "_Medidas.Título Benchmark Espera",
+              "nativeQueryRef": "Título Benchmark Espera"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "13D"
                 }
               }
             },
@@ -59,6 +59,19 @@
         }
       ],
       "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "wordWrap": [
         {
           "properties": {
             "show": {
@@ -100,6 +113,19 @@
         }
       ],
       "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
         {
           "properties": {
             "show": {

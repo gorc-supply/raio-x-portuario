@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "cab_atualizacao",
+  "name": "kpi_5",
   "position": {
-    "x": 896,
-    "y": 58,
-    "z": 1900,
-    "height": 46,
-    "width": 368,
-    "tabOrder": 1900
+    "x": 1024,
+    "y": 156,
+    "z": 2400,
+    "height": 68,
+    "width": 240,
+    "tabOrder": 2400
   },
   "visual": {
     "visualType": "card",
@@ -23,11 +23,12 @@
                       "Entity": "_Medidas"
                     }
                   },
-                  "Property": "Última Atualização"
+                  "Property": "Rótulo Horas Paralisadas"
                 }
               },
-              "queryRef": "_Medidas.Última Atualização",
-              "nativeQueryRef": "Última Atualização"
+              "queryRef": "_Medidas.Rótulo Horas Paralisadas",
+              "nativeQueryRef": "Rótulo Horas Paralisadas",
+              "displayName": "Horas paralisadas"
             }
           ]
         }
@@ -40,7 +41,45 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "17D"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
                 }
               }
             },
@@ -58,7 +97,7 @@
           }
         }
       ],
-      "categoryLabels": [
+      "wordWrap": [
         {
           "properties": {
             "show": {
@@ -86,26 +125,34 @@
           }
         }
       ],
-      "background": [
+      "padding": [
         {
           "properties": {
-            "show": {
+            "top": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "2D"
                 }
               }
-            }
-          }
-        }
-      ],
-      "border": [
-        {
-          "properties": {
-            "show": {
+            },
+            "bottom": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "2D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
                 }
               }
             }
